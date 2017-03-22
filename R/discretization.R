@@ -18,7 +18,7 @@
 # }
 
 NodeT <- function(i, m) {
-  (i * pi) / m
+  LowerLimitOfT() + (i * pi) / m
 }
 
 FirstNode <- function(m) {
