@@ -1,9 +1,9 @@
 AdvancedMath <- module({
   import("magrittr")
 
-  kEulerNumber <- exp(1)
+  EulerNumber <- exp(1)
 
-  NaturalLogarithm <- function(number) {
+  natural_logarithm <- function(number) {
     log(number)
   }
 
@@ -19,13 +19,13 @@ AdvancedMath <- module({
   #   )
   # }
 
-  ModulusOfVector <- function(vector) {
+  modulus_of_vector <- function(vector) {
     vector %>%
     Reduce(function(sum, element) { sum + element^2 }, ., 0.0) %>%
     sqrt
   }
 
-  SquareOfVector <- function(vector) {
+  square_of_vector <- function(vector) {
     vector %*% vector
   }
 })

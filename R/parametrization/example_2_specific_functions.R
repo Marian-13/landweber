@@ -1,25 +1,25 @@
 ExampleSpecificFunctions <- module({
-  X1 <- function(t) {
-    RadialFunctionR(t) * cos(t)
+  x_1 <- function(t) {
+    radial_function_r(t) * cos(t)
   }
 
-  X2 <- function(t) {
-    RadialFunctionR(t) * sin(t) + 1.5
+  x_2 <- function(t) {
+    radial_function_r(t) * sin(t) + 1.5
   }
 
-  DerivativeOfX1 <- function(t) {
-    DerivativeOfRadialFunctionR(t) * cos(t) - RadialFunctionR(t) * sin(t)
+  derivative_of_x_1 <- function(t) {
+    derivative_of_radial_function_r(t) * cos(t) - radial_function_r(t) * sin(t)
   }
 
-  DerivativeOfX2 <- function(t) {
-    DerivativeOfRadialFunctionR(t) * sin(t) + RadialFunctionR(t) * cos(t)
+  derivative_of_x_2 <- function(t) {
+    derivative_of_radial_function_r(t) * sin(t) + radial_function_r(t) * cos(t)
   }
 
-  RadialFunctionR <- function(t) {
+  radial_function_r <- function(t) {
     sqrt(cos(t)^2 + 0.25 * sin(t)^2)
   }
 
-  DerivativeOfRadialFunctionR <- function(t) {
+  derivative_of_radial_functionR <- function(t) {
     (-0.75 * sin(t) * cos(t)) / (sqrt(cos(t)^2 + 0.25 * sin(t)^2))
   }
 })
