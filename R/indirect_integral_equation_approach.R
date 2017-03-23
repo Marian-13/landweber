@@ -9,7 +9,7 @@ IndirectIntegralEquationApproach <- module({
   }
 
   # TODO refactor, test
-  neuman_function_n(x, y) {
+  green_function_n(x, y) {
     first_multiplicand <-
       x %>%
       subtract(y) %>%
@@ -74,5 +74,11 @@ IndirectIntegralEquationApproach <- module({
     #   )
     #
     # h_j - h_infinity
+  }
+
+
+  # TODO IMPLEMENT (3.11)
+  u <- function(mu, x, y, alpha) {
+    # TODO remove stub
   }
 })
