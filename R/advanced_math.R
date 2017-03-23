@@ -1,7 +1,7 @@
 AdvancedMath <- module({
   import("magrittr")
 
-  EulerNumber <- exp(1)
+  EULER_NUMBER <- exp(1)
 
   natural_logarithm <- function(number) {
     log(number)
@@ -27,5 +27,9 @@ AdvancedMath <- module({
 
   square_of_vector <- function(vector) {
     vector %*% vector
+  }
+
+  dot_product <- function(first_vector, second_vector) {
+    first_vector %*% second_vector
   }
 })

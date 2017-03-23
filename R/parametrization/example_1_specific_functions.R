@@ -14,4 +14,25 @@ ExampleSpecificFunctions <- module({
   derivative_of_x_2 <- function(t) {
     cos(t)
   }
+
+  # TODO Constants
+  m <- function() {
+    64
+  }
+
+  m_1 <- function() {
+    1000
+  }
+
+  c <- function() {
+    1
+  }
+
+  gamma <- function() {
+    1.5
+  }
+
+  h() <- function(t) {
+    0
+  }
 })

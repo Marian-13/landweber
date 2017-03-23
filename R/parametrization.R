@@ -39,7 +39,7 @@ Parametrization <- module({
     first_addend <-
       derivative_of_x(t) %>%
       AdvancedMath$square_of_vector() %>%
-      multiply_by(AdvancedMath$EulerNumber) %>%
+      multiply_by(AdvancedMath$EULER_NUMBER) %>%
       { AdvancedMath$natural_logarithm(1 / .) } %>%
       multiply_by(1 / 2)
 
@@ -50,5 +50,10 @@ Parametrization <- module({
       AdvancedMath$natural_logarithm()
 
     first_addend + second_addend
+  }
+
+  # TODO
+  f_tilde <- function() {
+
   }
 })

@@ -22,4 +22,25 @@ ExampleSpecificFunctions <- module({
   derivative_of_radial_functionR <- function(t) {
     (-0.75 * sin(t) * cos(t)) / (sqrt(cos(t)^2 + 0.25 * sin(t)^2))
   }
+
+  # TODO Constants
+  m <- function() {
+    64
+  }
+
+  m_1 <- function() {
+    1000
+  }
+
+  c <- function() {
+    1
+  }
+
+  gamma <- function() {
+    1
+  }
+
+  h() <- function(t) {
+    0
+  }
 })
