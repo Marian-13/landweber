@@ -9,7 +9,8 @@
 7. use(.GlobalEnv, attach = TRUE) ???
 
 # Note
-1. magrittr pipe operator(`%>%`) behaviour
+1. In R Programming Language INDEXING starts FROM ONE!
+2. magrittr pipe operator(`%>%`) behaviour:
 ```
 x %>% f(y, .) is equivalent to f(y, x)
 x %>% f(y, z = .) is equivalent to f(y, z = x)
