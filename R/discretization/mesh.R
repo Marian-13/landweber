@@ -2,7 +2,7 @@ Mesh <- module({
   import("magrittr")
 
   use(.GlobalEnv, attach = TRUE)
-  
+
   node_t <- function(i, m) {
     Parametrization$lower_limit_of_t() + (i * pi) / m
   }

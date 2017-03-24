@@ -1,12 +1,12 @@
 # TODO
 
 1. Plots?
-2. map, reduce (for is slow)
-3. Reduce anonymous functions?
-4. Wrap R default functions like `log`, `exp`, `%*%` etc...
-5. Styleguide? [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml)
-6. Square of vector
-7. use(.GlobalEnv, attach = TRUE) ???
+2. map, reduce (for is slow )
+3. Wrap R default functions like `log`, `exp`, `%*%` etc...
+4. Styleguide? [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml)
+5. Square of vector
+6. use(.GlobalEnv, attach = TRUE) ???
+7. Nested modules imitation
 
 # Note
 1. In R Programming Language INDEXING starts FROM ONE!

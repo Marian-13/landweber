@@ -3,50 +3,52 @@ DiscretizedMatrix <- module({
 
   use(.GlobalEnv, attach = TRUE)
 
-  # matrix of (3.9)
+  # matrix of sle (3.9)
   construct_matrix <- function(capital_m, t) {
-    first_2_m_rows(capital_m, t) %>%
-    last_matrix_row(capital_m)
+    first_2_m_rows_elements(capital_m, t) %>%
+    c(last_row_elements(capital_m))
   }
 
-  first_2_m_rows <- function(capital_m, t) {
-    indices <- 1:5
+  first_2_m_rows_elements <- function(capital_m, t) {
+    indices <- 1:(2 * capital_m)
 
-    elements <- zero_length_vector
+    elements <- zero_length_vector()
 
     for (i in indices) {
-      row <- zero_length_vector
+      row <- zero_length_vector()
 
       for (j in indices) {
-        row <- c(row, matrix_koef(capital_m, t[i], t[j]))
+        row <- c(row, coeficient(capital_m, t[i], t[j]))
       }
 
       row <- c(row, 1)
 
       elements <- c(elements, row)
     }
+
+    elements
   }
 
-  last_matrix_row <- function(capital_m) {
+  last_row_elements <- function(capital_m) {
     rep(x = 1, times = 2 * capital_m) %>%
     c(0)
   }
 
-  matrix_koef <- function(capital_m, t_i, t_j) {
+  coeficient <- function(capital_m, t_i, t_j) {
     first_addend <-
       -0.5 %>%
-      multiply_by(Parametrization$weight_function_r(capital_m, t_i, t_j))
+      multiply_by(Discretization$weight_function_r(capital_m, t_i, t_j))
 
     second_addend <-
       0.25 %>%
-      multiply_by(Parametrization$kernel_h_1(t_i, t_j))
+      multiply_by(Discretization$kernel_h_1(t_i, t_j))
 
     first_addend + second_addend
   }
 
-  diagonal_matrix_koef <- function(capital_m, t_i, t_j) {
-    matrix_koef(capital_m, t_i, t_j)
-  }
+  # diagonal_coeficient <- function(capital_m, t_i, t_j) {
+  #   matrix_coeficient(capital_m, t_i, t_j)
+  # }
 
   zero_length_vector <- function() {
     AdvancedMath$zero_length_vector()

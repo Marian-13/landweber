@@ -1,4 +1,12 @@
 ExampleSpecificFunctions <- module({
+  h_0 <- function(x) {
+    0
+  }
+
+  f_2 <- function(x) {
+    0
+  }
+
   x_1 <- function(t) {
     1.5 * cos(t)
   }
@@ -7,20 +15,13 @@ ExampleSpecificFunctions <- module({
     sin(t) + 1.5
   }
 
-  h_0 <- function(x) {
-    0
+  derivative_of_x_1 <- function(t) {
+    -1.5 * sin(t)
   }
 
-  f_2 <- function(x) {
-    0
+  derivative_of_x_2 <- function(t) {
+    cos(t)
   }
-  # derivative_of_x_1 <- function(t) {
-  #   -1.5 * sin(t)
-  # }
-  #
-  # derivative_of_x_2 <- function(t) {
-  #   cos(t)
-  # }
   #
   # # TODO Constants
   # m <- function() {
