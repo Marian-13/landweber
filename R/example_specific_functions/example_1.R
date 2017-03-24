@@ -22,18 +22,18 @@ ExampleSpecificFunctions <- module({
   derivative_of_x_2 <- function(t) {
     cos(t)
   }
-  #
+
+  c <- function() {
+    1
+  }
+
+  capital_m_1 <-function() {
+    4
+  }
+
   # # TODO Constants
   # m <- function() {
   #   64
-  # }
-  #
-  # m_1 <- function() {
-  #   1000
-  # }
-  #
-  # c <- function() {
-  #   1
   # }
   #
   # gamma <- function() {

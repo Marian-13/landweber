@@ -4,7 +4,7 @@ Mesh <- module({
   use(.GlobalEnv, attach = TRUE)
 
   node_t <- function(i, m) {
-    Parametrization$lower_limit_of_t() + (i * pi) / m
+    Functions$lower_limit_of_t() + (i * pi) / m
   }
 
   first_node <- function(m) {

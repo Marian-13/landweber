@@ -19,12 +19,11 @@ IterativeProcedure <- module({
   }
 
   calculate_t <- function(capital_m) {
-    # Discretization$equidistant_mesh_nodes(capital_m)
-    Discretization$t(capital_m)
+    Mesh$equidistant_mesh_nodes(capital_m)
   }
 
   calculate_x <- function(t) {
-    Map(function(t_i) { Parametrization$x(t_i) }, t)
+    Map(function(t_i) { Functions$x(t_i) }, t)
   }
 
   calculate_h_0 <- function(x) {

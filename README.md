@@ -7,6 +7,7 @@
 5. Square of vector
 6. use(.GlobalEnv, attach = TRUE) ???
 7. Nested modules imitation
+8. Parametrization, Discretization => IndirectIntegralEquation
 
 # Note
 1. In R Programming Language INDEXING starts FROM ONE!

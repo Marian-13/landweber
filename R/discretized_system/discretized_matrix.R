@@ -37,11 +37,11 @@ DiscretizedMatrix <- module({
   coeficient <- function(capital_m, t_i, t_j) {
     first_addend <-
       -0.5 %>%
-      multiply_by(Discretization$weight_function_r(capital_m, t_i, t_j))
+      multiply_by(Functions$weight_function_r(capital_m, t_i, t_j))
 
     second_addend <-
       0.25 %>%
-      multiply_by(Discretization$kernel_h_1(t_i, t_j))
+      multiply_by(Functions$kernel_h_1(t_i, t_j))
 
     first_addend + second_addend
   }

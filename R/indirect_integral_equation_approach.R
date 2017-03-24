@@ -1,4 +1,4 @@
-IndirectIntegralEquationApproach <- module({
+IndirectIEApproach <- module({
   import("magrittr")
 
   use(.GlobalEnv, attach = true)
