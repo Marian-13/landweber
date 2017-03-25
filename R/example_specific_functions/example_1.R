@@ -1,7 +1,7 @@
 ExampleSpecificFunctions <- module({
   use(.GlobalEnv, attach = TRUE)
 
-  CAPITAL_M_1 <- (function() { 1 })()
+  CAPITAL_M_1 <- (function() { 10 })()
 
   H_INFINITY <- (function() {
     c <- 1

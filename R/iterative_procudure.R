@@ -7,6 +7,7 @@ IterativeProcedure <- module({
   start <- function(capital_m) {
     t <- calculate_t(capital_m)
     x <- calculate_x(t)
+    x_infinity <- calculate_x_infinity(t)
 
     # First step
     h_0 <- calculate_h_0(x)
@@ -15,17 +16,11 @@ IterativeProcedure <- module({
     function_f_2 <- get_function_f_2()
 
     # Second step
-    # u_0 <- calculate_u_0(
-    #   capital_m = capital_m,
-    #   t = t,
-    #   x = x,
-    #   h = h_0,
-    #   function_f = function_f_2
-    # )
     u_0 <- calculate_u_0(
       capital_m = capital_m,
       t = t,
       x = x,
+      x_infinity = x_infinity,
       h = h_0,
       function_f = function_f_2
     )
@@ -44,6 +39,10 @@ IterativeProcedure <- module({
     Map(function(t_i) { Functions$x(t_i) }, t)
   }
 
+  calculate_x_infinity <- function(t) {
+    Map(function(t_i) { Functions$x_infinity(t_i) }, t)
+  }
+
   calculate_h_0 <- function(x) {
     Map(function(x_i) { ExampleSpecificFunctions$h_0(x) }, x)
   }
@@ -56,15 +55,24 @@ IterativeProcedure <- module({
     ExampleSpecificFunctions$f_2
   }
 
-  calculate_u_0 <- function(capital_m, t, x, h, function_f) {
+  calculate_u_0 <- function(capital_m, t, x, x_infinity, h, function_f) {
     matrix <- DiscretizedSystem$discretized_matrix(capital_m, t)
     vector <- DiscretizedSystem$discretized_vector(capital_m, x, h, function_f)
 
-    mu <- AdvancedMath$solve_sle(matrix, vector)
-    print(mu)
+    sle_solution <- AdvancedMath$solve_sle(matrix, vector)
 
-    # TODO solve (3.4) with h = h_0, f = f_2 solution is mu
-    # TODO find u_0 on Gamma by (3.11) Discretization$u(mu)
+    size <- 2 * capital_m
+
+    mu <- c(sle_solution[1:size])
+
+    alpha <- sle_solution[size + 1]
+
+    u_0 <- Map(
+      function(x_infinity_i) {
+        Functions$u(unlist(x_infinity_i), capital_m, t, x, mu, alpha) # TODO unlist
+      },
+      x_infinity
+    )
   }
 
   # # TODO IMPLEMENT, refactor

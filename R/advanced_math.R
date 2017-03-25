@@ -29,14 +29,12 @@ AdvancedMath <- module({
     solve(matrix, vector)
   }
 
+  vector_with_zero_elements <- function(size) {
+    rep(x = 0, times = size)
+  }
 
   # TODO Used?
   dot_product <- function(first_vector, second_vector) {
     first_vector %*% second_vector
-  }
-
-  # TODO Used?
-  vector_with_zero_elements <- function(size) {
-    rep(x = 0, times = size)
   }
 })

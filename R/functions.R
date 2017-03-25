@@ -111,4 +111,20 @@ Functions <- module({
 
     h_j - h_infinity() * sum
   }
+
+  u <- function(x_infinity_i, capital_m, t, x, mu, alpha) {
+    size <- length(t)
+    indices <- 1:size
+
+    first_sum <- 0
+
+    for (j in indices) {
+      x_j <- unlist(x[j])   # TODO unlist !!!
+      first_sum <- first_sum + mu[j] * green_function_n(x_infinity_i, x_j)
+    }
+
+    (1 / (2 * capital_m)) * first_sum %>%
+    # TODO second sum -- sinc quadrature for ln with e
+    add(alpha)
+  }
 })

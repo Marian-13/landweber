@@ -7,8 +7,9 @@
 5. Square of vector
 6. use(.GlobalEnv, attach = TRUE) ???
 7. Nested modules imitation
-8. Parametrization, Discretization => IndirectIntegralEquation
-
+8. Parametrization, Discretization => Functions
+9. Remove unlist
+10. second integral of u (3.11)
 
 # Note
 1. In R Programming Language INDEXING starts FROM ONE!
