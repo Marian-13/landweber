@@ -3,18 +3,22 @@ AdvancedMath <- module({
 
   EULER_NUMBER <- exp(1)
 
-  zero_length_vector <- function() {
-    vector(length = 0)
+  square_root <- function(number) {
+    sqrt(number)
   }
 
   natural_logarithm <- function(number) {
     log(number)
   }
 
+  zero_length_vector <- function() {
+    vector(length = 0)
+  }
+
   modulus_of_vector <- function(vector) {
     vector %>%
     Reduce(function(sum, element) { sum + element^2 }, ., 0.0) %>%
-    sqrt
+    square_root()
   }
 
   square_of_vector <- function(vector) {

@@ -1,4 +1,13 @@
 ExampleSpecificFunctions <- module({
+  use(.GlobalEnv, attach = TRUE)
+
+  CAPITAL_M_1 <- (function() { 1 })()
+
+  H_INFINITY <- (function() {
+    c <- 1
+    c / AdvancedMath$square_root(CAPITAL_M_1)
+  })()
+
   h_0 <- function(x) {
     0
   }
@@ -21,14 +30,6 @@ ExampleSpecificFunctions <- module({
 
   derivative_of_x_2 <- function(t) {
     cos(t)
-  }
-
-  c <- function() {
-    1
-  }
-
-  capital_m_1 <-function() {
-    4
   }
 
   # # TODO Constants

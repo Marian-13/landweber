@@ -8,23 +8,6 @@ IndirectIEApproach <- module({
     c(y[1], -y[2])
   }
 
-  # TODO refactor, test
-  green_function_n(x, y) {
-    first_multiplicand <-
-      x %>%
-      subtract(y) %>%
-      AdvancedMath.modulus_of_vector()
-
-    second_multiplicand <-
-      x %>%
-      subtract(star(y)) %>%
-      AdvancedMath.modulus_of_vector()
-
-    first_multiplicand %>%
-    multiply_by(second_multiplicand) %>%
-    { AdvancedMath.natural_logarithm(1 / .) }
-  }
-
   # (3.9)
   # TODO implement
   discretized_system <- function() {
