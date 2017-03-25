@@ -5,8 +5,11 @@ DiscretizedMatrix <- module({
 
   # matrix of sle (3.9)
   construct_matrix <- function(capital_m, t) {
+    size <- 2 * capital_m + 1
+
     first_2_m_rows_elements(capital_m, t) %>%
-    c(last_row_elements(capital_m))
+    c(last_row_elements(capital_m)) %>%
+    matrix(nrow = size, ncol = size, byrow = TRUE)
   }
 
   first_2_m_rows_elements <- function(capital_m, t) {

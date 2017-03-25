@@ -15,11 +15,6 @@ source("R/discretized_system.R")
 source("R/iterative_procudure.R")
 
 capital_m <- 2
-# IterativeProcedure$start(capital_m)
+IterativeProcedure$start(capital_m)
 
 # print(Functions$w_tilde(x_j = 0, h_j = 0, f = ExampleSpecificFunctions$f_2))
-
-x <- Functions$x(0)
-f <- ExampleSpecificFunctions$f_2(x)
-h <- ExampleSpecificFunctions$h(x)
-print(Functions$w_tilde(x_j = x, h_j = h, f = ExampleSpecificFunctions$f_2))

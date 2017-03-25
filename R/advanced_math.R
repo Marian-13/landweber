@@ -25,11 +25,17 @@ AdvancedMath <- module({
     vector %*% vector
   }
 
+  solve_sle <- function(matrix, vector) {
+    solve(matrix, vector)
+  }
+
+
+  # TODO Used?
   dot_product <- function(first_vector, second_vector) {
     first_vector %*% second_vector
   }
 
-  # TODO IMPEMENT
+  # TODO Used?
   vector_with_zero_elements <- function(size) {
     rep(x = 0, times = size)
   }

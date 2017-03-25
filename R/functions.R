@@ -97,13 +97,13 @@ Functions <- module({
   }
 
   # x_j, h_j - numbers, f - function
-  w_tilde <- function(x_j, h_j, f) {
+  w_tilde <- function(x_j, h_j, function_f) {
     sum_indices <- (-capital_m_1()):capital_m_1()
 
     sum <- Reduce(
       function(memo, index) {
         t <- index * h_infinity()
-        memo + f(x_infinity(t)) * green_function_n(x_j, x_infinity(t))
+        memo + function_f(x_infinity(t)) * green_function_n(x_j, x_infinity(t))
       },
       sum_indices,
       0

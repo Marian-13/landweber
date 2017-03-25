@@ -40,12 +40,4 @@ ExampleSpecificFunctions <- module({
   # gamma <- function() {
   #   1.5
   # }
-  #
-  # h_0 <- function(t) {
-  #   0
-  # }
-  #
-  # f_2 <- function(t) {
-  #
-  # }
 })
