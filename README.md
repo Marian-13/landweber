@@ -1,20 +1,20 @@
 # TODO
 
 #### 1. Impementation tasks
-1.1 Plots?
-1.2 map, reduce (for is slow )
-1.3 Wrap R default functions like `log`, `exp`, `%*%` etc...
-1.4 Styleguide? [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml)
-1.5 use(.GlobalEnv, attach = TRUE) alternative?
-1.6 Nested modules imitation
-1.7 Remove unlist
-1.8 refactor w_tilde !!!!!!!!!!!!!!!!!!!
-1.9 Remove stubs from ExampleSpecificFunctions$f_1, IterativeProcedure$calculate_f_1 !
+1. Plots?
+2. map, reduce (for is slow )
+3. Wrap R default functions like `log`, `exp`, `%*%` etc...
+4. Styleguide? [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml)
+5. use(.GlobalEnv, attach = TRUE) alternative?
+6. Nested modules imitation
+7. refactor w_tilde !!!!!!!!!!!!!!!!!!!
+8. Remove stubs from ExampleSpecificFunctions$f_1, IterativeProcedure$calculate_f_1 !
+9. Write own map which returns matrix to avoid unlist
 
 #### 2. Algorithm issues
-2.1 Square of vector
-2.2 second integral of u (3.11)
-2.3 partial normal derivative of v with respect to x (3.10)
+1. Square of vector
+2. second integral of u (3.11)
+3. partial normal derivative of v with respect to x (3.10)
 
 # Note
 1. In R Programming Language INDEXING starts FROM ONE!
