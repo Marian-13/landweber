@@ -8,7 +8,14 @@ ExampleSpecificFunctions <- module({
     c / AdvancedMath$square_root(CAPITAL_M_1)
   })()
 
+  SMALL_GAMMA <- (function() { 1.5 })() # SMALL_GAMMA > 0
+
   h_0 <- function(x) {
+    0
+  }
+
+  f_1 <- function(x) {
+    # TODO remove stub
     0
   }
 
@@ -31,13 +38,4 @@ ExampleSpecificFunctions <- module({
   derivative_of_x_2 <- function(t) {
     cos(t)
   }
-
-  # # TODO Constants
-  # m <- function() {
-  #   64
-  # }
-  #
-  # gamma <- function() {
-  #   1.5
-  # }
 })

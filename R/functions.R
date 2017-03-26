@@ -112,6 +112,7 @@ Functions <- module({
     h_j - h_infinity() * sum
   }
 
+  # (3.11)
   u <- function(x_infinity_i, capital_m, t, x, mu, alpha) {
     size <- length(t)
     indices <- 1:size
@@ -126,5 +127,10 @@ Functions <- module({
     (1 / (2 * capital_m)) * first_sum %>%
     # TODO second sum -- sinc quadrature for ln with e
     add(alpha)
+  }
+
+  # (3.10)
+  partial_normal_derivative_of_v_by_x <- function(capital_m) {
+    # TODO
   }
 })

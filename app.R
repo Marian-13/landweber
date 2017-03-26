@@ -17,5 +17,3 @@ capital_m <- 2
 result <- IterativeProcedure$start(capital_m)
 
 p(result)
-
-# print(Functions$w_tilde(x_j = 0, h_j = 0, f = ExampleSpecificFunctions$f_2))
