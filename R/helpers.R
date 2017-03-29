@@ -25,7 +25,7 @@ Helpers <- module({
 
     indices <- 1:size # in "for (row in matrix)" row is element!
 
-    for(index in indices) {
+    for (index in indices) {
       vector[index] <- func(matrix[index, ])
     }
 

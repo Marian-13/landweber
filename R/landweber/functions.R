@@ -4,31 +4,16 @@ Functions <- module({
   use(.GlobalEnv, attach = TRUE)
 
   # Parametrization
-  x <- function(t) {
-    c(ExampleSpecificFunctions$x_1(t), ExampleSpecificFunctions$x_2(t))
-  }
-
-  derivative_of_x <- function(t) {
-    c(
-      ExampleSpecificFunctions$derivative_of_x_1(t),
-      ExampleSpecificFunctions$derivative_of_x_2(t)
-    )
-  }
-
-  x_star <- function(t) {
-    c(ExampleSpecificFunctions$x_1(t), -ExampleSpecificFunctions$x_2(t))
-  }
-
-  x_infinity <- function(t) {
-    c(t, 0)
-  }
-
   get_lower_limit_of_t <- function() {
     0
   }
 
   get_upper_limit_of_t <- function() {
     2 * AdvancedMath$PI
+  }
+
+  x_star <- function(t) {
+    c(ExampleSpecificFunctions$x_1(t), -ExampleSpecificFunctions$x_2(t))
   }
 
   # Discretization
@@ -51,6 +36,23 @@ Functions <- module({
   }
 
   # in (3.5)
+  kernel_h_1 <- function(element_t_i, element_t_j, matrix_x, matrix_x_star, matrix_derivative_of_x) {
+    first_addend <-
+      derivative_of_x_i %>%
+      AdvancedMath$square_of_vector() %>% # TODO Modulus
+      multiply_by(AdvancedMath$EULER_NUMBER) %>%
+      { AdvancedMath$natural_logarithm(1 / .) } %>%
+      multiply_by(1 / 2)
+
+    second_addend <-
+      matrix_x(element_t_i) %>%
+      subtract(matrix_x_star(element_t_j)) %>%
+      AdvancedMath$modulus_of_vector() %>%
+      AdvancedMath$natural_logarithm()
+
+    first_addend + second_addend
+  }
+
   kernel_h_1 <- function(t_i, t_j) {
     first_addend <-
       derivative_of_x(t_i) %>%
@@ -66,14 +68,6 @@ Functions <- module({
       AdvancedMath$natural_logarithm()
 
     first_addend + second_addend
-  }
-
-  h_infinity <- function() {
-    ExampleSpecificFunctions$H_INFINITY
-  }
-
-  capital_m_1 <- function() {
-    ExampleSpecificFunctions$CAPITAL_M_1
   }
 
   convert_to_x_star <- function(y) {

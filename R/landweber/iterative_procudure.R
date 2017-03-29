@@ -9,10 +9,17 @@ IterativeProcedure <- module({
 
     function_x_1 <- example_specific_functions$x_1
     function_x_2 <- example_specific_functions$x_2
+    function_x   <- function(t) { c(function_x_1(t), function_x_2(t)) }
 
-    matrix_x <- .form_matrix_x(vector_t, size_of_vector_t, function_x_1, function_x_2)  # matrix - vector of vectors
+    matrix_x <- .form_matrix_x(vector_t, size_of_vector_t, function_x)  # matrix - vector of vectors
 
-    matrix_x_infinity <- .form_matrix_x_infinity(vector_t, size_of_vector_t)
+    function_x_infinity <- function(t) { c(t, 0) }
+
+    matrix_x_infinity <- .form_matrix_x_infinity(
+      vector_t,
+      size_of_vector_t,
+      function_x_infinity
+    )
 
     # First step
     function_h_0 <- example_specific_functions$h_0
@@ -21,9 +28,48 @@ IterativeProcedure <- module({
     vector_h_0 <- .form_vector_h_0(matrix_x, size_of_vector_t, function_h_0)
     vector_f_2 <- .form_vector_f_2(matrix_x, size_of_vector_t, function_f_2)
 
+    # Second step
+    capital_m_1 <- example_specific_functions$CAPITAL_M_1
+    h_infinity  <- example_specific_functions$H_INFINITY
+
+    function_derivative_of_x_1 <- example_specific_functions$derivative_of_x_1
+    function_derivative_of_x_2 <- example_specific_functions$derivative_of_x_2
+    function_derivative_of_x   <- function(t) {
+      c(function_derivative_of_x_1(t), function_derivative_of_x_2(t))
+    }
+
+    matrix_derivative_of_x <- .form_matrix_derivative_of_x(
+      vector_t,
+      size_of_vector_t,
+      function_derivative_of_x
+    )
+    #
+    # vector_u_0 <- .form_vector_u(
+    #   capital_m         = capital_m,
+    #   vector_t          = vector_t,
+    #   size_of_vector_t  = size_of_vector_t,
+    #   matrix_x          = matrix_x,
+    #   matrix_x_infinity = matrix_x_infinity,
+    #   vector_h          = vector_h,
+    #   vector_f          = vector_f,
+    #   function_f        = function_f
+    # )
+
+
     # function_f_2 <- get_function_f_2()
     #
-    # # Second step
+    #
+    # u_0 <- calculate_u_0(
+    #   capital_m = capital_m,
+    #   t = vector_t,
+    #   x = matrix_x,
+    #   x_infinity = matrix_x_infinity,
+    #   h = vector_h_0,
+    #   f = vector_f_2,
+    #   function_f = function_f_2
+    # )
+
+    #
     # u_0 <- calculate_u_0(
     #   capital_m = capital_m,
     #   t = t,
@@ -33,7 +79,7 @@ IterativeProcedure <- module({
     #   f = f_2,
     #   function_f = function_f_2
     # )
-    #
+    # #
     # h_with_zero_elements <- vector_with_zero_elements(size = 2 * capital_m)
     # f_1 <- calculate_f_1(x)
     #
@@ -110,24 +156,24 @@ IterativeProcedure <- module({
     )
   }
 
-  .form_matrix_x <- function(vector_t, size_of_vector_t, function_x_1, function_x_2) {
+  .form_matrix_x <- function(vector_t, size_of_vector_t, function_x) {
     Helpers$generate_matrix_from_vector(
       vector      = vector_t,
       row_size    = size_of_vector_t,
       column_size = 2,
       func        = function(element_t_i) {
-        c(function_x_1(element_t_i), function_x_2(element_t_i))
+        function_x(element_t_i)
       }
     )
   }
 
-  .form_matrix_x_infinity <- function(vector_t, size_of_vector_t) {
+  .form_matrix_x_infinity <- function(vector_t, size_of_vector_t, function_x_infinity) {
     Helpers$generate_matrix_from_vector(
       vector      = vector_t,
       row_size    = size_of_vector_t,
       column_size = 2,
       func        = function(element_t_i) {
-        c(element_t_i, 0)
+        function_x_infinity(element_t_i)
       }
     )
   }
@@ -152,74 +198,125 @@ IterativeProcedure <- module({
     )
   }
 
-  get_function_f_2 <- function() {
-    ExampleSpecificFunctions$f_2
-  }
-
-  calculate_u_0 <- function(capital_m, t, x, x_infinity, h, f, function_f) {
-    calculate_u_k(capital_m, t, x, x_infinity, h, f, function_f)
-  }
-
-  vector_with_zero_elements <- function(size) {
-    AdvancedMath$vector_with_zero_elements(size)
-  }
-
-  calculate_f_1 <- function(x) {
-    Map(function(x_i) { ExampleSpecificFunctions$f_1(x_i) }, x)
-  }
-
-  # TODO function_f
-  calculate_partial_normal_derivative_of_v_0_by_x <- function(capital_m, t, x, x_infinity, h, f) {
-    calculate_partial_normal_derivative_of_v_k_by_x(
-      capital_m, t, x, x_infinity, h, f
+  .form_matrix_derivative_of_x <- function(vector_t, size_of_vector_t, function_derivative_of_x) {
+    Helpers$generate_matrix_from_vector(
+      vector      = vector_t,
+      row_size    = size_of_vector_t,
+      column_size = 2,
+      func        = function(element_t_i) {
+        function_derivative_of_x(element_t_i)
+      }
     )
   }
 
-  get_small_gamma <- function() {
-    ExampleSpecificFunctions$SMALL_GAMMA
-  }
-
-  # TODO test
-  calculate_h_k <- function(previous_h, small_gamma, derivative_of_v) {
-    unlist(previous_h) - small_gamma * derivative_of_v
-  }
-
-  calculate_u_k <- function(capital_m, t, x, x_infinity, h, f, function_f) {
-    matrix <- DiscretizedSystem$discretized_matrix(capital_m, t)
-    vector <- DiscretizedSystem$discretized_vector(capital_m, x, h, function_f)
-
-    sle_solution <- AdvancedMath$solve_sle(matrix, vector)
-
-    size <- 2 * capital_m
-
-    mu <- c(sle_solution[1:size])
-
-    alpha <- sle_solution[size + 1]
-
-    u_0 <- Map(
-      function(x_infinity_i) {
-        Functions$u(unlist(x_infinity_i), capital_m, t, x, mu, alpha) # TODO unlist
-      },
-      x_infinity
+  # TODO
+  .form_vector_u <- function(
+    capital_m, vector_t, size_of_vector_t, matrix_x,
+    matrix_x_infinity, vector_h, vector_f, function_f
+  ) {
+    discretized_system_solution <- DiscretizedSystem$solve(
+      capital_m  = capital_m,
+      vector_t   = vector_t,
+      matrix_x   = matrix_x,
+      vector_h   = vector_h,
+      function_f = function_f
     )
+
+    # vector_mu <- .extract_vector_mu(size_of_vector_t, discretized_system_solution)
+    # alpha     <- .extract_alpha(size_of_vector_t, discretized_system_solution)
+    #
+    # Helpers$generate_vector_from_matrix(
+    #   matrix = matrix_x_infinity,
+    #   size   = size_of_vector_t,
+    #   func   = function(vector_of_matrix_x_infinity) {
+    #     Functions$u(
+    #       vector_of_matrix_x_infinity,
+    #       capital_m,
+    #       vector_t,
+    #       matrix_x,
+    #       vector_mu,
+    #       alpha
+    #     )
+    #   }
+    # )
   }
 
-  calculate_partial_normal_derivative_of_v_k_by_x <- function(capital_m, t, x, x_infinity, h, f) {
-    # TODO remove stub
-    AdvancedMath$vector_with_zero_elements(size = 2 * capital_m)
+  .extract_mu <- function(size_of_vector_t, discretized_system_solution) {
+    c(discretized_system_solution[1:size_of_vector_t])
   }
 
-  # TODO name
-  stop_condition <- function(current_u, previous_u) {
-    # TODO remove stub
-    TRUE
+  .extract_alpha <- function(size_of_vector_t, discretized_system_solution) {
+    discretized_system_solution[size_of_vector_t + 1]
   }
 
-  construct_procedure_result <- function(k, u) {
-    result <- list()
-    result$k <- k
-    result$u <- u
+  # calculate_u_k <- function(capital_m, t, x, x_infinity, h, f, function_f) {
+  #   matrix <- DiscretizedSystem$discretized_matrix(capital_m, t)
+  #   vector <- DiscretizedSystem$discretized_vector(capital_m, x, h, function_f)
+  #
+  #   sle_solution <- AdvancedMath$solve_sle(matrix, vector)
+  #
+  #   size <- 2 * capital_m
+  #
+  #   mu <- c(sle_solution[1:size])
+  #
+  #   alpha <- sle_solution[size + 1]
+  #
+  #   u_0 <- Map(
+  #     function(x_infinity_i) {
+  #       Functions$u(unlist(x_infinity_i), capital_m, t, x, mu, alpha) # TODO unlist
+  #     },
+  #     x_infinity
+  #   )
+  # }
 
-    result
-  }
+  # get_function_f_2 <- function() {
+  #   ExampleSpecificFunctions$f_2
+  # }
+  #
+  # calculate_u_0 <- function(capital_m, t, x, x_infinity, h, f, function_f) {
+  #   calculate_u_k(capital_m, t, x, x_infinity, h, f, function_f)
+  # }
+  #
+  # vector_with_zero_elements <- function(size) {
+  #   AdvancedMath$vector_with_zero_elements(size)
+  # }
+  #
+  # calculate_f_1 <- function(x) {
+  #   Map(function(x_i) { ExampleSpecificFunctions$f_1(x_i) }, x)
+  # }
+  #
+  # # TODO function_f
+  # calculate_partial_normal_derivative_of_v_0_by_x <- function(capital_m, t, x, x_infinity, h, f) {
+  #   calculate_partial_normal_derivative_of_v_k_by_x(
+  #     capital_m, t, x, x_infinity, h, f
+  #   )
+  # }
+  #
+  # get_small_gamma <- function() {
+  #   ExampleSpecificFunctions$SMALL_GAMMA
+  # }
+  #
+  # # TODO test
+  # calculate_h_k <- function(previous_h, small_gamma, derivative_of_v) {
+  #   unlist(previous_h) - small_gamma * derivative_of_v
+  # }
+  #
+  # calculate_partial_normal_derivative_of_v_k_by_x <- function(capital_m, t, x, x_infinity, h, f) {
+  #   # TODO remove stub
+  #   AdvancedMath$vector_with_zero_elements(size = 2 * capital_m)
+  # }
+  #
+  # # TODO name
+  # stop_condition <- function(current_u, previous_u) {
+  #   # TODO remove stub
+  #   TRUE
+  # }
+  #
+  # construct_procedure_result <- function(k, u) {
+  #   result <- list()
+  #   result$k <- k
+  #   result$u <- u
+  #
+  #   result
+  # }
 })
