@@ -43,6 +43,20 @@ IterativeProcedure <- module({
       size_of_vector_t,
       function_derivative_of_x
     )
+
+    # function_x_star <- function(t) { c(function_x_1(t), -function_x_2(t)) }
+    #
+    # matrix_x_star <- .form_matrix_x_star(
+    #   vector_t,
+    #   size_of_vector_t,
+    #   function_x_star
+    # )
+
+    matrix_x_star <- .form_matrix_x_star(
+      size_of_vector_t,
+      matrix_x
+    )
+
     #
     # vector_u_0 <- .form_vector_u(
     #   capital_m         = capital_m,
@@ -205,6 +219,17 @@ IterativeProcedure <- module({
       column_size = 2,
       func        = function(element_t_i) {
         function_derivative_of_x(element_t_i)
+      }
+    )
+  }
+
+  .form_matrix_x_star <- function(size_of_vector_t, matrix_x) {
+    Helpers$generate_matrix_from_matrix(
+      matrix      = matrix_x,
+      row_size    = size_of_vector_t,
+      column_size = 2,
+      func        = function(vector_x_i) {
+        c(vector_x_i[1], -vector_x_i[2])
       }
     )
   }

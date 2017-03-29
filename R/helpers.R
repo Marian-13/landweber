@@ -20,6 +20,19 @@ Helpers <- module({
   }
 
   # TODO Comment
+  generate_matrix_from_matrix <- function(matrix, row_size, column_size, func) {
+    result <- matrix(nrow = row_size, ncol = column_size, byrow = TRUE)
+
+    indices <- 1:row_size # in "for (row in matrix)" row is element!
+
+    for (index in indices) {
+      result[index, ] <- func(matrix[index, ])
+    }
+
+    result
+  }
+
+  # TODO Comment
   generate_vector_from_matrix <- function(matrix, size, func) {
     vector <- vector(length = size)
 

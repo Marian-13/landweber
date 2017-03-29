@@ -36,34 +36,17 @@ Functions <- module({
   }
 
   # in (3.5)
-  kernel_h_1 <- function(element_t_i, element_t_j, matrix_x, matrix_x_star, matrix_derivative_of_x) {
+  kernel_h_1 <- function(vector_derivative_of_x_i, vector_x_i, vector_x_star_j) {
     first_addend <-
-      derivative_of_x_i %>%
+      vector_derivative_of_x_i %>%
       AdvancedMath$square_of_vector() %>% # TODO Modulus
       multiply_by(AdvancedMath$EULER_NUMBER) %>%
       { AdvancedMath$natural_logarithm(1 / .) } %>%
       multiply_by(1 / 2)
 
     second_addend <-
-      matrix_x(element_t_i) %>%
-      subtract(matrix_x_star(element_t_j)) %>%
-      AdvancedMath$modulus_of_vector() %>%
-      AdvancedMath$natural_logarithm()
-
-    first_addend + second_addend
-  }
-
-  kernel_h_1 <- function(t_i, t_j) {
-    first_addend <-
-      derivative_of_x(t_i) %>%
-      AdvancedMath$square_of_vector() %>%
-      multiply_by(AdvancedMath$EULER_NUMBER) %>%
-      { AdvancedMath$natural_logarithm(1 / .) } %>%
-      multiply_by(1 / 2)
-
-    second_addend <-
-      x(t_i) %>%
-      subtract(x_star(t_j)) %>%
+      vector_x_i %>%
+      subtract(vector_x_star_j) %>%
       AdvancedMath$modulus_of_vector() %>%
       AdvancedMath$natural_logarithm()
 
