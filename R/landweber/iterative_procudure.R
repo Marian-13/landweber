@@ -16,11 +16,11 @@ IterativeProcedure <- module({
 
     # First step
     function_h_0 <- example_specific_functions$h_0
+    function_f_2 <- example_specific_functions$f_2
 
     vector_h_0 <- .form_vector_h_0(matrix_x, size_of_vector_t, function_h_0)
+    vector_f_2 <- .form_vector_f_2(matrix_x, size_of_vector_t, function_f_2)
 
-    # f_2 <- calculate_f_2(x)
-    #
     # function_f_2 <- get_function_f_2()
     #
     # # Second step
@@ -142,8 +142,14 @@ IterativeProcedure <- module({
     )
   }
 
-  calculate_f_2 <- function(x) {
-    Map(function(x_i) { ExampleSpecificFunctions$f_2(x_i) }, x)
+  .form_vector_f_2 <- function(matrix_x, size_of_vector_t, function_f_2) {
+    Helpers$generate_vector_from_matrix(
+      matrix = matrix_x,
+      size   = size_of_vector_t,
+      func   = function(vector_of_matrix_x) {
+        function_f_2(vector_of_matrix_x)
+      }
+    )
   }
 
   get_function_f_2 <- function() {
