@@ -3,7 +3,6 @@ IterativeProcedure <- module({
 
   use(.GlobalEnv, attach = TRUE)
 
-  # start <- function(capital_m, h_0, f_1, f_2) {
   start <- function(capital_m, example_specific_functions) {
     vector_t         <- .form_vector_t(capital_m)
     size_of_vector_t <- Helpers$calculate_size_of_vector(vector_t)
@@ -15,12 +14,11 @@ IterativeProcedure <- module({
 
     matrix_x_infinity <- .form_matrix_x_infinity(vector_t, size_of_vector_t)
 
-    p(matrix_x_infinity)
-    
-    x_infinity <- calculate_x_infinity(vector_t)
-    #
-    # # First step
-    # h_0 <- calculate_h_0(x)
+    # First step
+    function_h_0 <- example_specific_functions$h_0
+
+    vector_h_0 <- .form_vector_h_0(matrix_x, size_of_vector_t, function_h_0)
+
     # f_2 <- calculate_f_2(x)
     #
     # function_f_2 <- get_function_f_2()
@@ -134,12 +132,14 @@ IterativeProcedure <- module({
     )
   }
 
-  calculate_x_infinity <- function(t) {
-    Map(function(t_i) { Functions$x_infinity(t_i) }, t)
-  }
-
-  calculate_h_0 <- function(x) {
-    Map(function(x_i) { ExampleSpecificFunctions$h_0(x) }, x)
+  .form_vector_h_0 <- function(matrix_x, size_of_vector_t, function_h_0) {
+    Helpers$generate_vector_from_matrix(
+      matrix = matrix_x,
+      size   = size_of_vector_t,
+      func   = function(vector_of_matrix_x) {
+        function_h_0(vector_of_matrix_x)
+      }
+    )
   }
 
   calculate_f_2 <- function(x) {

@@ -18,4 +18,17 @@ Helpers <- module({
 
     matrix
   }
+
+  # TODO Comment
+  generate_vector_from_matrix <- function(matrix, size, func) {
+    vector <- vector(length = size)
+
+    indices <- 1:size # in "for (row in matrix)" row is element!
+
+    for(index in indices) {
+      vector[index] <- func(matrix[index, ])
+    }
+
+    vector
+  }
 })
