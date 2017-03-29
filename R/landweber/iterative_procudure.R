@@ -5,17 +5,19 @@ IterativeProcedure <- module({
 
   # start <- function(capital_m, h_0, f_1, f_2) {
   start <- function(capital_m, example_specific_functions) {
-    vector_t <- .form_vector_t(capital_m)
+    vector_t         <- .form_vector_t(capital_m)
+    size_of_vector_t <- Helpers$calculate_size_of_vector(vector_t)
 
     function_x_1 <- example_specific_functions$x_1
     function_x_2 <- example_specific_functions$x_2
 
-    matrix_x <- .form_matrix_x(vector_t, function_x_1, function_x_2)  # matrix - vector of vectors
+    matrix_x <- .form_matrix_x(vector_t, size_of_vector_t, function_x_1, function_x_2)  # matrix - vector of vectors
 
-    p(matrix_x)
+    matrix_x_infinity <- .form_matrix_x_infinity(vector_t, size_of_vector_t)
 
-    x <- calculate_x(vector_t)
-    # x_infinity <- calculate_x_infinity(t)
+    p(matrix_x_infinity)
+    
+    x_infinity <- calculate_x_infinity(vector_t)
     #
     # # First step
     # h_0 <- calculate_h_0(x)
@@ -110,19 +112,26 @@ IterativeProcedure <- module({
     )
   }
 
-  .form_matrix_x <- function(vector_t, function_x_1, function_x_2) {
+  .form_matrix_x <- function(vector_t, size_of_vector_t, function_x_1, function_x_2) {
     Helpers$generate_matrix_from_vector(
       vector      = vector_t,
-      row_size    = Helpers$calculate_size_of_vector(vector_t),
+      row_size    = size_of_vector_t,
       column_size = 2,
-      func = function(element_t_i) {
+      func        = function(element_t_i) {
         c(function_x_1(element_t_i), function_x_2(element_t_i))
       }
     )
   }
 
-  calculate_x <- function(t) {
-    Map(function(t_i) { Functions$x(t_i) }, t)
+  .form_matrix_x_infinity <- function(vector_t, size_of_vector_t) {
+    Helpers$generate_matrix_from_vector(
+      vector      = vector_t,
+      row_size    = size_of_vector_t,
+      column_size = 2,
+      func        = function(element_t_i) {
+        c(element_t_i, 0)
+      }
+    )
   }
 
   calculate_x_infinity <- function(t) {
