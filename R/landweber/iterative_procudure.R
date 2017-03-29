@@ -4,11 +4,17 @@ IterativeProcedure <- module({
   use(.GlobalEnv, attach = TRUE)
 
   # start <- function(capital_m, h_0, f_1, f_2) {
-  start <- function(capital_m, function_f_1, function_f_2, function_h_0) {
+  start <- function(capital_m, example_specific_functions) {
     vector_t <- .form_vector_t(capital_m)
 
+    function_x_1 <- example_specific_functions$x_1
+    function_x_2 <- example_specific_functions$x_2
 
-    # x <- calculate_x(t)
+    matrix_x <- .form_matrix_x(vector_t, function_x_1, function_x_2)  # matrix - vector of vectors
+
+    p(matrix_x)
+
+    x <- calculate_x(vector_t)
     # x_infinity <- calculate_x_infinity(t)
     #
     # # First step
@@ -94,8 +100,8 @@ IterativeProcedure <- module({
 
   .form_vector_t <- function(capital_m) {
     step       <- AdvancedMath$PI / capital_m
-    first_node <- Functions$lower_limit_of_t()
-    last_node  <- Functions$upper_limit_of_t() - step
+    first_node <- Functions$get_lower_limit_of_t()
+    last_node  <- Functions$get_upper_limit_of_t() - step
 
     Mesh$generate_equidistant_nodes(
       first_node = first_node,
@@ -104,9 +110,16 @@ IterativeProcedure <- module({
     )
   }
 
-  # calculate_t <- function(capital_m) {
-  #   Mesh$equidistant_mesh_nodes(capital_m)
-  # }
+  .form_matrix_x <- function(vector_t, function_x_1, function_x_2) {
+    Helpers$generate_matrix_from_vector(
+      vector      = vector_t,
+      row_size    = Helpers$calculate_size_of_vector(vector_t),
+      column_size = 2,
+      func = function(element_t_i) {
+        c(function_x_1(element_t_i), function_x_2(element_t_i))
+      }
+    )
+  }
 
   calculate_x <- function(t) {
     Map(function(t_i) { Functions$x(t_i) }, t)

@@ -23,11 +23,11 @@ Functions <- module({
     c(t, 0)
   }
 
-  lower_limit_of_t <- function() {
+  get_lower_limit_of_t <- function() {
     0
   }
 
-  upper_limit_of_t <- function() {
+  get_upper_limit_of_t <- function() {
     2 * AdvancedMath$PI
   }
 

@@ -1,31 +1,21 @@
 Helpers <- module({
   use(.GlobalEnv, attach = TRUE)
 
-  # map, which returns list of arbitrary objects
-  # Default Map always returns list of lists
-  map <- function(array, block) {
-    map_result <- list()
-    size <- length(array)
-    indices <- 1:size
-
-    j <- 0
-
-    for (i in indices) {
-      block_result <- block(array[i])
-
-      if (is.null(block_result)) {
-        next
-      } else {
-        j <- j + 1
-        map_result[j] <- block_result
-      }
-    }
-
-    map_result
+  calculate_size_of_vector <- function(vector) {
+    length(vector)
   }
 
+  # TODO Comment
+  generate_matrix_from_vector <- function(vector, row_size, column_size, func) {
+    matrix <- matrix(nrow = row_size, ncol = column_size, byrow = TRUE)
 
+    index <- 0
 
+    for (element in vector) {
+      index <- index + 1
+      matrix[index, ] <- func(element)
+    }
 
-
+    matrix
+  }
 })
