@@ -1,5 +1,5 @@
-source("R/discretized_system/discretized_matrix.R")
-source("R/discretized_system/discretized_vector.R")
+source("R/landweber/discretized_system/discretized_matrix.R")
+source("R/landweber/discretized_system/discretized_vector.R")
 
 # (3.9)
 DiscretizedSystem <- module({

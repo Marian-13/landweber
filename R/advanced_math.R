@@ -1,6 +1,8 @@
 AdvancedMath <- module({
   import("magrittr")
 
+  PI <- pi
+
   EULER_NUMBER <- exp(1)
 
   square_root <- function(number) {

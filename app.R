@@ -4,33 +4,31 @@ library("modules")
 
 # Order is important!
 source("R/printers.R")
+source("R/helpers.R")
 source("R/advanced_math.R")
-source("R/example_specific_functions/example_1.R")
-# source("R/example_specific_functions/example_2.R")
-# source("R/example_specific_functions/test_example.R")
-source("R/functions.R")
-source("R/mesh.R")
-source("R/discretized_system.R")
-source("R/iterative_procudure.R")
+source("R/landweber.R")
 
-capital_m <- 2
-result <- IterativeProcedure$start(capital_m)
+# Test Example
+capital_m <- 5
+
+f_1 <- function(x) {
+  10
+}
+
+f_2 <- function(x) {
+  0
+}
+
+h_0 <- function(x) {
+  0
+}
+
+# Landweber
+result = IterativeProcedure$start(
+  capital_m = capital_m,
+  function_f_1 = f_1,
+  function_f_2 = f_2,
+  function_h_0 = h_0
+)
 
 p(result)
-
-
-# Create the data for the chart.
-# v <- c(7,12,28,3,41)
-# t <- c(14,7,6,19,3)
-#
-# # Give the chart file a name.
-# png(file = "line_chart_2_lines.jpg")
-#
-# # Plot the bar chart.
-# plot(v,type = "o",col = "red", xlab = "Month", ylab = "Rain fall",
-#    main = "Rain fall chart")
-#
-# lines(t, type = "o", col = "blue")
-#
-# # Save the file.
-# dev.off()

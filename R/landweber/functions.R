@@ -27,9 +27,9 @@ Functions <- module({
     0
   }
 
-  # upper_limit_of_t <- function() {
-  #   2 * pi
-  # }
+  upper_limit_of_t <- function() {
+    2 * AdvancedMath$PI
+  }
 
   # Discretization
   # near (3.7)
@@ -96,6 +96,8 @@ Functions <- module({
     { AdvancedMath$natural_logarithm(1 / .) }
   }
 
+
+  # TODO green function out of f
   # x_j, h_j - numbers, f - function
   w_tilde <- function(x_j, h_j, function_f) {
     sum_indices <- (-capital_m_1()):capital_m_1()

@@ -1,14 +1,14 @@
 ExampleSpecificFunctions <- module({
   use(.GlobalEnv, attach = TRUE)
 
-  CAPITAL_M_1 <- (function() { 10 })()
+  CAPITAL_M_1 <- 10
 
   H_INFINITY <- (function() {
     c <- 1
     c / AdvancedMath$square_root(CAPITAL_M_1)
   })()
 
-  SMALL_GAMMA <- (function() { 1.5 })() # SMALL_GAMMA > 0
+  SMALL_GAMMA <- 1.5 # SMALL_GAMMA > 0
 
   h_0 <- function(x) {
     0
@@ -19,6 +19,7 @@ ExampleSpecificFunctions <- module({
     0
   }
 
+  # x - vector
   f_2 <- function(x) {
     0
   }
