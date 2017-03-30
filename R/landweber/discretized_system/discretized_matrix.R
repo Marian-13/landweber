@@ -4,15 +4,23 @@ DiscretizedMatrix <- module({
   use(.GlobalEnv, attach = TRUE)
 
   # matrix of sle (3.9)
-  construct_matrix <- function(capital_m, vector_t, size) {
-    first_2_m_rows_elements(capital_m, vector_t) %>%
+  construct_matrix <- function(
+    capital_m, size_of_vector_t, vector_t, matrix_x,
+    matrix_derivative_of_x, matrix_x_star, sle_size
+  ) {
+    first_2_m_rows_elements(
+      size_of_vector_t = size_of_vector_t,
+      vector_t = vector_t,
+      matrix_x = matrix_x,
+      matrix_derivative_of_x = matrix_derivative_of_x,
+      matrix_x_star = matrix_x_star
+    ) %>%
     c(last_row_elements(capital_m)) %>%
-    matrix(nrow = size, ncol = size, byrow = TRUE)
+    matrix(nrow = sle_size, ncol = sle_size, byrow = TRUE)
   }
 
-  first_2_m_rows_elements <- function(capital_m, t) {
-
-    indices <- 1:(2 * capital_m)
+  first_2_m_rows_elements <- function(size_of_vector_t, vector_t, matrix_x, matrix_derivative_of_x, matrix_x_star) {
+    indices <- 1:size_of_vector_t
 
     elements <- zero_length_vector()
 
@@ -31,13 +39,12 @@ DiscretizedMatrix <- module({
     elements
   }
 
-  last_row_elements <- function(capital_m) {
-    rep(x = 1, times = 2 * capital_m) %>%
+  last_row_elements <- function(size_of_vector_t) {
+    rep(x = 1, times = size_of_vector_t) %>%
     c(0)
   }
 
   coeficient <- function(capital_m, t_i, t_j) {
-    p("HEllo")
     first_addend <-
       -0.5 %>%
       multiply_by(Functions$weight_function_r(capital_m, t_i, t_j))

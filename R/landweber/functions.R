@@ -37,6 +37,7 @@ Functions <- module({
 
   # in (3.5)
   kernel_h_1 <- function(vector_derivative_of_x_i, vector_x_i, vector_x_star_j) {
+    p("HEllo")
     first_addend <-
       vector_derivative_of_x_i %>%
       AdvancedMath$square_of_vector() %>% # TODO Modulus
@@ -51,10 +52,6 @@ Functions <- module({
       AdvancedMath$natural_logarithm()
 
     first_addend + second_addend
-  }
-
-  convert_to_x_star <- function(y) {
-    c(y[1], -y[2])
   }
 
   green_function_n <- function(x, y) {

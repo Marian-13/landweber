@@ -4,71 +4,71 @@ IterativeProcedure <- module({
   use(.GlobalEnv, attach = TRUE)
 
   start <- function(capital_m, example_specific_functions) {
-    vector_t         <- .form_vector_t(capital_m)
-    size_of_vector_t <- Helpers$calculate_size_of_vector(vector_t)
+    constants <- list()
+    vectors   <- list()
+    matrices  <- list()
+    functions <- list()
+    sizes     <- list()
 
-    function_x_1 <- example_specific_functions$x_1
-    function_x_2 <- example_specific_functions$x_2
-    function_x   <- function(t) { c(function_x_1(t), function_x_2(t)) }
+    constants$capital_m <- capital_m
+    vectors$t <- .form_vector_t(capital_m)
 
-    matrix_x <- .form_matrix_x(vector_t, size_of_vector_t, function_x)  # matrix - vector of vectors
+    sizes$t <- Helpers$calculate_size_of_vector(vectors$t)
 
-    function_x_infinity <- function(t) { c(t, 0) }
+    functions$x_1 <- example_specific_functions$x_1
+    functions$x_2 <- example_specific_functions$x_2
+    functions$x   <- function(t) { c(functions$x_1(t), functions$x_2(t)) }
+
+    matrices$x <- .form_matrix_x(vectors$t, sizes$t, functions$x)  # matrix - vector of vectors
+
+    functions$x_infinity <- function(t) { c(t, 0) }
 
     matrix_x_infinity <- .form_matrix_x_infinity(
-      vector_t,
-      size_of_vector_t,
-      function_x_infinity
+      vector_t            = vectors$t,
+      size_of_vector_t    = sizes$t,
+      function_x_infinity = functions$x_infinity
     )
 
     # First step
-    function_h_0 <- example_specific_functions$h_0
-    function_f_2 <- example_specific_functions$f_2
+    functions$h_0 <- example_specific_functions$h_0
+    functions$f_2 <- example_specific_functions$f_2
 
-    vector_h_0 <- .form_vector_h_0(matrix_x, size_of_vector_t, function_h_0)
-    vector_f_2 <- .form_vector_f_2(matrix_x, size_of_vector_t, function_f_2)
+    vectors$h_0 <- .form_vector_h_0(matrices$x, sizes$t, functions$h_0)
+    vectors$f_2 <- .form_vector_f_2(matrices$x, sizes$t, functions$f_2)
 
     # Second step
-    capital_m_1 <- example_specific_functions$CAPITAL_M_1
-    h_infinity  <- example_specific_functions$H_INFINITY
+    constants$capital_m_1 <- example_specific_functions$CAPITAL_M_1
+    constants$h_infinity  <- example_specific_functions$H_INFINITY
 
-    function_derivative_of_x_1 <- example_specific_functions$derivative_of_x_1
-    function_derivative_of_x_2 <- example_specific_functions$derivative_of_x_2
-    function_derivative_of_x   <- function(t) {
+    functions$derivative_of_x_1 <- example_specific_functions$derivative_of_x_1
+    functions$derivative_of_x_2 <- example_specific_functions$derivative_of_x_2
+    functions$derivative_of_x   <- function(t) {
       c(function_derivative_of_x_1(t), function_derivative_of_x_2(t))
     }
 
-    matrix_derivative_of_x <- .form_matrix_derivative_of_x(
-      vector_t,
-      size_of_vector_t,
-      function_derivative_of_x
+    matrices$derivative_of_x <- .form_matrix_derivative_of_x(
+      vector_t                 = vectors$t,
+      size_of_vector_t         = sizes$t,
+      function_derivative_of_x = functions$x
     )
 
-    # function_x_star <- function(t) { c(function_x_1(t), -function_x_2(t)) }
-    #
-    # matrix_x_star <- .form_matrix_x_star(
-    #   vector_t,
-    #   size_of_vector_t,
-    #   function_x_star
-    # )
-
-    matrix_x_star <- .form_matrix_x_star(
-      size_of_vector_t,
-      matrix_x
+    matrices$x_star <- .form_matrix_x_star(
+      size_of_vector_t = sizes$t,
+      matrix_x         = matrices$x
     )
 
-    #
-    # vector_u_0 <- .form_vector_u(
-    #   capital_m         = capital_m,
-    #   vector_t          = vector_t,
-    #   size_of_vector_t  = size_of_vector_t,
-    #   matrix_x          = matrix_x,
-    #   matrix_x_infinity = matrix_x_infinity,
-    #   vector_h          = vector_h,
-    #   vector_f          = vector_f,
-    #   function_f        = function_f
-    # )
+    sizes$discretized_system <- .calculte_size_of_discretized_system(
+      capital_m = constants$capital_m
+    )
 
+    # TODO
+    vector_u_0 <- .form_vector_u(
+      constants = constants,
+      sizes     = sizes,
+      vectors   = vectors,
+      matrices  = matrices,
+      functions = functions
+    )
 
     # function_f_2 <- get_function_f_2()
     #
@@ -234,17 +234,18 @@ IterativeProcedure <- module({
     )
   }
 
+  .calculte_size_of_discretized_system <- function(capital_m) {
+    2 * capital_m + 1
+  }
+
   # TODO
-  .form_vector_u <- function(
-    capital_m, vector_t, size_of_vector_t, matrix_x,
-    matrix_x_infinity, vector_h, vector_f, function_f
-  ) {
+  .form_vector_u <- function(constants, sizes, vectors, matrices, functions) {
     discretized_system_solution <- DiscretizedSystem$solve(
-      capital_m  = capital_m,
-      vector_t   = vector_t,
-      matrix_x   = matrix_x,
-      vector_h   = vector_h,
-      function_f = function_f
+      constants = constants,
+      sizes     = sizes,
+      vectors   = vectors,
+      matrices  = matrices,
+      functions = functions
     )
 
     # vector_mu <- .extract_vector_mu(size_of_vector_t, discretized_system_solution)

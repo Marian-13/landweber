@@ -10,6 +10,7 @@
 7. refactor w_tilde !!!!!!!!!!!!!!!!!!!
 8. Remove stubs from ExampleSpecificFunctions$f_1, IterativeProcedure$calculate_f_1 !
 9. Write own map which returns matrix to avoid unlist
+10. More than 6 params! Long names
 
 #### 2. Algorithm issues
 1. Square of vector

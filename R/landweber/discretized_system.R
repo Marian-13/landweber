@@ -6,10 +6,19 @@ source("R/landweber/discretized_system/right_hand_side.R")
 DiscretizedSystem <- module({
   use(.GlobalEnv, attach = TRUE)
 
-  solve <- function(capital_m, vector_t, matrix_x, vector_h, function_f) {
-    sle_size <- 2 * capital_m + 1
-
-    matrix <- .construct_discretized_matrix(capital_m, vector_t, sle_size)
+  solve <- function(constants, sizes, vectors, matrices, functions) {
+    p("Hello")
+    # TODO Continue
+    matrix <- .construct_discretized_matrix(
+      capital_m              = capital_m,
+      vector_t               = vector_t,
+      size_of_vector_t       = size_of_vector_t,
+      matrix_x               = matrix_x,
+      matrix_derivative_of_x = matrix_derivative_of_x,
+      matrix_x_star          = matrix_x_star,
+      sle_size               = sle_size
+    )
+    p("Hello")
     # vector <- .construct_discretized_vector(capital_m, x, h, function_f)
 
     # AdvancedMath$solve_sle(matrix, vector)
