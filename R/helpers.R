@@ -5,6 +5,10 @@ Helpers <- module({
     length(vector)
   }
 
+  generate_square_matrix <- function(elements, size) {
+    matrix(data = elements, nrow = size, ncol = size, byrow = TRUE)
+  }
+
   # TODO Comment
   generate_matrix_from_vector <- function(vector, row_size, column_size, func) {
     matrix <- matrix(nrow = row_size, ncol = column_size, byrow = TRUE)
@@ -32,9 +36,17 @@ Helpers <- module({
     result
   }
 
+  generate_vector <- function(size) {
+    vector(length = size)
+  }
+
+  generate_vector_with_equal_elements <- function(size, element) {
+    rep(x = element, times = size)
+  }
+
   # TODO Comment
   generate_vector_from_matrix <- function(matrix, size, func) {
-    vector <- vector(length = size)
+    vector <- generate_vector(size)
 
     indices <- 1:size # in "for (row in matrix)" row is element!
 
@@ -43,5 +55,22 @@ Helpers <- module({
     }
 
     vector
+  }
+
+  # TODO Comment
+  generate_vector_from_vector <- function(vector, size, func) {
+    result <- generate_vector(size)
+
+    indices <- 1:size # in "for (row in matrix)" row is element!
+
+    for (index in indices) {
+      result[index] <- func(vector[index])
+    }
+
+    result
+  }
+
+  reduce <- function(initial, vector, func) {
+    Reduce(f = func, x = vector, init = initial)
   }
 })

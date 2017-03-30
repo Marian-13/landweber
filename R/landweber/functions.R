@@ -3,7 +3,6 @@ Functions <- module({
 
   use(.GlobalEnv, attach = TRUE)
 
-  # Parametrization
   get_lower_limit_of_t <- function() {
     0
   }
@@ -12,32 +11,26 @@ Functions <- module({
     2 * AdvancedMath$PI
   }
 
-  x_star <- function(t) {
-    c(ExampleSpecificFunctions$x_1(t), -ExampleSpecificFunctions$x_2(t))
-  }
+  # Unoptimized
+  weight_function_r <- function(capital_m, element_t_i, element_t_j) {
+    sum_indices <- 1:(capital_m - 1)
 
-  # Discretization
-  # near (3.7)
-  weight_function_r <- function(capital_m, t, t_j) {
-    indices <- 1:(capital_m - 1)
-
-    sum <- Reduce(
-      function(memo, index) {
-        memo + (1 / index) * cos(index * (t - t_j))
-      },
-      indices,
-      0.0
+    sum <- Helpers$reduce(
+      initial = 0,
+      vector  = sum_indices,
+      func    = function(memo, sum_index) {
+        memo + (1 / sum_index) * cos(sum_index * (element_t_i - element_t_j))
+      }
     )
 
     1 %>%
     add(2 * sum) %>%
-    add((1 / capital_m) * cos(capital_m * (t - t_j))) %>%
+    add((1 / capital_m) * cos(capital_m * (element_t_i - element_t_j))) %>%
     multiply_by(-(1 / (2 * capital_m)))
   }
 
   # in (3.5)
   kernel_h_1 <- function(vector_derivative_of_x_i, vector_x_i, vector_x_star_j) {
-    p("HEllo")
     first_addend <-
       vector_derivative_of_x_i %>%
       AdvancedMath$square_of_vector() %>% # TODO Modulus

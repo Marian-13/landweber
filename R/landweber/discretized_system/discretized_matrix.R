@@ -4,63 +4,69 @@ DiscretizedMatrix <- module({
   use(.GlobalEnv, attach = TRUE)
 
   # matrix of sle (3.9)
-  construct_matrix <- function(
-    capital_m, size_of_vector_t, vector_t, matrix_x,
-    matrix_derivative_of_x, matrix_x_star, sle_size
-  ) {
-    first_2_m_rows_elements(
-      size_of_vector_t = size_of_vector_t,
-      vector_t = vector_t,
-      matrix_x = matrix_x,
-      matrix_derivative_of_x = matrix_derivative_of_x,
-      matrix_x_star = matrix_x_star
+  construct_matrix <- function(capital_m, vectors, matrices, sizes) {
+    .form_first_2_m_rows_elements(
+      capital_m = capital_m,
+      vectors   = vectors,
+      matrices  = matrices,
+      sizes     = sizes
     ) %>%
-    c(last_row_elements(capital_m)) %>%
-    matrix(nrow = sle_size, ncol = sle_size, byrow = TRUE)
+    c(.last_row_elements(sizes$t)) %>%
+    Helpers$generate_square_matrix(sizes$discretized_system)
   }
 
-  first_2_m_rows_elements <- function(size_of_vector_t, vector_t, matrix_x, matrix_derivative_of_x, matrix_x_star) {
-    indices <- 1:size_of_vector_t
+  .form_first_2_m_rows_elements <- function(capital_m, vectors, matrices, sizes) {
+    indices <- 1:sizes$t
 
-    elements <- zero_length_vector()
+    elements <- Helpers$generate_vector(sizes$discretized_system)
+
+    index <- 0
 
     for (i in indices) {
-      row <- zero_length_vector()
-
       for (j in indices) {
-        row <- c(row, coeficient(capital_m, t[i], t[j]))
+        index <- index + 1
+
+        coeficient_first_addend <- .calculate_coeficient_first_addend(
+          capital_m   = capital_m,
+          element_t_i = vectors$t[i],
+          element_t_j = vectors$t[j]
+        )
+
+        coeficient_second_addend <- .calculate_coeficient_second_addend(
+          vector_derivative_of_x_i = matrices$derivative_of_x[i, ],
+          vector_x_i               = matrices$x[i, ],
+          vector_x_star_j          = matrices$x_star[j, ]
+        )
+
+        elements[index] <- coeficient_first_addend + coeficient_second_addend
+
       }
 
-      row <- c(row, 1)
+      index <- index + 1
 
-      elements <- c(elements, row)
+      elements[index] <- 1
     }
 
     elements
   }
 
-  last_row_elements <- function(size_of_vector_t) {
-    rep(x = 1, times = size_of_vector_t) %>%
+  .last_row_elements <- function(size_of_vector_t) {
+    Helpers$generate_vector_with_equal_elements(
+      size = size_of_vector_t,
+      element = 1
+    ) %>%
     c(0)
   }
 
-  coeficient <- function(capital_m, t_i, t_j) {
-    first_addend <-
-      -0.5 %>%
-      multiply_by(Functions$weight_function_r(capital_m, t_i, t_j))
-
-    second_addend <-
-      0.25 %>%
-      multiply_by(Functions$kernel_h_1(t_i, t_j))
-
-    first_addend + second_addend
+  .calculate_coeficient_first_addend <- function(capital_m, element_t_i, element_t_j) {
+    -0.5 * Functions$weight_function_r(capital_m, element_t_i, element_t_j)
   }
 
-  # diagonal_coeficient <- function(capital_m, t_i, t_j) {
-  #   matrix_coeficient(capital_m, t_i, t_j)
-  # }
-
-  zero_length_vector <- function() {
-    AdvancedMath$zero_length_vector()
+  .calculate_coeficient_second_addend <- function(vector_derivative_of_x_i, vector_x_i, vector_x_star_j) {
+    0.25 * Functions$kernel_h_1(
+      vector_derivative_of_x_i = vector_derivative_of_x_i,
+      vector_x_i               = vector_x_i,
+      vector_x_star_j          = vector_x_star_j
+    )
   }
 })

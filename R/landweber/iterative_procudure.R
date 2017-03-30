@@ -15,15 +15,16 @@ IterativeProcedure <- module({
 
     sizes$t <- Helpers$calculate_size_of_vector(vectors$t)
 
-    functions$x_1 <- example_specific_functions$x_1
-    functions$x_2 <- example_specific_functions$x_2
-    functions$x   <- function(t) { c(functions$x_1(t), functions$x_2(t)) }
+    functions$x <- .form_function_x(
+      function_x_1 = example_specific_functions$x_1,
+      function_x_2 = example_specific_functions$x_2
+    )
 
     matrices$x <- .form_matrix_x(vectors$t, sizes$t, functions$x)  # matrix - vector of vectors
 
-    functions$x_infinity <- function(t) { c(t, 0) }
+    functions$x_infinity <- .form_function_x_infinity()
 
-    matrix_x_infinity <- .form_matrix_x_infinity(
+    matrices$x_infinity <- .form_matrix_x_infinity(
       vector_t            = vectors$t,
       size_of_vector_t    = sizes$t,
       function_x_infinity = functions$x_infinity
@@ -36,20 +37,19 @@ IterativeProcedure <- module({
     vectors$h_0 <- .form_vector_h_0(matrices$x, sizes$t, functions$h_0)
     vectors$f_2 <- .form_vector_f_2(matrices$x, sizes$t, functions$f_2)
 
-    # Second step
+    # # Second step
     constants$capital_m_1 <- example_specific_functions$CAPITAL_M_1
     constants$h_infinity  <- example_specific_functions$H_INFINITY
 
-    functions$derivative_of_x_1 <- example_specific_functions$derivative_of_x_1
-    functions$derivative_of_x_2 <- example_specific_functions$derivative_of_x_2
-    functions$derivative_of_x   <- function(t) {
-      c(function_derivative_of_x_1(t), function_derivative_of_x_2(t))
-    }
+    functions$derivative_of_x <- .form_function_derivative_of_x(
+      function_derivative_of_x_1 = example_specific_functions$derivative_of_x_1,
+      function_derivative_of_x_2 = example_specific_functions$derivative_of_x_2
+    )
 
     matrices$derivative_of_x <- .form_matrix_derivative_of_x(
       vector_t                 = vectors$t,
       size_of_vector_t         = sizes$t,
-      function_derivative_of_x = functions$x
+      function_derivative_of_x = functions$derivative_of_x
     )
 
     matrices$x_star <- .form_matrix_x_star(
@@ -61,14 +61,21 @@ IterativeProcedure <- module({
       capital_m = constants$capital_m
     )
 
-    # TODO
-    vector_u_0 <- .form_vector_u(
-      constants = constants,
-      sizes     = sizes,
+    matrices$discretized_matrix <- .construct_discretized_matrix(
+      capital_m = constants$capital_m,
       vectors   = vectors,
       matrices  = matrices,
-      functions = functions
+      sizes     = sizes
     )
+
+    # # TODO
+    # vector_u_0 <- .form_vector_u(
+    #   constants = constants,
+    #   sizes     = sizes,
+    #   vectors   = vectors,
+    #   matrices  = matrices,
+    #   functions = functions
+    # )
 
     # function_f_2 <- get_function_f_2()
     #
@@ -170,6 +177,10 @@ IterativeProcedure <- module({
     )
   }
 
+  .form_function_x <- function(function_x_1, function_x_2) {
+    function(t) { c(function_x_1(t), function_x_2(t)) }
+  }
+
   .form_matrix_x <- function(vector_t, size_of_vector_t, function_x) {
     Helpers$generate_matrix_from_vector(
       vector      = vector_t,
@@ -179,6 +190,10 @@ IterativeProcedure <- module({
         function_x(element_t_i)
       }
     )
+  }
+
+  .form_function_x_infinity <- function() {
+    function(t) { c(t, 0) }
   }
 
   .form_matrix_x_infinity <- function(vector_t, size_of_vector_t, function_x_infinity) {
@@ -212,6 +227,12 @@ IterativeProcedure <- module({
     )
   }
 
+  .form_function_derivative_of_x <- function(function_derivative_of_x_1, function_derivative_of_x_2) {
+    function(t) {
+      c(function_derivative_of_x_1(t), function_derivative_of_x_2(t))
+    }
+  }
+
   .form_matrix_derivative_of_x <- function(vector_t, size_of_vector_t, function_derivative_of_x) {
     Helpers$generate_matrix_from_vector(
       vector      = vector_t,
@@ -236,6 +257,15 @@ IterativeProcedure <- module({
 
   .calculte_size_of_discretized_system <- function(capital_m) {
     2 * capital_m + 1
+  }
+
+  .construct_discretized_matrix <- function(capital_m, vectors, matrices, sizes) {
+    DiscretizedMatrix$construct_matrix(
+      capital_m = capital_m,
+      vectors   = vectors,
+      matrices  = matrices,
+      sizes     = sizes
+    )
   }
 
   # TODO
