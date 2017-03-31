@@ -29,7 +29,7 @@ Functions <- module({
     multiply_by(-(1 / (2 * capital_m)))
   }
 
-  # in (3.5)
+  # in (3.5) TODO Modulus
   kernel_h_1 <- function(vector_derivative_of_x_i, vector_x_i, vector_x_star_j) {
     first_addend <-
       vector_derivative_of_x_i %>%
@@ -47,15 +47,15 @@ Functions <- module({
     first_addend + second_addend
   }
 
-  green_function_n <- function(x, y) {
+  green_function_n <- function(vector_x, vector_y, vector_y_star) {
     first_multiplicand <-
-      x %>%
-      subtract(y) %>%
+      vector_x %>%
+      subtract(vector_y) %>%
       AdvancedMath$modulus_of_vector()
 
     second_multiplicand <-
-      x %>%
-      subtract(convert_to_x_star(y)) %>%
+      vector_x %>%
+      subtract(vector_y_star) %>%
       AdvancedMath$modulus_of_vector()
 
     first_multiplicand %>%

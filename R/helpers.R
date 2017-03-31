@@ -44,6 +44,16 @@ Helpers <- module({
     rep(x = element, times = size)
   }
 
+  # generate_vector_by_function <- function(size, func) {
+  #   result <- generate_vector(size)
+  #
+  #   indices <- size
+  #
+  #   for (index in indices) {
+  #     result[index] <- func
+  #   }
+  # }
+
   # TODO Comment
   generate_vector_from_matrix <- function(matrix, size, func) {
     vector <- generate_vector(size)

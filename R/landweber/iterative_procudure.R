@@ -30,14 +30,14 @@ IterativeProcedure <- module({
       function_x_infinity = functions$x_infinity
     )
 
-    # First step
+    # # First step !!!
     functions$h_0 <- example_specific_functions$h_0
     functions$f_2 <- example_specific_functions$f_2
 
     vectors$h_0 <- .form_vector_h_0(matrices$x, sizes$t, functions$h_0)
     vectors$f_2 <- .form_vector_f_2(matrices$x, sizes$t, functions$f_2)
 
-    # # Second step
+    # # Second step !!!
     constants$capital_m_1 <- example_specific_functions$CAPITAL_M_1
     constants$h_infinity  <- example_specific_functions$H_INFINITY
 
@@ -57,7 +57,7 @@ IterativeProcedure <- module({
       matrix_x         = matrices$x
     )
 
-    sizes$discretized_system <- .calculte_size_of_discretized_system(
+    sizes$discretized_system <- .calculate_size_of_discretized_system(
       capital_m = constants$capital_m
     )
 
@@ -68,101 +68,37 @@ IterativeProcedure <- module({
       sizes     = sizes
     )
 
+    sizes$sum_from_w_tilde <- .calculate_size_of_sum_from_w_tilde(
+      capital_m_1 = constants$capital_m_1
+    )
+
+    # from w_tilde(t[j]): q_1[i] = i * h_infinity
+    vectors$q_1 <- .form_vector_q_1(
+      size_of_sum_from_w_tilde = sizes$sum_from_w_tilde,
+      h_infinity               = constants$h_infinity
+    )
+
+    # from w_tilde(t[j]): q_2[i] = x_infinity(i * h_infinity)
+    matrices$q_2 <- .form_matrix_q_2(
+      size_of_sum_from_w_tilde = sizes$sum_from_w_tilde,
+      vector_q_1               = vectors$q_1
+    )
+
+    # from w_tilde(t[j]): q_3[i] = f_tilde = f(x_infinity(i * h_infinity)) when f = f_2
+    vectors$q_3 <- .form_vector_q_3(
+      size_of_sum_from_w_tilde = sizes$sum_from_w_tilde,
+      matrix_q_2               = matrices$q_2,
+      function_f_2             = functions$f_2
+    )
+
+    # vector_q_3 <- .form_vector_q_3(
+    #   size_of_vector_t = sizes$t,
+    #   matrix_x         = matrices$x,
+    #   matrix_x_star    = matrices$x_star,
+    #   matrix_q_2       = matrices$q_2
+    # )
+
     # # TODO
-    # vector_u_0 <- .form_vector_u(
-    #   constants = constants,
-    #   sizes     = sizes,
-    #   vectors   = vectors,
-    #   matrices  = matrices,
-    #   functions = functions
-    # )
-
-    # function_f_2 <- get_function_f_2()
-    #
-    #
-    # u_0 <- calculate_u_0(
-    #   capital_m = capital_m,
-    #   t = vector_t,
-    #   x = matrix_x,
-    #   x_infinity = matrix_x_infinity,
-    #   h = vector_h_0,
-    #   f = vector_f_2,
-    #   function_f = function_f_2
-    # )
-
-    #
-    # u_0 <- calculate_u_0(
-    #   capital_m = capital_m,
-    #   t = t,
-    #   x = x,
-    #   x_infinity = x_infinity,
-    #   h = h_0,
-    #   f = f_2,
-    #   function_f = function_f_2
-    # )
-    # #
-    # h_with_zero_elements <- vector_with_zero_elements(size = 2 * capital_m)
-    # f_1 <- calculate_f_1(x)
-    #
-    # derivative_of_v_0 <- calculate_partial_normal_derivative_of_v_0_by_x(
-    #   capital_m = capital_m,
-    #   t = t,
-    #   x = x,
-    #   x_infinity = x_infinity,
-    #   h = h_with_zero_elements,
-    #   f = u_0 - f_1
-    #   # function_f = f TODO refactor w_tilde !!!!!!
-    # )
-    #
-    # # Setup
-    # small_gamma <- get_small_gamma()
-    #
-    # k <- 0
-    # h_k <- h_0
-    # u_k <- u_0
-    # derivative_of_v_k <- derivative_of_v_0
-    #
-    # repeat {
-    #   k <- k + 1
-    #
-    #   # Third step
-    #   new_h_k <- calculate_h_k(
-    #     previous_h = h_k,
-    #     small_gamma = small_gamma,
-    #     derivative_of_v = derivative_of_v_0
-    #   )
-    #
-    #   # Forth step
-    #   new_u_k <- calculate_u_k(
-    #     capital_m = capital_m,
-    #     t = t,
-    #     x = x,
-    #     x_infinity = x_infinity,
-    #     h = h_k,
-    #     f = f_2,
-    #     function_f = function_f_2
-    #   )
-    #
-    #   new_derivative_of_v_k <- calculate_partial_normal_derivative_of_v_k_by_x(
-    #     capital_m = capital_m,
-    #     t = t,
-    #     x = x,
-    #     x_infinity = x_infinity,
-    #     h = h_with_zero_elements,
-    #     f = u_k - f_1
-    #     # function_f = f TODO refactor w_tilde !!!!!!
-    #   )
-    #
-    #   if (stop_condition(previous_u = u_k, current_u = new_u_k) == TRUE) {
-    #     break
-    #   } else {
-    #     h_k <- new_h_k
-    #     u_k <- new_u_k
-    #     derivative_of_v_k <- new_derivative_of_v_k
-    #   }
-    # }
-    #
-    # construct_procedure_result(k = k, u = u_k)
   }
 
   .form_vector_t <- function(capital_m) {
@@ -255,7 +191,7 @@ IterativeProcedure <- module({
     )
   }
 
-  .calculte_size_of_discretized_system <- function(capital_m) {
+  .calculate_size_of_discretized_system <- function(capital_m) {
     2 * capital_m + 1
   }
 
@@ -268,15 +204,47 @@ IterativeProcedure <- module({
     )
   }
 
+  .calculate_size_of_sum_from_w_tilde <- function(capital_m_1) {
+    capital_m_1 * 2 + 1
+  }
+
+  .form_vector_q_1 <- function(size_of_sum_from_w_tilde, h_infinity) {
+    RightHandSide$form_vector_q_1(size_of_sum_from_w_tilde, h_infinity)
+  }
+
+  .form_matrix_q_2 <- function(size_of_sum_from_w_tilde, vector_q_1) {
+    RightHandSide$form_matrix_q_2(size_of_sum_from_w_tilde, vector_q_1)
+  }
+
+  # .form_vector_w_tilde <- function(size_of_vector_t, vector_t, vector_h, h_infinity, vector_q_3, matrix_q_2) {
+  #   RightHandSide$form_vector_q_3(
+  #     size_of_vector_t = size_of_vector_t,
+  #     matrix_x         = matrix_x,
+  #     matrix_x_star    = matrix_x_star,
+  #     matrix_q_2       = matrix_q_2
+  #   )
+  # }
+
+  # .form_vector_q_3 <- function(size_of_vector_t, matrix_x, matrix_x_star, matrix_q_2) {
+  #   RightHandSide$form_vector_q_3(
+  #     size_of_vector_t = size_of_vector_t,
+  #     matrix_x         = matrix_x,
+  #     matrix_x_star    = matrix_x_star,
+  #     matrix_q_2       = matrix_q_2
+  #   )
+  # }
+
+  .form_vector_q_3 <- function(size_of_sum_from_w_tilde, matrix_q_2, function_f_2) {
+    RightHandSide$form_vector_q_3(
+      size_of_sum_from_w_tilde = size_of_sum_from_w_tilde,
+      matrix_q_2               = matrix_q_2,
+      function_f_2             = function_f_2
+    )
+  }
+
+
   # TODO
   .form_vector_u <- function(constants, sizes, vectors, matrices, functions) {
-    discretized_system_solution <- DiscretizedSystem$solve(
-      constants = constants,
-      sizes     = sizes,
-      vectors   = vectors,
-      matrices  = matrices,
-      functions = functions
-    )
 
     # vector_mu <- .extract_vector_mu(size_of_vector_t, discretized_system_solution)
     # alpha     <- .extract_alpha(size_of_vector_t, discretized_system_solution)
@@ -304,75 +272,4 @@ IterativeProcedure <- module({
   .extract_alpha <- function(size_of_vector_t, discretized_system_solution) {
     discretized_system_solution[size_of_vector_t + 1]
   }
-
-  # calculate_u_k <- function(capital_m, t, x, x_infinity, h, f, function_f) {
-  #   matrix <- DiscretizedSystem$discretized_matrix(capital_m, t)
-  #   vector <- DiscretizedSystem$discretized_vector(capital_m, x, h, function_f)
-  #
-  #   sle_solution <- AdvancedMath$solve_sle(matrix, vector)
-  #
-  #   size <- 2 * capital_m
-  #
-  #   mu <- c(sle_solution[1:size])
-  #
-  #   alpha <- sle_solution[size + 1]
-  #
-  #   u_0 <- Map(
-  #     function(x_infinity_i) {
-  #       Functions$u(unlist(x_infinity_i), capital_m, t, x, mu, alpha) # TODO unlist
-  #     },
-  #     x_infinity
-  #   )
-  # }
-
-  # get_function_f_2 <- function() {
-  #   ExampleSpecificFunctions$f_2
-  # }
-  #
-  # calculate_u_0 <- function(capital_m, t, x, x_infinity, h, f, function_f) {
-  #   calculate_u_k(capital_m, t, x, x_infinity, h, f, function_f)
-  # }
-  #
-  # vector_with_zero_elements <- function(size) {
-  #   AdvancedMath$vector_with_zero_elements(size)
-  # }
-  #
-  # calculate_f_1 <- function(x) {
-  #   Map(function(x_i) { ExampleSpecificFunctions$f_1(x_i) }, x)
-  # }
-  #
-  # # TODO function_f
-  # calculate_partial_normal_derivative_of_v_0_by_x <- function(capital_m, t, x, x_infinity, h, f) {
-  #   calculate_partial_normal_derivative_of_v_k_by_x(
-  #     capital_m, t, x, x_infinity, h, f
-  #   )
-  # }
-  #
-  # get_small_gamma <- function() {
-  #   ExampleSpecificFunctions$SMALL_GAMMA
-  # }
-  #
-  # # TODO test
-  # calculate_h_k <- function(previous_h, small_gamma, derivative_of_v) {
-  #   unlist(previous_h) - small_gamma * derivative_of_v
-  # }
-  #
-  # calculate_partial_normal_derivative_of_v_k_by_x <- function(capital_m, t, x, x_infinity, h, f) {
-  #   # TODO remove stub
-  #   AdvancedMath$vector_with_zero_elements(size = 2 * capital_m)
-  # }
-  #
-  # # TODO name
-  # stop_condition <- function(current_u, previous_u) {
-  #   # TODO remove stub
-  #   TRUE
-  # }
-  #
-  # construct_procedure_result <- function(k, u) {
-  #   result <- list()
-  #   result$k <- k
-  #   result$u <- u
-  #
-  #   result
-  # }
 })

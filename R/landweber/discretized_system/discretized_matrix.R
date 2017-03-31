@@ -11,7 +11,7 @@ DiscretizedMatrix <- module({
       matrices  = matrices,
       sizes     = sizes
     ) %>%
-    c(.last_row_elements(sizes$t)) %>%
+    c(.form_last_row_elements(sizes$t)) %>%
     Helpers$generate_square_matrix(sizes$discretized_system)
   }
 
@@ -50,7 +50,7 @@ DiscretizedMatrix <- module({
     elements
   }
 
-  .last_row_elements <- function(size_of_vector_t) {
+  .form_last_row_elements <- function(size_of_vector_t) {
     Helpers$generate_vector_with_equal_elements(
       size = size_of_vector_t,
       element = 1
