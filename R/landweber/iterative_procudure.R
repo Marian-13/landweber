@@ -84,18 +84,24 @@ IterativeProcedure <- module({
       vector_q_1               = vectors$q_1
     )
 
-    # from w_tilde(t[j]): q_3[i] = f_tilde = f(x_infinity(i * h_infinity)) when f = f_2
-    vectors$q_3 <- .form_vector_q_3(
+    matrices$q_2_star <- .form_matrix_q_2_star(
       size_of_sum_from_w_tilde = sizes$sum_from_w_tilde,
-      matrix_q_2               = matrices$q_2,
-      function_f_2             = functions$f_2
+      matrix_q_2               = matrices$q_2
     )
 
-    # vector_q_3 <- .form_vector_q_3(
-    #   size_of_vector_t = sizes$t,
-    #   matrix_x         = matrices$x,
-    #   matrix_x_star    = matrices$x_star,
-    #   matrix_q_2       = matrices$q_2
+    matrix_q_3 <- .form_matrix_q_3(
+      size_of_vector_t         = sizes$t,
+      size_of_sum_from_w_tilde = sizes$sum_from_w_tilde,
+      matrix_x                 = matrices$x,
+      matrix_q_2               = matrices$q_2,
+      matrix_q_2_star          = matrices$q_2_star
+    )
+
+    # from w_tilde(t[j]): q_3[i] = f_tilde = f(x_infinity(i * h_infinity)) when f = f_2
+    # vectors$q_3 <- .form_vector_q_3(
+    #   size_of_sum_from_w_tilde = sizes$sum_from_w_tilde,
+    #   matrix_q_2               = matrices$q_2,
+    #   function_f_2             = functions$f_2
     # )
 
     # # TODO
@@ -216,6 +222,27 @@ IterativeProcedure <- module({
     RightHandSide$form_matrix_q_2(size_of_sum_from_w_tilde, vector_q_1)
   }
 
+  .form_matrix_q_2_star <- function(size_of_sum_from_w_tilde, matrix_q_2) {
+    Helpers$generate_matrix_from_matrix(
+      matrix      = matrix_q_2,
+      row_size    = size_of_sum_from_w_tilde,
+      column_size = 2,
+      func        = function(vector_q_2_i) {
+        c(vector_q_2_i[1], -vector_q_2_i[2])
+      }
+    )
+  }
+
+  .form_matrix_q_3 <- function(size_of_vector_t, size_of_sum_from_w_tilde, matrix_x, matrix_q_2, matrix_q_2_star) {
+    RightHandSide$form_matrix_q_3(
+      size_of_vector_t         = size_of_vector_t,
+      size_of_sum_from_w_tilde = size_of_sum_from_w_tilde,
+      matrix_x                 = matrix_x,
+      matrix_q_2               = matrix_q_2,
+      matrix_q_2_star          = matrix_q_2_star
+    )
+  }
+
   # .form_vector_w_tilde <- function(size_of_vector_t, vector_t, vector_h, h_infinity, vector_q_3, matrix_q_2) {
   #   RightHandSide$form_vector_q_3(
   #     size_of_vector_t = size_of_vector_t,
@@ -224,24 +251,6 @@ IterativeProcedure <- module({
   #     matrix_q_2       = matrix_q_2
   #   )
   # }
-
-  # .form_vector_q_3 <- function(size_of_vector_t, matrix_x, matrix_x_star, matrix_q_2) {
-  #   RightHandSide$form_vector_q_3(
-  #     size_of_vector_t = size_of_vector_t,
-  #     matrix_x         = matrix_x,
-  #     matrix_x_star    = matrix_x_star,
-  #     matrix_q_2       = matrix_q_2
-  #   )
-  # }
-
-  .form_vector_q_3 <- function(size_of_sum_from_w_tilde, matrix_q_2, function_f_2) {
-    RightHandSide$form_vector_q_3(
-      size_of_sum_from_w_tilde = size_of_sum_from_w_tilde,
-      matrix_q_2               = matrix_q_2,
-      function_f_2             = function_f_2
-    )
-  }
-
 
   # TODO
   .form_vector_u <- function(constants, sizes, vectors, matrices, functions) {

@@ -21,3 +21,5 @@ result <- IterativeProcedure$start(
 )
 
 p(result)
+
+# warnings()

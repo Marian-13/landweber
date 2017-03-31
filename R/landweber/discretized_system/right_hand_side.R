@@ -34,33 +34,85 @@ RightHandSide <- module({
     )
   }
 
-  # form_vector_q_3 <- function(size_of_vector_t, matrix_x, matrix_x_star, matrix_q_2) {
-  #   vector_q_3 <- Helpers$generate_vector(size_of_vector_t)
-  #
-  #   indices <- 1:size_of_vector_t
-  #
-  #   for (index in indices) {
-  #     vector_q_3[index] <- Functions$green_function_n(
-  #       vector_x      = matrix_x[index, ],
-  #       vector_y      = matrix_q_2[index, ],
-  #       vector_y_star = matrix_x_star[index, ]
-  #     )
-  #   }
-  #
-  #   vector_q_3
-  # }
-
-  form_vector_q_3 <- function(size_of_sum_from_w_tilde, matrix_q_2, function_f_2) {
-    Helpers$generate_vector_from_matrix(
-      matrix = matrix_q_2,
-      size   = size_of_sum_from_w_tilde,
-      func   = function(vector_of_matrix_q_2) {
-        function_f_2(vector_of_matrix_q_2)
-      }
+  .calculate_element_q_3_j_i <- function(vector_x_j, vector_q_2_i, vector_q_2_star_i) {
+    Functions$green_function_n(
+      vector_x      = vector_x_j,
+      vector_y      = vector_q_2_i,
+      vector_y_star = vector_q_2_star_i
     )
   }
 
-  # form_vector_q_4 <- function(size_of_sum_from_w_tilde, matrix_q_2, vector_q_3) {
+  .form_vector_q_3_j <- function(size_of_sum_from_w_tilde, vector_x_j, matrix_q_2, matrix_q_2_star) {
+    vector_q_3_j <- Helpers$generate_vector(size_of_sum_from_w_tilde)
+
+    indices <- 1:size_of_sum_from_w_tilde
+
+    for (index in indices) {
+      vector_q_3_j[index] <- .calculate_element_q_3_j_i(
+        vector_x_j        = vector_x_j,
+        vector_q_2_i      = matrix_q_2[index, ],
+        vector_q_2_star_i = matrix_q_2_star[index, ]
+      )
+    }
+
+    vector_q_3_j
+  }
+
+  form_matrix_q_3 <- function(size_of_vector_t, size_of_sum_from_w_tilde, matrix_x, matrix_q_2, matrix_q_2_star) {
+    indices     <- 1:size_of_vector_t
+    sum_indices <- 1:size_of_sum_from_w_tilde
+
+    matrix_q_3 <- Helpers$generate_matrix(
+      row_size    = size_of_vector_t,
+      column_size = size_of_sum_from_w_tilde
+    )
+
+    for (j in indices) {
+      for (i in sum_indices) {
+        matrix_q_3[j, ] <- .form_vector_q_3_j(
+          size_of_sum_from_w_tilde = size_of_sum_from_w_tilde,
+          vector_x_j               = matrix_x[j, ],
+          matrix_q_2               = matrix_q_2,
+          matrix_q_2_star          = matrix_q_2_star
+        )
+      }
+    }
+
+    matrix_q_3
+  }
+
+  # form_vector_q_3 <- function(size_of_sum_from_w_tilde, matrix_q_2, function_f_2) {
+  #   Helpers$generate_vector_from_matrix(
+  #     matrix = matrix_q_2,
+  #     size   = size_of_sum_from_w_tilde,
+  #     func   = function(vector_of_matrix_q_2) {
+  #       function_f_2(vector_of_matrix_q_2)
+  #     }
+  #   )
+  # }
   #
+  #
+  # .calculate_element_q_5_j <- function(size_of_sum_from_w_tilde, h_infinity, vector_q_3, vector_q_4) {
+  #   sum_indices <- 1:size_of_sum_from_w_tilde
+  #
+  #   sum <- 0
+  #
+  #   for (sum_index in sum_indeces) {
+  #     sum <- sum + vector_q_3[index] * vector_q_4[index]
+  #   }
+  #
+  #   h_infinity * sum
+  # }
+  #
+  # .form_vector_q_5 <- function(size_of_t, size_of_sum_from_w_tilde, vector_t, h_infinity, ) {
+  #   indices <- 1:size_of_t
+  #
+  #   Helpers$generate_vector_from_vector(
+  #     vector = vector_t,
+  #     size   = size_of_t,
+  #     func   = function(element_t_j) {
+  #       .calculate_element_q_5_j(size_of_sum_from_w_tilde, h_infinity, )
+  #     }
+  #   )
   # }
 })

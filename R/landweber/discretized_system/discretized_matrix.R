@@ -12,7 +12,7 @@ DiscretizedMatrix <- module({
       sizes     = sizes
     ) %>%
     c(.form_last_row_elements(sizes$t)) %>%
-    Helpers$generate_square_matrix(sizes$discretized_system)
+    Helpers$generate_square_matrix_from_elements(sizes$discretized_system)
   }
 
   .form_first_2_m_rows_elements <- function(capital_m, vectors, matrices, sizes) {
