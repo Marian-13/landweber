@@ -1,13 +1,5 @@
 RightHandSide <- module({
   use(.GlobalEnv, attach = TRUE)
-  calculate_sum_from_w_tilde <- function(capital_m_1, h_infinity, function_f) {
-
-    size <- capital_m_1 * 2 + 1
-
-    q_1 <- form_vector_q_1(size, h_infinity)
-    q_2 <- form_matrix_q_2(size, q_1)
-    q_3 <- form_vector_q_3(size, q_2, function_f)
-  }
 
   form_vector_q_1 <- function(size_of_sum_from_w_tilde, h_infinity) {
     vector <- Helpers$generate_vector(size_of_sum_from_w_tilde)
@@ -127,6 +119,23 @@ RightHandSide <- module({
       h_infinity = h_infinity,
       matrix_q_3 = matrix_q_3,
       vector_q_4 = vector_q_5 # Correct when vector_q_5 !!!
+    )
+  }
+
+  form_vector_w_tilde_1 <- function(size_of_vector_t, vector_h, vector_q_6) {
+    Helpers$generate_vector_by_function(
+      size = size_of_vector_t,
+      func = function(index) {
+        vector_h[index] - vector_q_6[index]
+      }
+    )
+  }
+
+  form_vector_w_tilde_2 <- function(size_of_vector_t, vector_h, vector_q_7) {
+    form_vector_w_tilde_1(
+      size_of_vector_t = size_of_vector_t,
+      vector_h         = vector_h,
+      vector_q_6       = vector_q_7 # Correct when vector_q_7 !!!
     )
   }
 })

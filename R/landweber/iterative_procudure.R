@@ -97,8 +97,6 @@ IterativeProcedure <- module({
       matrix_q_2_star          = matrices$q_2_star
     )
 
-    p(matrices$q_3)
-    
     vectors$q_4 <- .form_vector_q_4(
       size_of_sum_from_w_tilde = sizes$sum_from_w_tilde,
       matrix_q_2               = matrices$q_2,
@@ -113,8 +111,6 @@ IterativeProcedure <- module({
       function_u               = function(x) { 0 },
       function_f_1             = functions$f_1
     )
-
-    p(vectors$q_5)
 
     vectors$q_6 <- .form_vector_q_6(
       size_of_vector_t         = sizes$t,
@@ -132,14 +128,27 @@ IterativeProcedure <- module({
       vector_q_5               = vectors$q_5
     )
 
+    p(vectors$h_0, "h_0")
+    p(vectors$q_6, "q_6")
 
-    # from w_tilde(t[j]): q_3[i] = f_tilde = f(x_infinity(i * h_infinity)) when f = f_2
-    # vectors$q_3 <- .form_vector_q_3(
-    #   size_of_sum_from_w_tilde = sizes$sum_from_w_tilde,
-    #   matrix_q_2               = matrices$q_2,
-    #   function_f_2             = functions$f_2
-    # )
+    vectors$w_tilde_1 <- .form_vector_w_tilde_1(
+      size_of_vector_t = sizes$t,
+      vector_h         = vectors$h_0,
+      vector_q_6       = vectors$q_6
+    )
 
+    p(vectors$w_tilde_1, "w_tilde_1")
+
+    p(vectors$h_0, "h_0")
+    p(vectors$q_7, "q_7")
+
+    vectors$w_tilde_2 <- .form_vector_w_tilde_2(
+      size_of_vector_t = sizes$t,
+      vector_h         = vectors$h_0,
+      vector_q_7       = vectors$q_7
+    )
+
+    p(vectors$w_tilde_2, "w_tilde_2")
     # # TODO
   }
 
@@ -316,14 +325,13 @@ IterativeProcedure <- module({
     )
   }
 
-  # .form_vector_w_tilde <- function(size_of_vector_t, vector_t, vector_h, h_infinity, vector_q_3, matrix_q_2) {
-  #   RightHandSide$form_vector_q_3(
-  #     size_of_vector_t = size_of_vector_t,
-  #     matrix_x         = matrix_x,
-  #     matrix_x_star    = matrix_x_star,
-  #     matrix_q_2       = matrix_q_2
-  #   )
-  # }
+  .form_vector_w_tilde_1 <- function(size_of_vector_t, vector_h, vector_q_6) {
+    RightHandSide$form_vector_w_tilde_1(size_of_vector_t, vector_h, vector_q_6)
+  }
+
+  .form_vector_w_tilde_2 <- function(size_of_vector_t, vector_h, vector_q_7) {
+    RightHandSide$form_vector_w_tilde_2(size_of_vector_t, vector_h, vector_q_7)
+  }
 
   # TODO
   .form_vector_u <- function(constants, sizes, vectors, matrices, functions) {
