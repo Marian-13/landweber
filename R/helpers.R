@@ -9,6 +9,10 @@ Helpers <- module({
     matrix(nrow = row_size, ncol = column_size, byrow = TRUE)
   }
 
+  generate_square_matrix <- function(size) {
+    generate_matrix(size, size)
+  }
+
   generate_square_matrix_from_elements <- function(elements, size) {
     matrix(data = elements, nrow = size, ncol = size, byrow = TRUE)
   }

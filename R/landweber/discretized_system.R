@@ -1,5 +1,6 @@
 source("R/landweber/discretized_system/discretized_matrix.R")
 source("R/landweber/discretized_system/discretized_vector.R")
+source("R/landweber/discretized_system/system.R")
 source("R/landweber/discretized_system/right_hand_side.R")
 
 # (3.9)

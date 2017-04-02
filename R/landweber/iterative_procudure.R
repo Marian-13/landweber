@@ -68,6 +68,14 @@ IterativeProcedure <- module({
       sizes     = sizes
     )
 
+    matrices$r <- .form_matrix_r(
+      capital_m        = constants$capital_m,
+      size_of_vector_t = sizes$t,
+      vector_t         = vectors$t
+    )
+
+    p(matrices$r)
+
     sizes$sum_from_w_tilde <- .calculate_size_of_sum_from_w_tilde(
       capital_m_1 = constants$capital_m_1
     )
@@ -106,7 +114,7 @@ IterativeProcedure <- module({
     )
 
     functions$f_1 <- example_specific_functions$f_1
-    functions$u   <- function(x) { 0 }
+    functions$u   <- function(x) { 0 } # TODO
 
     vectors$f_tilde_2 <- .form_vector_f_tilde(
       size_of_sum_from_w_tilde = sizes$sum_from_w_tilde,
@@ -130,20 +138,12 @@ IterativeProcedure <- module({
       vector_f_tilde           = vectors$f_tilde_2
     )
 
-    p(vectors$h_0, "h_0")
-    p(vectors$sums_from_w_tilde_1, "sums_from_w_tilde_1")
-
     vectors$w_tilde_1 <- .form_vector_w_tilde(
       size_of_vector_t            = sizes$t,
       h_infinity                  = constants$h_infinity,
       vector_h                    = vectors$h_0,
       vector_of_sums_from_w_tilde = vectors$sums_from_w_tilde_1
     )
-
-    p(vectors$w_tilde_1, "w_tilde_1")
-
-    p(vectors$h_0, "h_0")
-    p(vectors$sums_from_w_tilde_2, "sums_from_w_tilde_2")
 
     vectors$w_tilde_2 <- .form_vector_w_tilde(
       size_of_vector_t            = sizes$t,
@@ -152,7 +152,6 @@ IterativeProcedure <- module({
       vector_of_sums_from_w_tilde = vectors$sums_from_w_tilde_2
     )
 
-    p(vectors$w_tilde_2, "w_tilde_2")
     # # TODO
   }
 
@@ -256,6 +255,14 @@ IterativeProcedure <- module({
       vectors   = vectors,
       matrices  = matrices,
       sizes     = sizes
+    )
+  }
+
+  .form_matrix_r <- function(capital_m, size_of_vector_t, vector_t) {
+    System$form_matrix_r(
+      capital_m        = capital_m,
+      size_of_vector_t = size_of_vector_t,
+      vector_t         = vector_t
     )
   }
 
