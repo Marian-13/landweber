@@ -73,69 +73,39 @@ RightHandSide <- module({
     matrix_q_3
   }
 
-  form_vector_q_4 <- function(size_of_sum_from_w_tilde, matrix_q_2, function_f_2) {
+  form_vector_f_tilde <- function(size_of_sum_from_w_tilde, matrix_q_2, function_f) {
     Helpers$generate_vector_from_matrix(
       matrix = matrix_q_2,
       size   = size_of_sum_from_w_tilde,
-      func   = function(vector_q_2_i) {
-        function_f_2(vector_q_2_i)
-      }
+      func   = function_f
     )
   }
 
-  form_vector_q_5 <- function(size_of_sum_from_w_tilde, matrix_q_2, function_u, function_f_1) {
-    Helpers$generate_vector_from_matrix(
-      matrix = matrix_q_2,
-      size   = size_of_sum_from_w_tilde,
-      func   = function(vector_q_2_i) {
-        function_u(vector_q_2_i) - function_f_1(vector_q_2_i)
-      }
-    )
-  }
-
-  form_vector_q_6 <- function(size_of_vector_t, size_of_sum_from_w_tilde, h_infinity, matrix_q_3, vector_q_4) {
+  form_vector_of_sums_from_w_tilde <- function(size_of_vector_t, size_of_sum_from_w_tilde, matrix_q_3, vector_f_tilde) {
     indices     <- 1:size_of_vector_t
     sum_indices <- 1:size_of_sum_from_w_tilde
 
-    vector_q_6 <- Helpers$generate_vector(size_of_vector_t)
+    vector_of_sums_from_w_tilde <- Helpers$generate_vector(size_of_vector_t)
 
     for (index in indices) {
-      vector_q_6[index] <- h_infinity * Helpers$reduce(
+      vector_of_sums_from_w_tilde[index] <- Helpers$reduce(
         initial = 0.0,
         vector  = sum_indices,
         func    = function(memo, sum_index) {
-          memo + vector_q_4[sum_index] * matrix_q_3[index, sum_index]
+          memo + vector_f_tilde[sum_index] * matrix_q_3[index, sum_index]
         }
       )
     }
 
-    vector_q_6
+    vector_of_sums_from_w_tilde
   }
 
-  form_vector_q_7 <- function(size_of_vector_t, size_of_sum_from_w_tilde, h_infinity, matrix_q_3, vector_q_5) {
-    form_vector_q_6(
-      size_of_vector_t = size_of_vector_t,
-      size_of_sum_from_w_tilde = size_of_sum_from_w_tilde,
-      h_infinity = h_infinity,
-      matrix_q_3 = matrix_q_3,
-      vector_q_4 = vector_q_5 # Correct when vector_q_5 !!!
-    )
-  }
-
-  form_vector_w_tilde_1 <- function(size_of_vector_t, vector_h, vector_q_6) {
+  form_vector_w_tilde <- function(size_of_vector_t, h_infinity, vector_h, vector_of_sums_from_w_tilde) {
     Helpers$generate_vector_by_function(
       size = size_of_vector_t,
       func = function(index) {
-        vector_h[index] - vector_q_6[index]
+        vector_h[index] - h_infinity * vector_of_sums_from_w_tilde[index]
       }
-    )
-  }
-
-  form_vector_w_tilde_2 <- function(size_of_vector_t, vector_h, vector_q_7) {
-    form_vector_w_tilde_1(
-      size_of_vector_t = size_of_vector_t,
-      vector_h         = vector_h,
-      vector_q_6       = vector_q_7 # Correct when vector_q_7 !!!
     )
   }
 })

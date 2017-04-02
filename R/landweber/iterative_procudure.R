@@ -97,55 +97,59 @@ IterativeProcedure <- module({
       matrix_q_2_star          = matrices$q_2_star
     )
 
-    vectors$q_4 <- .form_vector_q_4(
+    vectors$f_tilde_1 <- .form_vector_f_tilde(
       size_of_sum_from_w_tilde = sizes$sum_from_w_tilde,
       matrix_q_2               = matrices$q_2,
-      function_f_2             = functions$f_2
+      function_f               = function(vector_q_2_i) {
+        functions$f_2(vector_q_2_i)
+      }
     )
 
     functions$f_1 <- example_specific_functions$f_1
+    functions$u   <- function(x) { 0 }
 
-    vectors$q_5 <- .form_vector_q_5(
+    vectors$f_tilde_2 <- .form_vector_f_tilde(
       size_of_sum_from_w_tilde = sizes$sum_from_w_tilde,
       matrix_q_2               = matrices$q_2,
-      function_u               = function(x) { 0 },
-      function_f_1             = functions$f_1
+      function_f               = function(vector_q_2_i) {
+        functions$u(vector_q_2_i) - functions$f_1(vector_q_2_i)
+      }
     )
 
-    vectors$q_6 <- .form_vector_q_6(
+    vectors$sums_from_w_tilde_1 <- .form_vector_of_sums_from_w_tilde(
       size_of_vector_t         = sizes$t,
       size_of_sum_from_w_tilde = sizes$sum_from_w_tilde,
-      h_infinity               = constants$h_infinity,
       matrix_q_3               = matrices$q_3,
-      vector_q_4               = vectors$q_4
+      vector_f_tilde           = vectors$f_tilde_1
     )
 
-    vectors$q_7 <- .form_vector_q_7(
+    vectors$sums_from_w_tilde_2 <- .form_vector_of_sums_from_w_tilde(
       size_of_vector_t         = sizes$t,
       size_of_sum_from_w_tilde = sizes$sum_from_w_tilde,
-      h_infinity               = constants$h_infinity,
       matrix_q_3               = matrices$q_3,
-      vector_q_5               = vectors$q_5
+      vector_f_tilde           = vectors$f_tilde_2
     )
 
     p(vectors$h_0, "h_0")
-    p(vectors$q_6, "q_6")
+    p(vectors$sums_from_w_tilde_1, "sums_from_w_tilde_1")
 
-    vectors$w_tilde_1 <- .form_vector_w_tilde_1(
-      size_of_vector_t = sizes$t,
-      vector_h         = vectors$h_0,
-      vector_q_6       = vectors$q_6
+    vectors$w_tilde_1 <- .form_vector_w_tilde(
+      size_of_vector_t            = sizes$t,
+      h_infinity                  = constants$h_infinity,
+      vector_h                    = vectors$h_0,
+      vector_of_sums_from_w_tilde = vectors$sums_from_w_tilde_1
     )
 
     p(vectors$w_tilde_1, "w_tilde_1")
 
     p(vectors$h_0, "h_0")
-    p(vectors$q_7, "q_7")
+    p(vectors$sums_from_w_tilde_2, "sums_from_w_tilde_2")
 
-    vectors$w_tilde_2 <- .form_vector_w_tilde_2(
-      size_of_vector_t = sizes$t,
-      vector_h         = vectors$h_0,
-      vector_q_7       = vectors$q_7
+    vectors$w_tilde_2 <- .form_vector_w_tilde(
+      size_of_vector_t            = sizes$t,
+      h_infinity                  = constants$h_infinity,
+      vector_h                    = vectors$h_0,
+      vector_of_sums_from_w_tilde = vectors$sums_from_w_tilde_2
     )
 
     p(vectors$w_tilde_2, "w_tilde_2")
@@ -288,49 +292,30 @@ IterativeProcedure <- module({
     )
   }
 
-  .form_vector_q_4 <- function(size_of_sum_from_w_tilde, matrix_q_2, function_f_2) {
-    RightHandSide$form_vector_q_4(
+  .form_vector_f_tilde <- function(size_of_sum_from_w_tilde, matrix_q_2, function_f) {
+    RightHandSide$form_vector_f_tilde(
       size_of_sum_from_w_tilde = size_of_sum_from_w_tilde,
       matrix_q_2               = matrix_q_2,
-      function_f_2             = function_f_2
+      function_f               = function_f
     )
   }
 
-  .form_vector_q_5 <- function(size_of_sum_from_w_tilde, matrix_q_2, function_u, function_f_1) {
-    RightHandSide$form_vector_q_5(
-      size_of_sum_from_w_tilde = size_of_sum_from_w_tilde,
-      matrix_q_2               = matrix_q_2,
-      function_u               = function_u,
-      function_f_1             = function_f_1
-    )
-  }
-
-  .form_vector_q_6 <- function(size_of_vector_t, size_of_sum_from_w_tilde, h_infinity, matrix_q_3, vector_q_4) {
-    RightHandSide$form_vector_q_6(
+  .form_vector_of_sums_from_w_tilde <- function(size_of_vector_t, size_of_sum_from_w_tilde, matrix_q_3, vector_f_tilde) {
+    RightHandSide$form_vector_of_sums_from_w_tilde(
       size_of_vector_t         = size_of_vector_t,
       size_of_sum_from_w_tilde = size_of_sum_from_w_tilde,
-      h_infinity               = h_infinity,
       matrix_q_3               = matrix_q_3,
-      vector_q_4               = vector_q_4
+      vector_f_tilde           = vector_f_tilde
     )
   }
 
-  .form_vector_q_7 <- function(size_of_vector_t, size_of_sum_from_w_tilde, h_infinity, matrix_q_3, vector_q_5) {
-    RightHandSide$form_vector_q_7(
-      size_of_vector_t         = size_of_vector_t,
-      size_of_sum_from_w_tilde = size_of_sum_from_w_tilde,
-      h_infinity               = h_infinity,
-      matrix_q_3               = matrix_q_3,
-      vector_q_5               = vector_q_5
+  .form_vector_w_tilde <- function(size_of_vector_t, h_infinity, vector_h, vector_of_sums_from_w_tilde) {
+    RightHandSide$form_vector_w_tilde(
+      size_of_vector_t            = size_of_vector_t,
+      h_infinity                  = h_infinity,
+      vector_h                    = vector_h,
+      vector_of_sums_from_w_tilde = vector_of_sums_from_w_tilde
     )
-  }
-
-  .form_vector_w_tilde_1 <- function(size_of_vector_t, vector_h, vector_q_6) {
-    RightHandSide$form_vector_w_tilde_1(size_of_vector_t, vector_h, vector_q_6)
-  }
-
-  .form_vector_w_tilde_2 <- function(size_of_vector_t, vector_h, vector_q_7) {
-    RightHandSide$form_vector_w_tilde_2(size_of_vector_t, vector_h, vector_q_7)
   }
 
   # TODO
