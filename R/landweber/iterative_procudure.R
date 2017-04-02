@@ -61,13 +61,6 @@ IterativeProcedure <- module({
       capital_m = constants$capital_m
     )
 
-    matrices$discretized_matrix <- .construct_discretized_matrix(
-      capital_m = constants$capital_m,
-      vectors   = vectors,
-      matrices  = matrices,
-      sizes     = sizes
-    )
-
     matrices$r <- .form_matrix_r(
       capital_m        = constants$capital_m,
       size_of_vector_t = sizes$t,
@@ -84,6 +77,16 @@ IterativeProcedure <- module({
     )
 
     p(matrices$h_1)
+
+    matrices$discretized_matrix <- .construct_discretized_matrix(
+      capital_m                  = constants$capital_m,
+      size_of_vector_t           = sizes$t,
+      size_of_discretized_system = sizes$discretized_system,
+      matrix_r                   = matrices$r,
+      matrix_h_1                 = matrices$h_1
+    )
+
+    p(matrices$discretized_matrix)
 
     sizes$sum_from_w_tilde <- .calculate_size_of_sum_from_w_tilde(
       capital_m_1 = constants$capital_m_1
@@ -258,15 +261,6 @@ IterativeProcedure <- module({
     2 * capital_m + 1
   }
 
-  .construct_discretized_matrix <- function(capital_m, vectors, matrices, sizes) {
-    DiscretizedMatrix$construct_matrix(
-      capital_m = capital_m,
-      vectors   = vectors,
-      matrices  = matrices,
-      sizes     = sizes
-    )
-  }
-
   .form_matrix_r <- function(capital_m, size_of_vector_t, vector_t) {
     System$form_matrix_r(
       capital_m        = capital_m,
@@ -281,6 +275,16 @@ IterativeProcedure <- module({
       matrix_derivative_of_x = matrix_derivative_of_x,
       matrix_x               = matrix_x,
       matrix_x_star          = matrix_x_star
+    )
+  }
+
+  .construct_discretized_matrix <- function(capital_m, size_of_vector_t, size_of_discretized_system, matrix_r, matrix_h_1) {
+    DiscretizedMatrix$construct_matrix(
+      capital_m                  = capital_m,
+      size_of_vector_t           = size_of_vector_t,
+      size_of_discretized_system = size_of_discretized_system,
+      matrix_r                   = matrix_r,
+      matrix_h_1                 = matrix_h_1
     )
   }
 

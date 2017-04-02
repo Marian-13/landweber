@@ -63,24 +63,6 @@ Functions <- module({
     { AdvancedMath$natural_logarithm(1 / .) }
   }
 
-
-  # TODO green function out of f
-  # x_j, h_j - numbers, f - function
-  w_tilde <- function(x_j, h_j, function_f) {
-    sum_indices <- (-capital_m_1()):capital_m_1()
-
-    sum <- Reduce(
-      function(memo, index) {
-        t <- index * h_infinity()
-        memo + function_f(x_infinity(t)) * green_function_n(x_j, x_infinity(t))
-      },
-      sum_indices,
-      0
-    )
-
-    h_j - h_infinity() * sum
-  }
-
   # (3.11)
   u <- function(x_infinity_i, capital_m, t, x, mu, alpha) {
     size <- length(t)
