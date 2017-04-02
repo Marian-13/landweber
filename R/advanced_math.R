@@ -13,10 +13,6 @@ AdvancedMath <- module({
     log(number)
   }
 
-  zero_length_vector <- function() {
-    vector(length = 0)
-  }
-
   modulus_of_vector <- function(vector) {
     vector %>%
     Reduce(function(sum, element) { sum + element^2 }, ., 0.0) %>%
@@ -33,10 +29,5 @@ AdvancedMath <- module({
 
   vector_with_zero_elements <- function(size) {
     rep(x = 0, times = size)
-  }
-
-  # TODO Used?
-  dot_product <- function(first_vector, second_vector) {
-    first_vector %*% second_vector
   }
 })

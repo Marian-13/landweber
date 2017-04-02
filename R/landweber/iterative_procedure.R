@@ -168,11 +168,41 @@ IterativeProcedure <- module({
       vector_w_tilde   = vectors$w_tilde_2
     )
 
-    p(vectors$w_tilde_1, "w_tilde_1: \n")
-    p(vectors$discretized_right_hand_side_1, "discretized_right_hand_side_1: \n")
+    vectors$discretized_system_1_solution <- .solve_discretized_sle(
+      discretized_matrix          = matrices$discretized_matrix,
+      discretized_right_hand_side = vectors$discretized_right_hand_side_1
+    )
 
-    p(vectors$w_tilde_2, "w_tilde_2: \n")
-    p(vectors$discretized_right_hand_side_2, "discretized_right_hand_side_2: \n")
+    vectors$discretized_system_2_solution <- .solve_discretized_sle(
+      discretized_matrix          = matrices$discretized_matrix,
+      discretized_right_hand_side = vectors$discretized_right_hand_side_2
+    )
+
+    vectors$mu_1 <- .extract_mu(
+      size_of_vector_t            = sizes$t,
+      discretized_system_solution = vectors$discretized_system_1_solution
+    )
+
+    vectors$mu_2 <- .extract_mu(
+      size_of_vector_t            = sizes$t,
+      discretized_system_solution = vectors$discretized_system_2_solution
+    )
+
+    constants$alpha_1 <- .extract_alpha(
+      size_of_vector_t            = sizes$t,
+      discretized_system_solution = vectors$discretized_system_1_solution
+    )
+
+    constants$alpha_2 <- .extract_alpha(
+      size_of_vector_t            = sizes$t,
+      discretized_system_solution = vectors$discretized_system_2_solution
+    )
+
+    p(vectors$discretized_system_1_solution, "discretized_system_1_solution: \n")
+    p(vectors$mu_1, "mu_1: \n")
+    p(constants$alpha_1, "alpha_1: \n")
+    p(vectors$discretized_system_2_solution, "discretized_system_2_solution: \n")
+    p(constants$alpha_2, "alpha_2: \n")
     # # TODO
   }
 
@@ -363,26 +393,11 @@ IterativeProcedure <- module({
     )
   }
 
-  # TODO
-  .form_vector_u <- function(constants, sizes, vectors, matrices, functions) {
-
-    # vector_mu <- .extract_vector_mu(size_of_vector_t, discretized_system_solution)
-    # alpha     <- .extract_alpha(size_of_vector_t, discretized_system_solution)
-    #
-    # Helpers$generate_vector_from_matrix(
-    #   matrix = matrix_x_infinity,
-    #   size   = size_of_vector_t,
-    #   func   = function(vector_of_matrix_x_infinity) {
-    #     Functions$u(
-    #       vector_of_matrix_x_infinity,
-    #       capital_m,
-    #       vector_t,
-    #       matrix_x,
-    #       vector_mu,
-    #       alpha
-    #     )
-    #   }
-    # )
+  .solve_discretized_sle <- function(discretized_matrix, discretized_right_hand_side) {
+    AdvancedMath$solve_sle(
+      matrix = discretized_matrix,
+      vector = discretized_right_hand_side
+    )
   }
 
   .extract_mu <- function(size_of_vector_t, discretized_system_solution) {
@@ -391,5 +406,10 @@ IterativeProcedure <- module({
 
   .extract_alpha <- function(size_of_vector_t, discretized_system_solution) {
     discretized_system_solution[size_of_vector_t + 1]
+  }
+
+  # TODO
+  .form_vector_u <- function(constants, sizes, vectors, matrices, functions) {
+    # TODO
   }
 })
