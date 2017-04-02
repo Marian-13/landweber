@@ -76,6 +76,15 @@ IterativeProcedure <- module({
 
     p(matrices$r)
 
+    matrices$h_1 <- .form_matrix_h_1(
+      size_of_vector_t       = sizes$t,
+      matrix_derivative_of_x = matrices$derivative_of_x,
+      matrix_x               = matrices$x,
+      matrix_x_star          = matrices$x_star
+    )
+
+    p(matrices$h_1)
+
     sizes$sum_from_w_tilde <- .calculate_size_of_sum_from_w_tilde(
       capital_m_1 = constants$capital_m_1
     )
@@ -263,6 +272,15 @@ IterativeProcedure <- module({
       capital_m        = capital_m,
       size_of_vector_t = size_of_vector_t,
       vector_t         = vector_t
+    )
+  }
+
+  .form_matrix_h_1 <- function(size_of_vector_t, matrix_derivative_of_x, matrix_x, matrix_x_star) {
+    System$form_matrix_h_1(
+      size_of_vector_t       = size_of_vector_t,
+      matrix_derivative_of_x = matrix_derivative_of_x,
+      matrix_x               = matrix_x,
+      matrix_x_star          = matrix_x_star
     )
   }
 
