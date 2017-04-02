@@ -97,6 +97,8 @@ IterativeProcedure <- module({
       matrix_q_2_star          = matrices$q_2_star
     )
 
+    p(matrices$q_3)
+    
     vectors$q_4 <- .form_vector_q_4(
       size_of_sum_from_w_tilde = sizes$sum_from_w_tilde,
       matrix_q_2               = matrices$q_2,
@@ -108,9 +110,28 @@ IterativeProcedure <- module({
     vectors$q_5 <- .form_vector_q_5(
       size_of_sum_from_w_tilde = sizes$sum_from_w_tilde,
       matrix_q_2               = matrices$q_2,
-      function_u               = function(x) { 15 },
+      function_u               = function(x) { 0 },
       function_f_1             = functions$f_1
     )
+
+    p(vectors$q_5)
+
+    vectors$q_6 <- .form_vector_q_6(
+      size_of_vector_t         = sizes$t,
+      size_of_sum_from_w_tilde = sizes$sum_from_w_tilde,
+      h_infinity               = constants$h_infinity,
+      matrix_q_3               = matrices$q_3,
+      vector_q_4               = vectors$q_4
+    )
+
+    vectors$q_7 <- .form_vector_q_7(
+      size_of_vector_t         = sizes$t,
+      size_of_sum_from_w_tilde = sizes$sum_from_w_tilde,
+      h_infinity               = constants$h_infinity,
+      matrix_q_3               = matrices$q_3,
+      vector_q_5               = vectors$q_5
+    )
+
 
     # from w_tilde(t[j]): q_3[i] = f_tilde = f(x_infinity(i * h_infinity)) when f = f_2
     # vectors$q_3 <- .form_vector_q_3(
@@ -272,6 +293,26 @@ IterativeProcedure <- module({
       matrix_q_2               = matrix_q_2,
       function_u               = function_u,
       function_f_1             = function_f_1
+    )
+  }
+
+  .form_vector_q_6 <- function(size_of_vector_t, size_of_sum_from_w_tilde, h_infinity, matrix_q_3, vector_q_4) {
+    RightHandSide$form_vector_q_6(
+      size_of_vector_t         = size_of_vector_t,
+      size_of_sum_from_w_tilde = size_of_sum_from_w_tilde,
+      h_infinity               = h_infinity,
+      matrix_q_3               = matrix_q_3,
+      vector_q_4               = vector_q_4
+    )
+  }
+
+  .form_vector_q_7 <- function(size_of_vector_t, size_of_sum_from_w_tilde, h_infinity, matrix_q_3, vector_q_5) {
+    RightHandSide$form_vector_q_7(
+      size_of_vector_t         = size_of_vector_t,
+      size_of_sum_from_w_tilde = size_of_sum_from_w_tilde,
+      h_infinity               = h_infinity,
+      matrix_q_3               = matrix_q_3,
+      vector_q_5               = vector_q_5
     )
   }
 
