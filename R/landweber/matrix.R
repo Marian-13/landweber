@@ -1,4 +1,4 @@
-System <- module({
+Matrix <- module({
   use(.GlobalEnv, attach = TRUE)
 
   form_matrix_r <- function(capital_m, size_of_vector_t, vector_t) {

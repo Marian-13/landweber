@@ -67,16 +67,12 @@ IterativeProcedure <- module({
       vector_t         = vectors$t
     )
 
-    p(matrices$r)
-
     matrices$h_1 <- .form_matrix_h_1(
       size_of_vector_t       = sizes$t,
       matrix_derivative_of_x = matrices$derivative_of_x,
       matrix_x               = matrices$x,
       matrix_x_star          = matrices$x_star
     )
-
-    p(matrices$h_1)
 
     matrices$discretized_matrix <- .construct_discretized_matrix(
       capital_m                  = constants$capital_m,
@@ -85,8 +81,6 @@ IterativeProcedure <- module({
       matrix_r                   = matrices$r,
       matrix_h_1                 = matrices$h_1
     )
-
-    p(matrices$discretized_matrix)
 
     sizes$sum_from_w_tilde <- .calculate_size_of_sum_from_w_tilde(
       capital_m_1 = constants$capital_m_1
@@ -164,6 +158,21 @@ IterativeProcedure <- module({
       vector_of_sums_from_w_tilde = vectors$sums_from_w_tilde_2
     )
 
+    vectors$discretized_right_hand_side_1 <- .construct_discretized_right_hand_side(
+      size_of_vector_t = sizes$t,
+      vector_w_tilde   = vectors$w_tilde_1
+    )
+
+    vectors$discretized_right_hand_side_2 <- .construct_discretized_right_hand_side(
+      size_of_vector_t = sizes$t,
+      vector_w_tilde   = vectors$w_tilde_2
+    )
+
+    p(vectors$w_tilde_1, "w_tilde_1: \n")
+    p(vectors$discretized_right_hand_side_1, "discretized_right_hand_side_1: \n")
+
+    p(vectors$w_tilde_2, "w_tilde_2: \n")
+    p(vectors$discretized_right_hand_side_2, "discretized_right_hand_side_2: \n")
     # # TODO
   }
 
@@ -262,7 +271,7 @@ IterativeProcedure <- module({
   }
 
   .form_matrix_r <- function(capital_m, size_of_vector_t, vector_t) {
-    System$form_matrix_r(
+    Matrix$form_matrix_r(
       capital_m        = capital_m,
       size_of_vector_t = size_of_vector_t,
       vector_t         = vector_t
@@ -270,7 +279,7 @@ IterativeProcedure <- module({
   }
 
   .form_matrix_h_1 <- function(size_of_vector_t, matrix_derivative_of_x, matrix_x, matrix_x_star) {
-    System$form_matrix_h_1(
+    Matrix$form_matrix_h_1(
       size_of_vector_t       = size_of_vector_t,
       matrix_derivative_of_x = matrix_derivative_of_x,
       matrix_x               = matrix_x,
@@ -344,6 +353,13 @@ IterativeProcedure <- module({
       h_infinity                  = h_infinity,
       vector_h                    = vector_h,
       vector_of_sums_from_w_tilde = vector_of_sums_from_w_tilde
+    )
+  }
+
+  .construct_discretized_right_hand_side <- function(size_of_vector_t, vector_w_tilde) {
+    DiscretizedRightHandSide$construct_right_hand_side(
+      size_of_vector_t = size_of_vector_t,
+      vector_w_tilde   = vector_w_tilde
     )
   }
 
