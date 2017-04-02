@@ -103,6 +103,15 @@ IterativeProcedure <- module({
       function_f_2             = functions$f_2
     )
 
+    functions$f_1 <- example_specific_functions$f_1
+
+    vectors$q_5 <- .form_vector_q_5(
+      size_of_sum_from_w_tilde = sizes$sum_from_w_tilde,
+      matrix_q_2               = matrices$q_2,
+      function_u               = function(x) { 15 },
+      function_f_1             = functions$f_1
+    )
+
     # from w_tilde(t[j]): q_3[i] = f_tilde = f(x_infinity(i * h_infinity)) when f = f_2
     # vectors$q_3 <- .form_vector_q_3(
     #   size_of_sum_from_w_tilde = sizes$sum_from_w_tilde,
@@ -254,6 +263,15 @@ IterativeProcedure <- module({
       size_of_sum_from_w_tilde = size_of_sum_from_w_tilde,
       matrix_q_2               = matrix_q_2,
       function_f_2             = function_f_2
+    )
+  }
+
+  .form_vector_q_5 <- function(size_of_sum_from_w_tilde, matrix_q_2, function_u, function_f_1) {
+    RightHandSide$form_vector_q_5(
+      size_of_sum_from_w_tilde = size_of_sum_from_w_tilde,
+      matrix_q_2               = matrix_q_2,
+      function_u               = function_u,
+      function_f_1             = function_f_1
     )
   }
 

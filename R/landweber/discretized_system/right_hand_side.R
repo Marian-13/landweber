@@ -91,7 +91,15 @@ RightHandSide <- module({
     )
   }
 
-  
+  form_vector_q_5 <- function(size_of_sum_from_w_tilde, matrix_q_2, function_u, function_f_1) {
+    Helpers$generate_vector_from_matrix(
+      matrix = matrix_q_2,
+      size   = size_of_sum_from_w_tilde,
+      func   = function(vector_q_2_i) {
+        function_u(vector_q_2_i) - function_f_1(vector_q_2_i)
+      }
+    )
+  }
 
   # .calculate_element_q_5_j <- function(size_of_sum_from_w_tilde, h_infinity, vector_q_3, vector_q_4) {
   #   sum_indices <- 1:size_of_sum_from_w_tilde
