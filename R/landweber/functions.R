@@ -76,7 +76,7 @@ Functions <- module({
 
   # Unoptimized
   # Partial derivative of green function n with respect to normal_nu of x
-  d_green_function_n_by_d_normal_nu_of_x <- function(vector_x_i, vector_x_j, green_function_n_i_j, normal_nu_i) {
+  d_green_function_n_by_d_normal_nu_of_x <- function(vector_x, vector_y, green_function_of_x_and_y, normal_nu) {
     vector_x_i %>%
     subtract(vector_x_j) %>%
     AdvancedMath$multiply_vector_by_vector(normal_nu_i) %>%

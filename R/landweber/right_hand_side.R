@@ -1,6 +1,7 @@
 RightHandSide <- module({
   use(.GlobalEnv, attach = TRUE)
 
+  # TODO new module {
   form_vector_q_1 <- function(size_of_sum_from_w_tilde, h_infinity) {
     vector <- Helpers$generate_vector(size_of_sum_from_w_tilde)
     indices <- 1:size_of_sum_from_w_tilde # vector indices
@@ -80,7 +81,8 @@ RightHandSide <- module({
       func   = function_f
     )
   }
-
+  # TODO }
+  
   form_vector_of_sums_from_w_tilde <- function(size_of_vector_t, size_of_sum_from_w_tilde, matrix_q_3, vector_f_tilde) {
     indices     <- 1:size_of_vector_t
     sum_indices <- 1:size_of_sum_from_w_tilde

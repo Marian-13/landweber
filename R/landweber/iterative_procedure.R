@@ -198,6 +198,18 @@ IterativeProcedure <- module({
       discretized_system_solution = vectors$discretized_system_2_solution
     )
 
+    vectors$normal_nu <- .form_matrix_normal_nu(
+      size_of_vector_t       = sizes$t,
+      matrix_derivative_of_x = matrices$derivative_of_x
+    )
+
+    # Functions$d_green_function_n_by_d_normal_nu_of_x(
+    #   vector_x                  = matrices$x[1, ],
+    #   vector_y                  = matrices$q_2[1, ],
+    #   green_function_of_x_and_y = matrices$q_3[1, 1],
+    #   normal_nu                 =
+    # )
+
     # # TODO
   }
 
@@ -247,8 +259,8 @@ IterativeProcedure <- module({
     Helpers$generate_vector_from_matrix(
       matrix = matrix_x,
       size   = size_of_vector_t,
-      func   = function(vector_of_matrix_x) {
-        function_h_0(vector_of_matrix_x)
+      func   = function(vector_x_i) {
+        function_h_0(vector_x_i)
       }
     )
   }
@@ -257,8 +269,8 @@ IterativeProcedure <- module({
     Helpers$generate_vector_from_matrix(
       matrix = matrix_x,
       size   = size_of_vector_t,
-      func   = function(vector_of_matrix_x) {
-        function_f_2(vector_of_matrix_x)
+      func   = function(vector_x_i) {
+        function_f_2(vector_x_i)
       }
     )
   }
@@ -401,6 +413,17 @@ IterativeProcedure <- module({
 
   .extract_constant_alpha <- function(size_of_vector_t, discretized_system_solution) {
     discretized_system_solution[size_of_vector_t + 1]
+  }
+
+  .form_matrix_normal_nu <- function(size_of_vector_t, matrix_derivative_of_x) {
+    Helpers$generate_matrix_from_matrix(
+      matrix      = matrix_derivative_of_x,
+      row_size    = size_of_vector_t,
+      column_size = 2,
+      func        = function(vector_derivative_of_x_i) {
+        Functions$normal_nu(vector_derivative_of_x_i)
+      }
+    )
   }
 
   # TODO
