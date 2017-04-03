@@ -30,4 +30,8 @@ AdvancedMath <- module({
   vector_with_zero_elements <- function(size) {
     rep(x = 0, times = size)
   }
+
+  multiply_vector_by_vector <- function(first_vector, second_vector) {
+    first_vector %*% second_vector
+  }
 })

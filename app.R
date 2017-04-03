@@ -23,3 +23,17 @@ result <- IterativeProcedure$start(
 p(result)
 
 # warnings()
+
+Functions$normal_nu(
+  vector_derivative_of_x = c(
+    test_example_specific_functions$derivative_of_x_1(0),
+    test_example_specific_functions$derivative_of_x_2(0)
+  )
+)
+
+Functions$normal_nu(
+  vector_derivative_of_x = c(
+    test_example_specific_functions$derivative_of_x_1(pi / 2),
+    test_example_specific_functions$derivative_of_x_2(pi / 2)
+  )
+)

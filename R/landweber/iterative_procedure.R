@@ -178,31 +178,26 @@ IterativeProcedure <- module({
       discretized_right_hand_side = vectors$discretized_right_hand_side_2
     )
 
-    vectors$mu_1 <- .extract_mu(
+    vectors$mu_1 <- .extract_vector_mu(
       size_of_vector_t            = sizes$t,
       discretized_system_solution = vectors$discretized_system_1_solution
     )
 
-    vectors$mu_2 <- .extract_mu(
+    vectors$mu_2 <- .extract_vector_mu(
       size_of_vector_t            = sizes$t,
       discretized_system_solution = vectors$discretized_system_2_solution
     )
 
-    constants$alpha_1 <- .extract_alpha(
+    constants$alpha_1 <- .extract_constant_alpha(
       size_of_vector_t            = sizes$t,
       discretized_system_solution = vectors$discretized_system_1_solution
     )
 
-    constants$alpha_2 <- .extract_alpha(
+    constants$alpha_2 <- .extract_constant_alpha(
       size_of_vector_t            = sizes$t,
       discretized_system_solution = vectors$discretized_system_2_solution
     )
 
-    p(vectors$discretized_system_1_solution, "discretized_system_1_solution: \n")
-    p(vectors$mu_1, "mu_1: \n")
-    p(constants$alpha_1, "alpha_1: \n")
-    p(vectors$discretized_system_2_solution, "discretized_system_2_solution: \n")
-    p(constants$alpha_2, "alpha_2: \n")
     # # TODO
   }
 
@@ -400,11 +395,11 @@ IterativeProcedure <- module({
     )
   }
 
-  .extract_mu <- function(size_of_vector_t, discretized_system_solution) {
+  .extract_vector_mu <- function(size_of_vector_t, discretized_system_solution) {
     c(discretized_system_solution[1:size_of_vector_t])
   }
 
-  .extract_alpha <- function(size_of_vector_t, discretized_system_solution) {
+  .extract_constant_alpha <- function(size_of_vector_t, discretized_system_solution) {
     discretized_system_solution[size_of_vector_t + 1]
   }
 

@@ -63,6 +63,26 @@ Functions <- module({
     { AdvancedMath$natural_logarithm(1 / .) }
   }
 
+  # Unoptimized
+  normal_nu <- function(vector_derivative_of_x) {
+    modulus_of_derivative_of_x <-
+      AdvancedMath$modulus_of_vector(vector_derivative_of_x)
+
+    c(
+      vector_derivative_of_x[1] / modulus_of_derivative_of_x,
+      -vector_derivative_of_x[2] / modulus_of_derivative_of_x
+    )
+  }
+
+  # Unoptimized
+  # Partial derivative of green function n with respect to normal_nu of x
+  d_green_function_n_by_d_normal_nu_of_x <- function(vector_x_i, vector_x_j, green_function_n_i_j, normal_nu_i) {
+    vector_x_i %>%
+    subtract(vector_x_j) %>%
+    AdvancedMath$multiply_vector_by_vector(normal_nu_i) %>%
+    divide_by(green_function_n_i_j)
+  }
+
   # (3.11)
   u <- function(x_infinity_i, capital_m, t, x, mu, alpha) {
     size <- length(t)

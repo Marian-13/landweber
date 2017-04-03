@@ -7,10 +7,7 @@
 4. Styleguide? [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml)
 5. use(.GlobalEnv, attach = TRUE) alternative?
 6. Nested modules imitation
-7. refactor w_tilde !!!!!!!!!!!!!!!!!!!
-8. Remove stubs from ExampleSpecificFunctions$f_1, IterativeProcedure$calculate_f_1 !
-9. Write own map which returns matrix to avoid unlist
-10. More than 6 params! Long names
+7. More than 6 params! Long names
 
 #### 2. Algorithm issues
 1. Square of vector
@@ -28,4 +25,28 @@ x %>% f(y, .) is equivalent to f(y, x)
 x %>% f(y, z = .) is equivalent to f(y, z = x)
 x %>% f(y = nrow(.), z = ncol(.)) is equivalent to f(x, y = nrow(x), z = ncol(x))
 x %>% {f(y = nrow(.), z = ncol(.))} is equivalent to f(y = nrow(x), z = ncol(x))
+```
+6. Currying example:
+```
+curryied_func <- function(a) {
+  function(b) {
+    function(c) {
+      function(d) {
+        a * b * c * d
+      }
+    }
+  }
+}
+
+curryied_func(1)(2)(3)(4)
+
+curryied_func(a = 1)(
+              b = 2)(
+              c = 3)(
+              d = 4)
+
+curryied_func_result <- curryied_func(1)
+curryied_func_result <- curryied_func_result(2)
+curryied_func_result <- curryied_func_result(3)
+curryied_func_result <- curryied_func_result(4)
 ```

@@ -55,6 +55,10 @@ Helpers <- module({
     matrix(nrow = row_size, ncol = column_size, byrow = TRUE)
   }
 
+  generate_matrix_from_elements <- function(elements, row_size, column_size) {
+    matrix(data = elements, nrow = row_size, ncol = column_size, byrow = TRUE)
+  }
+
   generate_matrix_by_function <- function(row_size, column_size, func) {
     result <- generate_matrix(row_size, column_size)
 
@@ -102,7 +106,7 @@ Helpers <- module({
   }
 
   generate_square_matrix_from_elements <- function(elements, size) {
-    matrix(data = elements, nrow = size, ncol = size, byrow = TRUE)
+    generate_matrix_from_elements(elements, size, size)
   }
 
   generate_square_matrix_by_function <- function(size, func) {
