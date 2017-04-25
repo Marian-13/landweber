@@ -18,5 +18,5 @@ test_example$H_INFINITY <- (function() {
 })()
 
 test_example$function_h_0 <- function(x) { 0 }
-test_example_specific_functions$f_1 <- function(x) { 10 }
+test_example$function_f_1 <- function(x) { 10 }
 test_example$function_f_2 <- function(x) { 0 }

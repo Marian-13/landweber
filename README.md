@@ -50,3 +50,18 @@ curryied_func_result <- curryied_func_result(2)
 curryied_func_result <- curryied_func_result(3)
 curryied_func_result <- curryied_func_result(4)
 ```
+
+7.
+```
+for (i in row_indices) {
+  for (j in 1:(i - 1)) {
+    result[i, j] <- first_func(i, j)
+  }
+
+  result[i, i] <- second_func(i, i)
+
+  for (j in (i + 1):column_size) {
+    result[i, j] <- third_func(i, j)
+  }
+}
+```

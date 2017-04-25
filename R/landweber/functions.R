@@ -21,21 +21,45 @@ Functions <- module({
     multiply_by(-(1 / (2 * capital_m)))
   }
 
+  .kernel_h_1_second_addend <- function(vector_x_i, vector_x_star_j) {
+    vector_x_i %>%
+    subtract(vector_x_star_j) %>%
+    AdvancedMath$modulus_of_vector() %>%
+    AdvancedMath$natural_logarithm()
+  }
+
   # in (3.5) TODO Modulus
-  kernel_h_1 <- function(vector_x_i, vector_derivative_of_x_i, vector_x_star_j) {
+  kernel_h_1_without_singularity <- function(vector_x_i, vector_derivative_of_x_i, vector_x_star_j) {
     first_addend <-
       vector_derivative_of_x_i %>%
-      AdvancedMath$square_of_vector() %>% # TODO Modulus
-      # AdvancedMath$modulus_of_vector() %>%
+      AdvancedMath$modulus_of_vector() %>% # AdvancedMath$square_of_vector() %>% # TODO Modulus
+      raise_to_power(2) %>%                #
       multiply_by(AdvancedMath$EULER_NUMBER) %>%
       { AdvancedMath$natural_logarithm(1 / .) } %>%
       multiply_by(1 / 2)
 
-    second_addend <-
+    second_addend <- .kernel_h_1_second_addend(
+      vector_x_i = vector_x_i,
+      vector_x_star_j = vector_x_star_j
+    )
+
+    first_addend + second_addend
+  }
+
+  kernel_h_1_with_singularity <- function(element_t_i, element_t_j, vector_x_i, vector_x_j, vector_x_star_j) {
+    first_addend <-
       vector_x_i %>%
-      subtract(vector_x_star_j) %>%
+      subtract(vector_x_j) %>%
       AdvancedMath$modulus_of_vector() %>%
-      AdvancedMath$natural_logarithm()
+      raise_to_power(2) %>%
+      multiply_by(AdvancedMath$EULER_NUMBER) %>%
+      { AdvancedMath$natural_logarithm((4 * (sin((element_t_i - element_t_j)))^2) / .) } %>%
+      multiply_by(1 / 2)
+
+    second_addend <- .kernel_h_1_second_addend(
+      vector_x_i = vector_x_i,
+      vector_x_star_j = vector_x_star_j
+    )
 
     first_addend + second_addend
   }

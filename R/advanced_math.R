@@ -19,9 +19,9 @@ AdvancedMath <- module({
     square_root()
   }
 
-  square_of_vector <- function(vector) {
-    vector %*% vector
-  }
+  # square_of_vector <- function(vector) {
+  #   vector %*% vector
+  # }
 
   solve_system_of_linear_equations <- function(matrix, vector) {
     solve(matrix, vector)

@@ -74,26 +74,18 @@ IterativeProcedure <- module({
       matrix_x_infinity_star = matrix_x_infinity_star
     )
 
-    vector_r <- .form_vector_r(
+    matrix_r <- .form_matrix_r(
       capital_m        = capital_m,
       size_of_vector_t = size_of_vector_t,
       vector_t         = vector_t
     )
 
-    vector_h_1 <- .form_vector_h_1(
+    matrix_h_1 <- .form_matrix_h_1(
       size_of_vector_t       = size_of_vector_t,
-      matrix_x               = matrix_x,
+      vector_t               = vector_t,
       matrix_derivative_of_x = matrix_derivative_of_x,
+      matrix_x               = matrix_x,
       matrix_x_star          = matrix_x_star
-    )
-
-    matrix_n_1_2 <- .form_matrix_n_1_2(
-      capital_m        = capital_m,
-      size_of_vector_t = size_of_vector_t,
-      vector_r         = vector_r,
-      vector_h_1       = vector_h_1,
-      matrix_x         = matrix_x,
-      matrix_x_star    = matrix_x_star
     )
 
     size_of_discretized_system <- .calculate_size_of_discretized_system(
@@ -101,9 +93,11 @@ IterativeProcedure <- module({
     )
 
     discretized_matrix <- .form_discretized_matrix(
+      capital_m                  = capital_m,
       size_of_vector_t           = size_of_vector_t,
       size_of_discretized_system = size_of_discretized_system,
-      matrix_n_1_2               = matrix_n_1_2
+      matrix_r                   = matrix_r,
+      matrix_h_1                 = matrix_h_1
     )
 
     # Step 1
@@ -309,31 +303,21 @@ IterativeProcedure <- module({
     )
   }
 
-  .form_vector_r <- function(capital_m, size_of_vector_t, vector_t) {
-    DiscretizedMatrix$form_vector_r(
+  .form_matrix_r <- function(capital_m, size_of_vector_t, vector_t) {
+    DiscretizedMatrix$form_matrix_r(
       capital_m        = capital_m,
       size_of_vector_t = size_of_vector_t,
       vector_t         = vector_t
     )
   }
 
-  .form_vector_h_1 <- function(size_of_vector_t, matrix_x, matrix_derivative_of_x, matrix_x_star) {
-    DiscretizedMatrix$form_vector_h_1(
+  .form_matrix_h_1 <- function(size_of_vector_t, vector_t, matrix_derivative_of_x, matrix_x, matrix_x_star) {
+    DiscretizedMatrix$form_matrix_h_1(
       size_of_vector_t       = size_of_vector_t,
-      matrix_x               = matrix_x,
+      vector_t               = vector_t,
       matrix_derivative_of_x = matrix_derivative_of_x,
+      matrix_x               = matrix_x,
       matrix_x_star          = matrix_x_star
-    )
-  }
-
-  .form_matrix_n_1_2 <- function(capital_m, size_of_vector_t, vector_r, vector_h_1, matrix_x, matrix_x_star) {
-    DiscretizedMatrix$form_matrix_n_1_2(
-      capital_m        = capital_m,
-      size_of_vector_t = size_of_vector_t,
-      vector_r         = vector_r,
-      vector_h_1       = vector_h_1,
-      matrix_x         = matrix_x,
-      matrix_x_star    = matrix_x_star
     )
   }
 
@@ -341,11 +325,13 @@ IterativeProcedure <- module({
     2 * capital_m + 1
   }
 
-  .form_discretized_matrix <- function(size_of_vector_t, size_of_discretized_system, matrix_n_1_2) {
+  .form_discretized_matrix <- function(capital_m, size_of_vector_t, size_of_discretized_system, matrix_r, matrix_h_1) {
     DiscretizedMatrix$form_discretized_matrix(
+      capital_m                  = capital_m,
       size_of_vector_t           = size_of_vector_t,
       size_of_discretized_system = size_of_discretized_system,
-      matrix_n_1_2               = matrix_n_1_2
+      matrix_r                   = matrix_r,
+      matrix_h_1                 = matrix_h_1
     )
   }
 
