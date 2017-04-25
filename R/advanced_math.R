@@ -23,7 +23,7 @@ AdvancedMath <- module({
     vector %*% vector
   }
 
-  solve_sle <- function(matrix, vector) {
+  solve_system_of_linear_equations <- function(matrix, vector) {
     solve(matrix, vector)
   }
 
@@ -33,5 +33,9 @@ AdvancedMath <- module({
 
   multiply_vector_by_vector <- function(first_vector, second_vector) {
     first_vector %*% second_vector
+  }
+
+  is_infinity <- function(value) {
+    is.infinite(x = value)
   }
 })

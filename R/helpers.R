@@ -1,6 +1,26 @@
 Helpers <- module({
   use(.GlobalEnv, attach = TRUE)
 
+  generate_elements_from_square_matrix <- function(square_matrix, square_matrix_size, elements_size) {
+    elements <- generate_vector(size = elements_size)
+
+    indices <- 1:square_matrix_size
+
+    k <- 0
+
+    for (i in indices) {
+      for (j in indices) {
+        k <- k + 1
+        elements[k] <- square_matrix[i, j]
+      }
+
+      k <- k + 1
+      elements[k] <- 1
+    }
+
+    elements
+  }
+
   calculate_size_of_vector <- function(vector) {
     length(vector)
   }

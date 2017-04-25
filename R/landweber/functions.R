@@ -3,14 +3,6 @@ Functions <- module({
 
   use(.GlobalEnv, attach = TRUE)
 
-  get_lower_limit_of_t <- function() {
-    0
-  }
-
-  get_upper_limit_of_t <- function() {
-    2 * AdvancedMath$PI
-  }
-
   # Unoptimized
   weight_function_r <- function(capital_m, element_t_i, element_t_j) {
     sum_indices <- 1:(capital_m - 1)
@@ -30,10 +22,11 @@ Functions <- module({
   }
 
   # in (3.5) TODO Modulus
-  kernel_h_1 <- function(vector_derivative_of_x_i, vector_x_i, vector_x_star_j) {
+  kernel_h_1 <- function(vector_x_i, vector_derivative_of_x_i, vector_x_star_j) {
     first_addend <-
       vector_derivative_of_x_i %>%
       AdvancedMath$square_of_vector() %>% # TODO Modulus
+      # AdvancedMath$modulus_of_vector() %>%
       multiply_by(AdvancedMath$EULER_NUMBER) %>%
       { AdvancedMath$natural_logarithm(1 / .) } %>%
       multiply_by(1 / 2)
@@ -74,13 +67,14 @@ Functions <- module({
     )
   }
 
+  # TODO testpe
   # Unoptimized
   # Partial derivative of green function n with respect to normal_nu of x
-  d_green_function_n_by_d_normal_nu_of_x <- function(vector_x, vector_y, green_function_of_x_and_y, normal_nu) {
-    vector_x_i %>%
-    subtract(vector_x_j) %>%
-    AdvancedMath$multiply_vector_by_vector(normal_nu_i) %>%
-    divide_by(green_function_n_i_j)
+  d_green_function_n_by_d_normal_nu_of_x <- function(vector_x, vector_y, green_function_n_of_x_and_y, normal_nu_of_x) {
+    vector_x %>%
+    subtract(vector_y) %>%
+    AdvancedMath$multiply_vector_by_vector(normal_nu_of_x) %>%
+    divide_by(green_function_n_of_x_and_y)
   }
 
   # (3.11)
