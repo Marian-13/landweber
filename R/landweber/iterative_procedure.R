@@ -106,11 +106,38 @@ IterativeProcedure <- module({
 
     function_f_2 <- example$function_f_2
 
+    vector_f_2_tilde <- .form_vector_f_2_tilde(
+      size_of_vector_q = size_of_vector_q,
+      vector_q         = vector_q,
+      function_f_2     = function_f_2
+    )
+
+    vector_of_sums_from_w_tilde_for_u <- .form_vector_of_sums_from_w_tilde(
+      size_of_vector_t = size_of_vector_t,
+      size_of_vector_q = size_of_vector_q,
+      vector_f_tilde   = vector_f_2_tilde,
+      matrix_n_1_q     = matrix_n_1_q
+    )
+
+    matrix_n_t_2 <- .form_matrix_n_t_2(
+      size_of_vector_t  = size_of_vector_t,
+      size_of_vector_q  = size_of_vector_q,
+      matrix_x_infinity = matrix_x_infinity,
+      matrix_x          = matrix_x,
+      matrix_x_star     = matrix_x_star
+    )
+
     vector_with_zero_elements <- .form_vector_with_zero_elements(
       size_of_vector_t = size_of_vector_t
     )
 
     function_f_1 <- example$function_f_1
+
+    vector_f_1_tilde <- .form_vector_f_1_tilde(
+      size_of_vector_q = size_of_vector_q,
+      vector_q         = vector_q,
+      function_f_1     = function_f_1
+    )
 
     function_second_derivative_of_x <- .form_function_second_derivative_of_x(
       function_second_derivative_of_x_1 = example$function_second_derivative_of_x_1,
@@ -123,34 +150,50 @@ IterativeProcedure <- module({
       function_second_derivative_of_x = function_second_derivative_of_x
     )
 
+    matrix_h_3 <- .form_matrix_h_3(
+      size_of_vector_t = size_of_vector_t,
+      matrix_x         = matrix_x
+    )
+
+    matrix_h_4 <- .form_matrix_h_4(
+      size_of_vector_t              = size_of_vector_t,
+      matrix_x                      = matrix_x,
+      matrix_derivative_of_x        = matrix_derivative_of_x,
+      matrix_second_derivative_of_x = matrix_second_derivative_of_x
+    )
+
+    p(matrix_derivative_of_x)
+    matrix_derivative_of_x_infinity <- .form_matrix_derivative_of_x_infinity(
+      size_of_vector_q = size_of_vector_q
+    )
+
+    matrix_derivative_of_n_1_q <- .form_matrix_derivative_of_n_1_q(
+      size_of_vector_t                = size_of_vector_t,
+      size_of_vector_q                = size_of_vector_q,
+      matrix_x                        = matrix_x,
+      matrix_x_infinity               = matrix_x_infinity,
+      matrix_x_infinity_star          = matrix_x_infinity_star,
+      matrix_derivative_of_x          = matrix_derivative_of_x,
+      matrix_derivative_of_x_infinity = matrix_derivative_of_x_infinity
+    )
+
+    small_gamma <- example$SMALL_GAMMA
+
     # Step 1:
     #
     #
+    vector_h_0 <- .form_vector_h_0(
+      size_of_vector_t = size_of_vector_t,
+      matrix_x         = matrix_x,
+      function_h_0     = function_h_0
+    )
+
     vector_u_0 <- (function() {
-      vector_h_0 <- .form_vector_h_0(
-        size_of_vector_t = size_of_vector_t,
-        matrix_x         = matrix_x,
-        function_h_0     = function_h_0
-      )
-
-      vector_f_2_tilde <- .form_vector_f_2_tilde(
-        size_of_vector_q = size_of_vector_q,
-        vector_q         = vector_q,
-        function_f_2     = function_f_2
-      )
-
-      vector_of_sums_from_w_tilde <- .form_vector_of_sums_from_w_tilde(
-        size_of_vector_t = size_of_vector_t,
-        size_of_vector_q = size_of_vector_q,
-        vector_f_tilde   = vector_f_2_tilde,
-        matrix_n_1_q     = matrix_n_1_q
-      )
-
       vector_w_tilde <- .form_vector_w_tilde(
-        size_of_vector_t = size_of_vector_t,
-        vector_h         = vector_h_0,
-        h_infinity       = h_infinity,
-        vector_of_sums_from_w_tilde = vector_of_sums_from_w_tilde
+        size_of_vector_t            = size_of_vector_t,
+        vector_h                    = vector_h_0,
+        h_infinity                  = h_infinity,
+        vector_of_sums_from_w_tilde = vector_of_sums_from_w_tilde_for_u
       )
 
       discretized_right_hand_side <- .form_discretized_right_hand_side(
@@ -174,14 +217,6 @@ IterativeProcedure <- module({
       alpha <- .extract_constant_alpha(
         size_of_vector_t            = size_of_vector_t,
         discretized_system_solution = discretized_system_solution
-      )
-
-      matrix_n_t_2 <- .form_matrix_n_t_2(
-        size_of_vector_t  = size_of_vector_t,
-        size_of_vector_q  = size_of_vector_q,
-        matrix_x_infinity = matrix_x_infinity,
-        matrix_x          = matrix_x,
-        matrix_x_star     = matrix_x_star
       )
 
       vector_of_first_sums_from_u <- .form_vector_of_first_sums_from_u(
@@ -213,17 +248,9 @@ IterativeProcedure <- module({
     })()
 
     vector_derivative_of_v_0 <- (function() {
-      vector_h <- vector_with_zero_elements
-
-      vector_f_1_tilde <- .form_vector_f_1_tilde(
-        size_of_vector_q = size_of_vector_q,
-        vector_q         = vector_q,
-        function_f_1     = function_f_1
-      )
-
       vector_f_tilde <- vector_u_0 - vector_f_1_tilde
 
-      vector_of_sums_from_w_tilde <- .form_vector_of_sums_from_w_tilde(
+      vector_of_sums_from_w_tilde_for_derivative_of_v <- .form_vector_of_sums_from_w_tilde(
         size_of_vector_t = size_of_vector_t,
         size_of_vector_q = size_of_vector_q,
         vector_f_tilde   = vector_f_tilde,
@@ -232,9 +259,9 @@ IterativeProcedure <- module({
 
       vector_w_tilde <- .form_vector_w_tilde(
         size_of_vector_t            = size_of_vector_t,
-        vector_h                    = vector_h,
+        vector_h                    = vector_with_zero_elements,
         h_infinity                  = h_infinity,
-        vector_of_sums_from_w_tilde = vector_of_sums_from_w_tilde
+        vector_of_sums_from_w_tilde = vector_of_sums_from_w_tilde_for_derivative_of_v
       )
 
       discretized_right_hand_side <- .form_discretized_right_hand_side(
@@ -257,18 +284,6 @@ IterativeProcedure <- module({
         discretized_system_solution = discretized_system_solution
       )
 
-      matrix_h_3 <- .form_matrix_h_3(
-        size_of_vector_t = size_of_vector_t,
-        matrix_x         = matrix_x
-      )
-
-      matrix_h_4 <- .form_matrix_h_4(
-        size_of_vector_t              = size_of_vector_t,
-        matrix_x                      = matrix_x,
-        matrix_derivative_of_x        = matrix_derivative_of_x,
-        matrix_second_derivative_of_x = matrix_second_derivative_of_x
-      )
-
       vector_of_first_sums_from_derivative_of_v <- .form_vector_of_first_sums_from_derivative_of_v(
         size_of_vector_t       = size_of_vector_t,
         vector_mu              = vector_mu,
@@ -277,15 +292,6 @@ IterativeProcedure <- module({
         matrix_derivative_of_x = matrix_derivative_of_x,
         matrix_x               = matrix_x,
         matrix_x_star          = matrix_x_star
-      )
-
-      matrix_derivative_of_n_1_q <- .form_matrix_derivative_of_n_1_q(
-        size_of_vector_t       = size_of_vector_t,
-        size_of_vector_q       = size_of_vector_q,
-        matrix_x               = matrix_x,
-        matrix_x_infinity      = matrix_x_infinity,
-        matrix_x_infinity_star = matrix_x_infinity_star,
-        matrix_derivative_of_x = matrix_derivative_of_x
       )
 
       vector_of_second_sums_from_derivative_of_v <- .form_vector_of_second_sums_from_derivative_of_v(
@@ -305,11 +311,161 @@ IterativeProcedure <- module({
       )
     })()
 
-    (function() {
-      # Step 3
+    # Step 3
+    #
+    #
+    k <- 0
+    previous_vector_h               <- vector_h_0
+    previous_vector_u               <- vector_u_0
+    previous_vector_derivative_of_v <- vector_derivative_of_v_0
+    current_vector_h                <- NULL
+    current_vector_u                <- NULL
+    current_vector_derivative_of_v  <- NULL
+
+    repeat {
+      k <- k + 1
+
+      current_vector_h <- .calculate_current_vector_h(
+        previous_vector_h               = previous_vector_h,
+        small_gamma                     = small_gamma,
+        previous_vector_derivative_of_v = previous_vector_derivative_of_v
+      )
+
+      # Step 4
       #
       #
-    })()
+      current_vector_u <- (function() {
+        vector_w_tilde <- .form_vector_w_tilde(
+          size_of_vector_t            = size_of_vector_t,
+          vector_h                    = current_vector_h,
+          h_infinity                  = h_infinity,
+          vector_of_sums_from_w_tilde = vector_of_sums_from_w_tilde_for_u
+        )
+
+        discretized_right_hand_side <- .form_discretized_right_hand_side(
+          size_of_vector_t = size_of_vector_t,
+          vector_w_tilde   = vector_w_tilde
+        )
+
+        discretized_system_solution <- .solve_discretized_system(
+          discretized_matrix          = discretized_matrix,
+          discretized_right_hand_side = discretized_right_hand_side
+        )
+
+        vector_mu <- .extract_vector_mu(
+          size_of_vector_t            = size_of_vector_t,
+          discretized_system_solution = discretized_system_solution
+        )
+
+        alpha <- .extract_constant_alpha(
+          size_of_vector_t            = size_of_vector_t,
+          discretized_system_solution = discretized_system_solution
+        )
+
+        vector_of_first_sums_from_u <- .form_vector_of_first_sums_from_u(
+          size_of_vector_t = size_of_vector_t,
+          size_of_vector_q = size_of_vector_q,
+          vector_mu        = vector_mu,
+          matrix_n_t_2     = matrix_n_t_2
+        )
+
+        # TODO {
+        matrix_n_t_q <- .form_matrix_n_t_q(
+          size_of_vector_q       = size_of_vector_q,
+          matrix_x_infinity      = matrix_x_infinity,
+          matrix_x_infinity_star = matrix_x_infinity_star
+        )
+
+        vector_of_second_sums_from_u <- .form_vector_of_second_sums_from_u(
+          size_of_vector_q = size_of_vector_q,
+          vector_f_tilde   = vector_f_2_tilde,
+          matrix_n_t_q     = matrix_n_t_q
+        )
+        # TODO }
+
+        current_vector_u <- .form_vector_u(
+          size_of_vector_q             = size_of_vector_q,
+          capital_m                    = capital_m,
+          h_infinity                   = h_infinity,
+          vector_of_first_sums_from_u  = vector_of_first_sums_from_u,
+          vector_of_second_sums_from_u = vector_of_second_sums_from_u
+        )
+      })()
+
+      current_vector_derivative_of_v <- (function() {
+        vector_f_tilde <- current_vector_u - vector_f_1_tilde
+
+        vector_of_sums_from_w_tilde_for_derivative_of_v <- .form_vector_of_sums_from_w_tilde(
+          size_of_vector_t = size_of_vector_t,
+          size_of_vector_q = size_of_vector_q,
+          vector_f_tilde   = vector_f_tilde,
+          matrix_n_1_q     = matrix_n_1_q
+        )
+
+        vector_w_tilde <- .form_vector_w_tilde(
+          size_of_vector_t            = size_of_vector_t,
+          vector_h                    = vector_with_zero_elements,
+          h_infinity                  = h_infinity,
+          vector_of_sums_from_w_tilde = vector_of_sums_from_w_tilde_for_derivative_of_v
+        )
+
+        discretized_right_hand_side <- .form_discretized_right_hand_side(
+          size_of_vector_t = size_of_vector_t,
+          vector_w_tilde   = vector_w_tilde
+        )
+
+        discretized_system_solution <- .solve_discretized_system(
+          discretized_matrix          = discretized_matrix,
+          discretized_right_hand_side = discretized_right_hand_side
+        )
+
+        vector_mu <- .extract_vector_mu(
+          size_of_vector_t            = size_of_vector_t,
+          discretized_system_solution = discretized_system_solution
+        )
+
+        alpha <- .extract_constant_alpha(
+          size_of_vector_t            = size_of_vector_t,
+          discretized_system_solution = discretized_system_solution
+        )
+
+        vector_of_first_sums_from_derivative_of_v <- .form_vector_of_first_sums_from_derivative_of_v(
+          size_of_vector_t       = size_of_vector_t,
+          vector_mu              = vector_mu,
+          matrix_h_3             = matrix_h_3,
+          matrix_h_4             = matrix_h_4,
+          matrix_derivative_of_x = matrix_derivative_of_x,
+          matrix_x               = matrix_x,
+          matrix_x_star          = matrix_x_star
+        )
+
+        vector_of_second_sums_from_derivative_of_v <- .form_vector_of_second_sums_from_derivative_of_v(
+          size_of_vector_t           = size_of_vector_t,
+          size_of_vector_q           = size_of_vector_q,
+          vector_f_tilde             = vector_f_tilde,
+          matrix_derivative_of_n_1_q = matrix_derivative_of_n_1_q
+        )
+
+        current_vector_derivative_of_v <- .form_vector_derivative_of_v(
+          size_of_vector_t                           = size_of_vector_t,
+          h_infinity                                 = h_infinity,
+          vector_of_first_sums_from_derivative_of_v  = vector_of_first_sums_from_derivative_of_v,
+          vector_of_second_sums_from_derivative_of_v = vector_of_second_sums_from_derivative_of_v,
+          matrix_derivative_of_x                     = matrix_derivative_of_x,
+          vector_mu                                  = vector_mu
+        )
+      })()
+
+      if (k == 5) {
+        p(current_vector_u)
+        p(current_vector_derivative_of_v)
+        break;
+      } else {
+        previous_vector_h               <- current_vector_h
+        previous_vector_u               <- current_vector_u
+        previous_vector_derivative_of_v <- current_vector_derivative_of_v
+      }
+    }
   }
 
   .form_vector_t <- function(capital_m, lower_limit_of_gamma_0, upper_limit_of_gamma_0) {
@@ -622,15 +778,27 @@ IterativeProcedure <- module({
     )
   }
 
-  .form_matrix_derivative_of_n_1_q <- function(size_of_vector_t, size_of_vector_q, matrix_x, matrix_x_infinity,
-                                               matrix_x_infinity_star, matrix_derivative_of_x) {
+  .form_matrix_derivative_of_x_infinity <- function(size_of_vector_q) {
+    Helpers$generate_matrix_from_vector(
+      vector      = 1:size_of_vector_q,
+      row_size    = size_of_vector_q,
+      column_size = 2,
+      func        = function(element_q_i) {
+        c(1, 0)
+      }
+    )
+  }
+
+  .form_matrix_derivative_of_n_1_q <- function(size_of_vector_t, size_of_vector_q, matrix_x, matrix_x_infinity_star,
+                                            matrix_x_infinity, matrix_derivative_of_x, matrix_derivative_of_x_infinity) {
     Formula310$form_matrix_derivative_of_n_1_q(
-      size_of_vector_t       = size_of_vector_t,
-      size_of_vector_q       = size_of_vector_q,
-      matrix_x               = matrix_x,
-      matrix_x_infinity      = matrix_x_infinity,
-      matrix_x_infinity_star = matrix_x_infinity_star,
-      matrix_derivative_of_x = matrix_derivative_of_x
+      size_of_vector_t                = size_of_vector_t,
+      size_of_vector_q                = size_of_vector_q,
+      matrix_x                        = matrix_x,
+      matrix_x_infinity               = matrix_x_infinity,
+      matrix_x_infinity_star          = matrix_x_infinity_star,
+      matrix_derivative_of_x          = matrix_derivative_of_x,
+      matrix_derivative_of_x_infinity = matrix_derivative_of_x_infinity
     )
   }
 
@@ -654,5 +822,9 @@ IterativeProcedure <- module({
       matrix_derivative_of_x                     = matrix_derivative_of_x,
       vector_mu                                  = vector_mu
     )
+  }
+
+  .calculate_current_vector_h <- function(previous_vector_h, small_gamma, previous_vector_derivative_of_v) {
+    previous_vector_h - small_gamma * previous_vector_derivative_of_v
   }
 })

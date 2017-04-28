@@ -75,8 +75,8 @@ Formula310 <- module({
     )
   }
 
-  form_matrix_derivative_of_n_1_q <- function(size_of_vector_t, size_of_vector_q, matrix_x, matrix_x_infinity,
-                                              matrix_x_infinity_star, matrix_derivative_of_x) {
+  form_matrix_derivative_of_n_1_q <- function(size_of_vector_t, size_of_vector_q, matrix_x, matrix_x_infinity_star,
+                                            matrix_x_infinity, matrix_derivative_of_x, matrix_derivative_of_x_infinity) {
     Helpers$generate_matrix_by_function(
       row_size    = size_of_vector_t,
       column_size = size_of_vector_q,
@@ -86,7 +86,7 @@ Formula310 <- module({
           vector_y               = matrix_x_infinity[j, ],
           vector_y_star          = matrix_x_infinity_star[j, ],
           vector_derivative_of_x = matrix_derivative_of_x[i, ],
-          vector_derivative_of_y = matrix_derivative_of_x[j, ]
+          vector_derivative_of_y = matrix_derivative_of_x_infinity[j, ]
         )
       }
     )
@@ -111,7 +111,7 @@ Formula310 <- module({
   }
 
   form_vector_derivative_of_v <- function(size_of_vector_t, h_infinity, vector_of_first_sums_from_derivative_of_v,
-                                          vector_of_second_sums_from_derivative_of_v, matrix_derivative_of_x, vector_mu) {
+                                         vector_of_second_sums_from_derivative_of_v, matrix_derivative_of_x, vector_mu) {
     Helpers$generate_vector_by_function(
       size = size_of_vector_t,
       func = function(i) {

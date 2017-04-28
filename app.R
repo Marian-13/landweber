@@ -15,4 +15,4 @@ result <- IterativeProcedure$start(example = test_example)
 
 # p(result)
 
-# warnings()
+# p(warnings())
