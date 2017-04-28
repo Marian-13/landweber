@@ -11,9 +11,7 @@ source("R/landweber.R")
 source("R/test_example.R")
 
 # Landweber
-result <- IterativeProcedure$start(
-  example = test_example
-)
+result <- IterativeProcedure$start(example = test_example)
 
 # p(result)
 

@@ -32,6 +32,7 @@ Formula311 <- module({
     )
   }
 
+  # TODO
   form_matrix_n_t_q <- function(size_of_vector_q, matrix_x_infinity, matrix_x_infinity_star) {
     # TODO Remove Singularity!!!
     Helpers$generate_matrix_by_function(
@@ -54,6 +55,7 @@ Formula311 <- module({
     )
   }
 
+  # TODO
   form_vector_of_second_sums_from_u <- function(size_of_vector_q, vector_f_tilde, matrix_n_t_q) {
     sum_indices <- 1:size_of_vector_q
 

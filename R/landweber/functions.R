@@ -28,7 +28,6 @@ Functions <- module({
     AdvancedMath$natural_logarithm()
   }
 
-  # in (3.5) TODO Modulus
   kernel_h_1_without_singularity <- function(vector_x_i, vector_derivative_of_x_i, vector_x_star_j) {
     first_addend <-
       vector_derivative_of_x_i %>%
@@ -80,46 +79,50 @@ Functions <- module({
     { AdvancedMath$natural_logarithm(1 / .) }
   }
 
-  # Unoptimized
-  normal_nu <- function(vector_derivative_of_x) {
-    modulus_of_derivative_of_x <-
-      AdvancedMath$modulus_of_vector(vector_derivative_of_x)
-
-    c(
-      vector_derivative_of_x[1] / modulus_of_derivative_of_x,
-      -vector_derivative_of_x[2] / modulus_of_derivative_of_x
+  # Partial derivative of green function n with respect to normal_nu of x
+  derivative_of_green_function_n <- function(vector_x, vector_y, vector_y_star,
+                                             vector_derivative_of_x, vector_derivative_of_y) {
+    -1 %>%
+    multiply_by(
+      AdvancedMath$modulus_of_vector(vector_x) %>%
+      multiply_by(
+        AdvancedMath$modulus_of_vector(vector_x - vector_y) %>%
+        add(AdvancedMath$modulus_of_vector(vector_x - vector_y_star))
+      ) %>%
+      multiply_by(vector_derivative_of_x[2]) %>%
+      divide_by(
+        AdvancedMath$modulus_of_vector(vector_x - vector_y) %>%
+        multiply_by(AdvancedMath$modulus_of_vector(vector_x - vector_y_star))
+      ) %>%
+      add(
+        AdvancedMath$modulus_of_vector(vector_derivative_of_y) %>%
+        multiply_by(vector_derivative_of_x[1]) %>%
+        divide_by(
+          AdvancedMath$modulus_of_vector(vector_x - vector_y) %>%
+          multiply_by(AdvancedMath$modulus_of_vector(vector_derivative_of_x))
+        )
+      )
     )
   }
 
-  # TODO testpe
-  # Unoptimized
-  # Partial derivative of green function n with respect to normal_nu of x
-  d_green_function_n_by_d_normal_nu_of_x <- function(vector_x, vector_y, green_function_n_of_x_and_y, normal_nu_of_x) {
-    vector_x %>%
-    subtract(vector_y) %>%
-    AdvancedMath$multiply_vector_by_vector(normal_nu_of_x) %>%
-    divide_by(green_function_n_of_x_and_y)
+  kernel_h_3_with_singularity <- function(vector_x_i, vector_x_j) {
+    1 / AdvancedMath$modulus_of_vector(vector_x_i - vector_x_j)
   }
 
-  # (3.11)
-  u <- function(x_infinity_i, capital_m, t, x, mu, alpha) {
-    size <- length(t)
-    indices <- 1:size
-
-    first_sum <- 0
-
-    for (j in indices) {
-      x_j <- unlist(x[j])   # TODO unlist !!!
-      first_sum <- first_sum + mu[j] * green_function_n(x_infinity_i, x_j)
-    }
-
-    (1 / (2 * capital_m)) * first_sum %>%
-    # TODO second sum -- sinc quadrature for ln with e
-    add(alpha)
+  kernel_h_3_without_singularity <- function() {
+    0
   }
 
-  # (3.10)
-  partial_normal_derivative_of_v_by_x <- function(capital_m) {
-    # TODO
+  kernel_h_4_with_singularity <- function(vector_derivative_of_x_j, vector_x_i, vector_x_j) {
+    AdvancedMath$modulus_of_vector(vector_derivative_of_x_j) %>%
+    divide_by(AdvancedMath$modulus_of_vector(vector_x_i - vector_x_j))
+  }
+
+  kernel_h_4_without_singularity <- function(vector_second_derivative_of_x_i, vector_derivative_of_x_i) {
+    -1 %>%
+    multiply_by(
+      AdvancedMath$modulus_of_vector(vector_second_derivative_of_x_i) %>%
+      divide_by(AdvancedMath$modulus_of_vector(vector_derivative_of_x_i))
+    )
   }
 })
