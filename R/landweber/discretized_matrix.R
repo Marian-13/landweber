@@ -76,10 +76,12 @@ DiscretizedMatrix <- module({
   }
 
   .form_last_row_elements <- function(size_of_vector_t) {
-    Helpers$generate_vector_with_equal_elements(
-      size = size_of_vector_t,
-      element = 1
-    ) %>%
-    c(0)
+    c(
+      Helpers$generate_vector_with_equal_elements(
+        size = size_of_vector_t,
+        element = 1
+      ),
+      0
+    )
   }
 })

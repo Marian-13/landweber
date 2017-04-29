@@ -52,6 +52,7 @@ Formula310 <- module({
           func    = function(memo, j) {
             memo %>%
             add(
+              # TODO Update f-la
               vector_mu[j] %>%
               multiply_by(
                 -1 %>%
@@ -93,7 +94,7 @@ Formula310 <- module({
   }
 
   form_vector_of_second_sums_from_derivative_of_v <- function(size_of_vector_t, size_of_vector_q,
-                                                              vector_f_tilde, matrix_derivative_of_n_1_q) {
+                                                              vector_f, matrix_derivative_of_n_1_q) {
     sum_indices <- 1:size_of_vector_q
 
     Helpers$generate_vector_by_function(
@@ -103,7 +104,7 @@ Formula310 <- module({
           initial = 0,
           vector  = sum_indices,
           func    = function(memo, j) {
-            memo + vector_f_tilde[j] * matrix_derivative_of_n_1_q[i, j]
+            memo + vector_f[j] * matrix_derivative_of_n_1_q[i, j]
           }
         )
       }
@@ -111,7 +112,7 @@ Formula310 <- module({
   }
 
   form_vector_derivative_of_v <- function(size_of_vector_t, h_infinity, vector_of_first_sums_from_derivative_of_v,
-                                         vector_of_second_sums_from_derivative_of_v, matrix_derivative_of_x, vector_mu) {
+                                          vector_of_second_sums_from_derivative_of_v, matrix_derivative_of_x, vector_mu) {
     Helpers$generate_vector_by_function(
       size = size_of_vector_t,
       func = function(i) {

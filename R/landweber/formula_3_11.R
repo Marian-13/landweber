@@ -56,7 +56,7 @@ Formula311 <- module({
   }
 
   # TODO
-  form_vector_of_second_sums_from_u <- function(size_of_vector_q, vector_f_tilde, matrix_n_t_q) {
+  form_vector_of_second_sums_from_u <- function(size_of_vector_q, vector_f, matrix_n_t_q) {
     sum_indices <- 1:size_of_vector_q
 
     Helpers$generate_vector_by_function(
@@ -66,7 +66,7 @@ Formula311 <- module({
           initial = 0,
           vector  = sum_indices,
           func    = function(memo, j) {
-            memo + vector_f_tilde[j] * matrix_n_t_q[i, j]
+            memo + vector_f[j] * matrix_n_t_q[i, j]
           }
         )
       }
