@@ -11,6 +11,6 @@ source("R/test_example.R")
 # Landweber
 result <- IterativeProcedure$start(example = test_example)
 
-# p(result)
+p(result)
 
 # p(warnings())

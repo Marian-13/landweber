@@ -3,7 +3,6 @@ Functions <- module({
 
   use(.GlobalEnv, attach = TRUE)
 
-  # Unoptimized
   weight_function_r <- function(capital_m, element_t_i, element_t_j) {
     sum_indices <- 1:(capital_m - 1)
 
@@ -95,6 +94,23 @@ Functions <- module({
         multiply_by(vector_derivative_of_x[1]) %>%
         divide_by(AdvancedMath$modulus_of_vector(vector_derivative_of_x))
       )
+    )
+  }
+
+  kernel_h_2_with_singularity <- function(vector_x_infinity_i, vector_x_infinity_j) {
+    AdvancedMath$natural_logarithm(
+      1 %>%
+      divide_by(
+        AdvancedMath$modulus_of_vector(
+          vector_x_infinity_i - vector_x_infinity_j
+        )
+      )
+    )
+  }
+
+  kernel_h_2_without_singularity <- function(vector_derivative_of_x_infinity_j) {
+    AdvancedMath$natural_logarithm(
+      1 / AdvancedMath$modulus_of_vector(vector_derivative_of_x_infinity_j)
     )
   }
 

@@ -47,7 +47,9 @@ DiscretizedRightHandSide <- module({
     Helpers$generate_vector_by_function(
       size = size_of_vector_t,
       func = function(index) {
-        vector_h[index] - h_infinity * vector_of_sums_from_w_tilde[index]
+        # TODO h_infinity or (h_infinity / (2 * pi))
+        vector_h[index] - (h_infinity / (2 * AdvancedMath$PI)) * vector_of_sums_from_w_tilde[index]
+        # vector_h[index] - h_infinity * vector_of_sums_from_w_tilde[index]
       }
     )
   }

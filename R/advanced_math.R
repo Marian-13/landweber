@@ -1,5 +1,8 @@
 AdvancedMath <- module({
   import("magrittr")
+  import("stats")
+
+  use(.GlobalEnv, attach = TRUE)
 
   PI <- pi
 
@@ -37,5 +40,10 @@ AdvancedMath <- module({
 
   is_infinity <- function(value) {
     is.infinite(x = value)
+  }
+
+  # TODO
+  calculate_integral <- function(lower_limit, upper_limit, integrand) {
+    integrate(f = integrand, lower = lower_limit, upper = upper_limit)
   }
 })

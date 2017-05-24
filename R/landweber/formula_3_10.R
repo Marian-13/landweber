@@ -52,21 +52,20 @@ Formula310 <- module({
           func    = function(memo, j) {
             memo %>%
             add(
-              # TODO Update f-la
               vector_mu[j] %>%
               multiply_by(
                 -1 %>%
-                multiply_by(AdvancedMath$modulus_of_vector(matrix_derivative_of_x[i, ])) %>%
-                multiply_by(matrix_derivative_of_x[i, 2]) %>%
                 multiply_by(
-                  1 %>%
-                  divide_by(AdvancedMath$modulus_of_vector(matrix_x[i, ] - matrix_x_star[j, ])) %>%
-                  add(matrix_h_3[i, j])
-                ) %>%
-                subtract(
-                  matrix_h_4[i, j] %>%
-                  multiply_by(matrix_derivative_of_x[j, 1]) %>%
-                  divide_by(AdvancedMath$modulus_of_vector(matrix_derivative_of_x[j, ]))
+                  matrix_derivative_of_x[i, 2] %>%
+                  multiply_by(
+                    matrix_h_3[i, j] %>%
+                    add(1 / AdvancedMath$modulus_of_vector(matrix_x[i, ] - matrix_x_star[j, ]))
+                  ) %>%
+                  add(
+                    matrix_h_4[i, j] %>%
+                    multiply_by(matrix_derivative_of_x[i, 1]) %>%
+                    divide_by(AdvancedMath$modulus_of_vector(matrix_derivative_of_x[i, ]))
+                  )
                 )
               )
             )
@@ -111,19 +110,25 @@ Formula310 <- module({
     )
   }
 
-  form_vector_derivative_of_v <- function(size_of_vector_t, h_infinity, vector_of_first_sums_from_derivative_of_v,
-                                          vector_of_second_sums_from_derivative_of_v, matrix_derivative_of_x, vector_mu) {
+  form_vector_derivative_of_v <- function(capital_m, size_of_vector_t, h_infinity,
+                                          vector_of_first_sums_from_derivative_of_v,
+                                          vector_of_second_sums_from_derivative_of_v,
+                                          matrix_derivative_of_x, vector_mu) {
     Helpers$generate_vector_by_function(
       size = size_of_vector_t,
       func = function(i) {
-        0.5 %>%
+        -0.5 %>%
         multiply_by(
           vector_mu[i] %>%
           divide_by(AdvancedMath$modulus_of_vector(matrix_derivative_of_x[i, ]))
         ) %>%
-        add(vector_of_first_sums_from_derivative_of_v[i]) %>%
+        add(
+          (1 / 2 * capital_m) %>%
+          multiply_by(vector_of_first_sums_from_derivative_of_v[i]))
         add(
           h_infinity %>%
+          # TODO h_infinity or (h_infinity / (2 * pi))
+          divide_by(2 * AdvancedMath$PI) %>%
           multiply_by(vector_of_second_sums_from_derivative_of_v[i])
         )
       }
