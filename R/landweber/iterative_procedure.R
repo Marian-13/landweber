@@ -153,34 +153,34 @@ IterativeProcedure <- module({
       matrix_derivative_of_x_infinity = matrix_derivative_of_x_infinity
     )
 
-    p(matrix_h_2, "matrix_h_2")
-
     # System 3.5 for derivative of v
     vector_with_zero_elements <- .form_vector_with_zero_elements(
       size_of_vector_t = size_of_vector_t
     )
-    matrix_h_3 <- .form_matrix_h_3(
-      size_of_vector_t = size_of_vector_t,
-      matrix_x         = matrix_x
-    )
-    matrix_h_4 <- .form_matrix_h_4(
-      size_of_vector_t              = size_of_vector_t,
-      matrix_x                      = matrix_x,
-      matrix_derivative_of_x        = matrix_derivative_of_x,
-      matrix_second_derivative_of_x = matrix_second_derivative_of_x
-    )
 
     # Equation 3.10 -- derivative v
+    # Second integral of equation 3.10
     matrix_derivative_of_n_1_q <- .form_matrix_derivative_of_n_1_q(
       size_of_vector_t                = size_of_vector_t,
       size_of_vector_q                = size_of_vector_q,
       matrix_x                        = matrix_x,
+      matrix_derivative_of_x          = matrix_derivative_of_x,
       matrix_x_infinity               = matrix_x_infinity,
       matrix_x_infinity_star          = matrix_x_infinity_star,
-      matrix_derivative_of_x          = matrix_derivative_of_x,
       matrix_derivative_of_x_infinity = matrix_derivative_of_x_infinity
     )
 
+    # First integral of equation 3.11
+    matrix_h_3 <- .form_matrix_h_3(
+      size_of_vector_t              = size_of_vector_t,
+      matrix_x                      = matrix_x,
+      matrix_x_star                 = matrix_x_star,
+      matrix_derivative_of_x        = matrix_derivative_of_x,
+      matrix_second_derivative_of_x = matrix_second_derivative_of_x
+    )
+
+    p(matrix_derivative_of_n_1_q, "matrix_derivative_of_n_1_q\n")
+    p(matrix_h_3, "matrix_h_3\n")
     # Step 1:
     #
     #
@@ -243,12 +243,12 @@ IterativeProcedure <- module({
         h_infinity                   = h_infinity,
         vector_of_first_sums_from_u  = vector_of_first_sums_from_u,
         vector_of_second_sums_from_u = vector_of_second_sums_from_u,
-        vector_of_third_sums_from_u  = vector_of_third_sums_from_u
+        vector_of_third_sums_from_u  = vector_of_third_sums_from_u,
+        alpha                        = alpha
       )
     })()
 
     # p(vector_u_0, "vector_u_0")
-    # return("Hello")
     vector_derivative_of_v_0 <- (function() {
       vector_f <- vector_u_0 - vector_f_1
 
@@ -287,14 +287,13 @@ IterativeProcedure <- module({
       )
 
       vector_of_first_sums_from_derivative_of_v <- .form_vector_of_first_sums_from_derivative_of_v(
-        size_of_vector_t       = size_of_vector_t,
-        vector_mu              = vector_mu,
-        matrix_h_3             = matrix_h_3,
-        matrix_h_4             = matrix_h_4,
-        matrix_derivative_of_x = matrix_derivative_of_x,
-        matrix_x               = matrix_x,
-        matrix_x_star          = matrix_x_star
+        size_of_vector_t = size_of_vector_t,
+        vector_mu        = vector_mu,
+        matrix_h_3       = matrix_h_3
       )
+
+      p(vector_mu, "vector_mu")
+      p(vector_of_first_sums_from_derivative_of_v, "vector_of_first_sums_from_derivative_of_v\n")
 
       vector_of_second_sums_from_derivative_of_v <- .form_vector_of_second_sums_from_derivative_of_v(
         size_of_vector_t           = size_of_vector_t,
@@ -302,6 +301,7 @@ IterativeProcedure <- module({
         vector_f                   = vector_f,
         matrix_derivative_of_n_1_q = matrix_derivative_of_n_1_q
       )
+      p(vector_of_second_sums_from_derivative_of_v, "vector_of_second_sums_from_derivative_of_v\n")
 
       vector_derivative_of_v_0 <- .form_vector_derivative_of_v(
         capital_m                                  = capital_m,
@@ -314,6 +314,8 @@ IterativeProcedure <- module({
       )
     })()
 
+    p(vector_derivative_of_v_0, "vector_derivative_of_v_0\n")
+    return("Hello")
     # Step 3
     #
     #
@@ -394,7 +396,8 @@ IterativeProcedure <- module({
           h_infinity                   = h_infinity,
           vector_of_first_sums_from_u  = vector_of_first_sums_from_u,
           vector_of_second_sums_from_u = vector_of_second_sums_from_u,
-          vector_of_third_sums_from_u  = vector_of_third_sums_from_u
+          vector_of_third_sums_from_u  = vector_of_third_sums_from_u,
+          alpha                        = alpha
         )
       })()
 
@@ -736,14 +739,15 @@ IterativeProcedure <- module({
   # .form_vector_u <- function(size_of_vector_q, capital_m, h_infinity,
   #                            vector_of_first_sums_from_u, vector_of_second_sums_from_u) {
   .form_vector_u <- function(size_of_vector_q, capital_m, h_infinity, vector_of_first_sums_from_u,
-                             vector_of_second_sums_from_u, vector_of_third_sums_from_u) {
+                             vector_of_second_sums_from_u, vector_of_third_sums_from_u, alpha) {
     Formula311$form_vector_u(
       size_of_vector_q             = size_of_vector_q,
       capital_m                    = capital_m,
       h_infinity                   = h_infinity,
       vector_of_first_sums_from_u  = vector_of_first_sums_from_u,
       vector_of_second_sums_from_u = vector_of_second_sums_from_u,
-      vector_of_third_sums_from_u  = vector_of_third_sums_from_u
+      vector_of_third_sums_from_u  = vector_of_third_sums_from_u,
+      alpha                        = alpha
     )
   }
 
@@ -761,13 +765,6 @@ IterativeProcedure <- module({
       func   = function(vector_q_i) {
         function_f_1(vector_q_i)
       }
-    )
-  }
-
-  .form_matrix_h_3 <- function(size_of_vector_t, matrix_x) {
-    Formula310$form_matrix_h_3(
-      size_of_vector_t = size_of_vector_t,
-      matrix_x         = matrix_x
     )
   }
 
@@ -789,25 +786,22 @@ IterativeProcedure <- module({
     )
   }
 
-  .form_matrix_h_4 <- function(size_of_vector_t, matrix_x, matrix_derivative_of_x, matrix_second_derivative_of_x) {
-    Formula310$form_matrix_h_4(
+  .form_matrix_h_3 <- function(size_of_vector_t, matrix_x, matrix_x_star, matrix_derivative_of_x,
+                               matrix_second_derivative_of_x) {
+    Formula310$form_matrix_h_3(
       size_of_vector_t              = size_of_vector_t,
       matrix_x                      = matrix_x,
+      matrix_x_star                 = matrix_x_star,
       matrix_derivative_of_x        = matrix_derivative_of_x,
       matrix_second_derivative_of_x = matrix_second_derivative_of_x
     )
   }
 
-  .form_vector_of_first_sums_from_derivative_of_v <- function(size_of_vector_t, vector_mu, matrix_h_3, matrix_h_4,
-                                                              matrix_derivative_of_x, matrix_x, matrix_x_star) {
+  .form_vector_of_first_sums_from_derivative_of_v <- function(size_of_vector_t, vector_mu, matrix_h_3) {
     Formula310$form_vector_of_first_sums_from_derivative_of_v(
-      size_of_vector_t       = size_of_vector_t,
-      vector_mu              = vector_mu,
-      matrix_h_3             = matrix_h_3,
-      matrix_h_4             = matrix_h_4,
-      matrix_derivative_of_x = matrix_derivative_of_x,
-      matrix_x               = matrix_x,
-      matrix_x_star          = matrix_x_star
+      size_of_vector_t = size_of_vector_t,
+      vector_mu        = vector_mu,
+      matrix_h_3       = matrix_h_3
     )
   }
 
@@ -822,15 +816,16 @@ IterativeProcedure <- module({
     )
   }
 
-  .form_matrix_derivative_of_n_1_q <- function(size_of_vector_t, size_of_vector_q, matrix_x, matrix_x_infinity_star,
-                                            matrix_x_infinity, matrix_derivative_of_x, matrix_derivative_of_x_infinity) {
+  .form_matrix_derivative_of_n_1_q <- function(size_of_vector_t, size_of_vector_q, matrix_x, matrix_derivative_of_x,
+                                               matrix_x_infinity, matrix_x_infinity_star,
+                                               matrix_derivative_of_x_infinity) {
     Formula310$form_matrix_derivative_of_n_1_q(
       size_of_vector_t                = size_of_vector_t,
       size_of_vector_q                = size_of_vector_q,
       matrix_x                        = matrix_x,
+      matrix_derivative_of_x          = matrix_derivative_of_x,
       matrix_x_infinity               = matrix_x_infinity,
       matrix_x_infinity_star          = matrix_x_infinity_star,
-      matrix_derivative_of_x          = matrix_derivative_of_x,
       matrix_derivative_of_x_infinity = matrix_derivative_of_x_infinity
     )
   }

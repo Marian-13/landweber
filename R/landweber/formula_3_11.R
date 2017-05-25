@@ -99,7 +99,7 @@ Formula311 <- module({
 
   # TODO
   form_vector_u <- function(size_of_vector_q, capital_m, h_infinity, vector_of_first_sums_from_u,
-                            vector_of_second_sums_from_u, vector_of_third_sums_from_u) {
+                            vector_of_second_sums_from_u, vector_of_third_sums_from_u, alpha) {
     Helpers$generate_vector_by_function(
       size = size_of_vector_q,
       func = function(i) {
@@ -112,7 +112,8 @@ Formula311 <- module({
         add(
           (h_infinity / 2 * AdvancedMath$PI) %>%
           multiply_by(vector_of_third_sums_from_u[i])
-        )
+        ) %>%
+        add(alpha)
       }
     )
   }

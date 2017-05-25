@@ -78,25 +78,6 @@ Functions <- module({
     )
   }
 
-  # Partial derivative of green function n with respect to normal nu of x
-  derivative_of_green_function_n <- function(vector_x, vector_y, vector_y_star,
-                                             vector_derivative_of_x, vector_derivative_of_y) {
-    -1 %>%
-    multiply_by(
-      vector_derivative_of_x[2] %>%
-      multiply_by(
-        (1 / AdvancedMath$modulus_of_vector(vector_x - vector_y)) %>%
-        add(1 / AdvancedMath$modulus_of_vector(vector_x - vector_y_star))
-      ) %>%
-      add(
-        AdvancedMath$modulus_of_vector(vector_derivative_of_y) %>%
-        divide_by(AdvancedMath$modulus_of_vector(vector_x - vector_y)) %>%
-        multiply_by(vector_derivative_of_x[1]) %>%
-        divide_by(AdvancedMath$modulus_of_vector(vector_derivative_of_x))
-      )
-    )
-  }
-
   kernel_h_2_with_singularity <- function(vector_x_infinity_i, vector_x_infinity_j) {
     AdvancedMath$natural_logarithm(
       1 %>%
@@ -114,23 +95,57 @@ Functions <- module({
     )
   }
 
-  kernel_h_3_with_singularity <- function(vector_x_i, vector_x_j) {
-    1 / AdvancedMath$modulus_of_vector(vector_x_i - vector_x_j)
-  }
-
-  kernel_h_3_without_singularity <- function() {
-    0
-  }
-
-  kernel_h_4_with_singularity <- function(vector_derivative_of_x_j, vector_x_i, vector_x_j) {
-    AdvancedMath$modulus_of_vector(vector_derivative_of_x_j) %>%
-    divide_by(AdvancedMath$modulus_of_vector(vector_x_i - vector_x_j))
-  }
-
-  kernel_h_4_without_singularity <- function(vector_second_derivative_of_x_i, vector_derivative_of_x_i) {
+  kernel_k_with_singularity <- function(vector_x_i, vector_x_j, vector_derivative_of_x_i) {
     -1 %>%
     multiply_by(
-      AdvancedMath$modulus_of_vector(vector_second_derivative_of_x_i) %>%
+      vector_x_i[1] %>%
+      subtract(vector_x_j[1])
+    ) %>%
+    divide_by(
+      AdvancedMath$modulus_of_vector(
+        vector_x_i %>%
+        subtract(vector_x_j)
+      ) %>%
+      raise_to_power(2)
+    ) %>%
+    multiply_by(vector_derivative_of_x_i[2]) %>%
+    divide_by(AdvancedMath$modulus_of_vector(vector_derivative_of_x_i)) %>%
+    add(
+      vector_x_i[2] %>%
+      subtract(vector_x_j[2]) %>%
+      divide_by(
+        AdvancedMath$modulus_of_vector(
+          vector_x_i %>%
+          subtract(vector_x_j)
+        ) %>%
+        raise_to_power(2)
+      ) %>%
+      multiply_by(vector_derivative_of_x_i[1]) %>%
+      divide_by(AdvancedMath$modulus_of_vector(vector_derivative_of_x_i))
+    )
+  }
+
+  kernel_k_without_singularity <- function(vector_derivative_of_x_i, vector_second_derivative_of_x_i) {
+    vector_second_derivative_of_x_i[1] %>%
+    divide_by(
+      2 %>%
+      multiply_by(
+        AdvancedMath$modulus_of_vector(vector_derivative_of_x_i) %>%
+        raise_to_power(2)
+      )
+    ) %>%
+    multiply_by(vector_derivative_of_x_i[2]) %>%
+    divide_by(AdvancedMath$modulus_of_vector(vector_derivative_of_x_i)) %>%
+    subtract(
+      vector_second_derivative_of_x_i[2] %>%
+      divide_by(
+        2 %>%
+        multiply_by(
+          AdvancedMath$modulus_of_vector(vector_derivative_of_x_i) %>%
+          raise_to_power(2)
+        )
+      ) %>%
+      multiply_by(vector_derivative_of_x_i[1]) %>%
       divide_by(AdvancedMath$modulus_of_vector(vector_derivative_of_x_i))
     )
   }
