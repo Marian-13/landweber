@@ -109,8 +109,8 @@ Formula310 <- module({
           divide_by(AdvancedMath$modulus_of_vector(matrix_derivative_of_x[i, ]))
         ) %>%
         add(
-          (1 / 2 * capital_m) %>%
-          multiply_by(vector_of_first_sums_from_derivative_of_v[i]))
+          vector_of_first_sums_from_derivative_of_v[i] / (2 * capital_m)
+        ) %>%
         add(
           h_infinity %>%
           # TODO h_infinity or (h_infinity / (2 * pi))

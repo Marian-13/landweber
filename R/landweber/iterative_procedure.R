@@ -179,8 +179,6 @@ IterativeProcedure <- module({
       matrix_second_derivative_of_x = matrix_second_derivative_of_x
     )
 
-    p(matrix_derivative_of_n_1_q, "matrix_derivative_of_n_1_q\n")
-    p(matrix_h_3, "matrix_h_3\n")
     # Step 1:
     #
     #
@@ -248,9 +246,26 @@ IterativeProcedure <- module({
       )
     })()
 
-    # p(vector_u_0, "vector_u_0")
     vector_derivative_of_v_0 <- (function() {
-      vector_f <- vector_u_0 - vector_f_1
+      # vector_f <- vector_u_0 - vector_f_1
+      vector_f <- Helpers$generate_vector_by_function(
+        size = size_of_vector_q,
+        func = function(i) {
+          matrix_x_infinity[i, 2] %>%
+          subtract(-10) %>%
+          divide_by(
+            AdvancedMath$modulus_of_vector(
+              matrix_x_infinity[i, ] %>%
+              subtract(c(3, -10))
+            ) %>%
+            raise_to_power(2)
+          )
+        }
+      )
+
+      # vector_f <- Helpers$generate_vector_with_equal_elements(size_of_vector_q, 0)
+      p(vector_f, "vector_f\n")
+
 
       vector_of_sums_from_w_tilde_for_derivative_of_v <- .form_vector_of_sums_from_w_tilde(
         size_of_vector_t = size_of_vector_t,
@@ -259,9 +274,27 @@ IterativeProcedure <- module({
         matrix_n_1_q     = matrix_n_1_q
       )
 
+      vector_h <- Helpers$generate_vector_by_function(
+        size = size_of_vector_t,
+        func = function(i) {
+          AdvancedMath$natural_logarithm(
+            1 %>%
+            divide_by(
+              AdvancedMath$modulus_of_vector(
+                matrix_x[i, ] %>%
+                subtract(c(3, -10))
+              )
+            )
+          )
+        }
+      )
+      p(vector_h, "vector_h\n")
+
       vector_w_tilde <- .form_vector_w_tilde(
         size_of_vector_t            = size_of_vector_t,
-        vector_h                    = vector_with_zero_elements,
+        # vector_h                    = vector_with_zero_elements,
+        vector_h = vector_h,
+        # vector_h                    = Helpers$generate_vector_with_equal_elements(size_of_vector_t, 10),
         h_infinity                  = h_infinity,
         vector_of_sums_from_w_tilde = vector_of_sums_from_w_tilde_for_derivative_of_v
       )
@@ -292,16 +325,12 @@ IterativeProcedure <- module({
         matrix_h_3       = matrix_h_3
       )
 
-      p(vector_mu, "vector_mu")
-      p(vector_of_first_sums_from_derivative_of_v, "vector_of_first_sums_from_derivative_of_v\n")
-
       vector_of_second_sums_from_derivative_of_v <- .form_vector_of_second_sums_from_derivative_of_v(
         size_of_vector_t           = size_of_vector_t,
         size_of_vector_q           = size_of_vector_q,
         vector_f                   = vector_f,
         matrix_derivative_of_n_1_q = matrix_derivative_of_n_1_q
       )
-      p(vector_of_second_sums_from_derivative_of_v, "vector_of_second_sums_from_derivative_of_v\n")
 
       vector_derivative_of_v_0 <- .form_vector_derivative_of_v(
         capital_m                                  = capital_m,
@@ -314,6 +343,42 @@ IterativeProcedure <- module({
       )
     })()
 
+    p(vector_t, "vector_t\n")
+    p(vector_derivative_of_v_0, "vector_derivative_of_v_0\n")
+    qwe <- Helpers$generate_vector_by_function(
+      size = size_of_vector_t,
+      func = function(i) {
+        -1 %>%
+        multiply_by(
+          matrix_x[i, 1] %>%
+          subtract(3)
+        ) %>%
+        divide_by(
+          AdvancedMath$modulus_of_vector(
+            matrix_x[i] %>%
+            subtract(c(3, -10))
+          ) %>%
+          raise_to_power(2)
+        ) %>%
+        multiply_by(matrix_derivative_of_x[i, 2]) %>%
+        divide_by(AdvancedMath$modulus_of_vector(matrix_derivative_of_x[i, ])) %>%
+        add(
+          matrix_x[i, 2] %>%
+          subtract(-10) %>%
+          divide_by(
+            AdvancedMath$modulus_of_vector(
+              matrix_x[i] %>%
+              subtract(c(3, -10))
+            ) %>%
+            raise_to_power(2)
+          ) %>%
+          multiply_by(matrix_derivative_of_x[i, 1]) %>%
+          divide_by(AdvancedMath$modulus_of_vector(matrix_derivative_of_x[i, ]))
+        )
+      }
+    )
+
+    p(vector_derivative_of_v_0 - qwe, "Fault:\n")
     p(vector_derivative_of_v_0, "vector_derivative_of_v_0\n")
     return("Hello")
     # Step 3
@@ -439,13 +504,9 @@ IterativeProcedure <- module({
         )
 
         vector_of_first_sums_from_derivative_of_v <- .form_vector_of_first_sums_from_derivative_of_v(
-          size_of_vector_t       = size_of_vector_t,
-          vector_mu              = vector_mu,
-          matrix_h_3             = matrix_h_3,
-          matrix_h_4             = matrix_h_4,
-          matrix_derivative_of_x = matrix_derivative_of_x,
-          matrix_x               = matrix_x,
-          matrix_x_star          = matrix_x_star
+          size_of_vector_t = size_of_vector_t,
+          vector_mu        = vector_mu,
+          matrix_h_3       = matrix_h_3
         )
 
         vector_of_second_sums_from_derivative_of_v <- .form_vector_of_second_sums_from_derivative_of_v(

@@ -22,6 +22,9 @@ AdvancedMath <- module({
     square_root()
   }
 
+  absolute_value <- function(number) {
+    abs(number)
+  }
   # square_of_vector <- function(vector) {
   #   vector %*% vector
   # }
